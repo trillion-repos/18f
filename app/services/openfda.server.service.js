@@ -9,9 +9,7 @@ var openFDAUrl = function(noun,endpoint,params){
 
 };
 
-function getData(err, query, callback) {
-  if (err)
-    return console.error(err);
+module.exports.getData = function (query, callback) {
 
   var completeUrl = openFDABaseUrl;
   completeUrl = addUrlParam(completeUrl,'api_key',allProperites.openFDAKey,true);
@@ -22,7 +20,7 @@ function getData(err, query, callback) {
 
   request(completeUrl, function (error, response, body) {
       if (error)
-        return console.error(error)
+        return error;
 
       if (!error && response.statusCode == 200) {
         console.log(body);
@@ -40,4 +38,3 @@ function addUrlParam(url,key,value,atStart){
   }
 }
 
-getData();

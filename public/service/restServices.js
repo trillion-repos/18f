@@ -33,3 +33,10 @@ return $resource("./auth/signout",{}, {
 		get: {method: 'GET', cache: false, isArray: false}
 		});
 }]);
+
+caffsRestServices.factory('openFDASrvc', ['$resource',
+ function($resource) {
+ return $resource("./query/qId",{}, {
+ 		get: {method: 'GET', cache: false, isArray: false}
+ 		});
+}]);

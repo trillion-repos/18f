@@ -7,11 +7,11 @@ sftpTableControllers.controller('SftpLoaListCtrl', [
 		'$scope',
 		'$filter',
 		'$routeParams',
-		'SftpRestSrvc',
+		'openFDASrvc',
 		'ngTableParams',
 		'SftpSrvc',
 		'$location',
-		function($scope, $filter, $routeParams, SftpRestSrvc, ngTableParams, SftpSrvc, $location) {
+		function($scope, $filter, $routeParams, openFDASrvc, ngTableParams, SftpSrvc, $location) {
 			
 			$scope.organizedData = [];
 			$scope.filteredData = [];
@@ -37,7 +37,7 @@ sftpTableControllers.controller('SftpLoaListCtrl', [
 				$scope.error = [];
 				
 				
-				SftpRestSrvc.get({appId: $routeParams.appId, modId: $routeParams.modId, fnId: $routeParams.fnId},
+				openFDASrvc.get({qId: "OpenFDAData"},
 				function success(response) {
 					
 					
