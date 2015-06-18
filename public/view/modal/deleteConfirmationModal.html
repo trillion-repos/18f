@@ -1,0 +1,15 @@
+<!-- Delete All MODAL window -->
+
+
+<script type="text/ng-template" id="deleteConfirmationModal">
+        <div class="modal-header">
+            <h3 class="modal-title">Delete All Entries</h3>
+        </div>
+        <div class="modal-body">
+            Are you sure you want to delete all the entries?
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" ng-click="delete()"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete All</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+</script>

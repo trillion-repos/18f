@@ -1,0 +1,113 @@
+'use strict';
+
+var cafs = angular.module('cafsApp', [ 'ngRoute', 'sftpControllers', ,'sftpFormController','navController','caffsRestServices' ,'sftpServices', 'ngCsvImport', 'ngTable', 
+                                             'angularUtils.directives.dirPagination','ui.bootstrap', 'ngAnimate', 'authServices', 
+											 'ngCookies', 'cafsDirectives', 'sftpTableControllers', 'ngSanitize', 'ngCsv', 'gsaModule']);
+
+cafs.config([ '$routeProvider', '$locationProvider',
+		function($routeProvider, $locationProvider) {
+			$routeProvider.when('/login', {
+				templateUrl : 'view/core/login.html',
+				controller : 'LoginCtrl'
+			});
+			
+			$routeProvider.when('/', {
+				templateUrl : 'view/core/main.html'
+			});
+			
+			$routeProvider.when('/:appId/:modId/:fnId', {
+				templateUrl : 'view/sftp/main.html'
+			});
+			
+			$routeProvider.when('/app/:appId', {
+				templateUrl : 'view/core/homepage.html'
+			});
+			
+			$routeProvider.otherwise('/'); //TODO should be ISAAC
+			$locationProvider.html5Mode(false).hashPrefix('!');
+		} ]);
+
+
+cafs.factory('authHttpResponseInterceptor',['$q','$window',function($q,$window){
+    return {
+        response: function(response){
+            if (response.status === 401) {
+                console.log("Response 401");
+            }
+            return response || $q.when(response);
+        },
+        responseError: function(rejection) {
+            if (rejection.status === 401) {
+                console.log("Response Error 401",rejection.redirect);
+                $window.location.href = rejection.data.redirect;
+            }
+            return $q.reject(rejection);
+        }
+    }
+}])
+.config(['$httpProvider',function($httpProvider) {
+    //Http Intercpetor to check auth failures for xhr requests
+    $httpProvider.interceptors.push('authHttpResponseInterceptor');
+}]);
+
+cafs.run(function ($rootScope, $location, $cookies) {
+	
+
+
+	$rootScope.$on("$locationChangeStart",function(event, next, current){
+		//console.log("route change: " + $location.path());
+//	    if((!$cookies.user || $cookies.user === '') && $location.path() != "/login"){ //TODO: handle cookies
+//	    	$location.path( "/" );
+//	        event.preventDefault();
+//	    }
+	});
+});
+
+
+cafs.animation('.reveal-animation', function() {
+	  return {
+		    enter: function(element, done) {
+		      element.css('display', 'none');
+		      element.fadeIn(500, done);
+		      return function() {
+		        element.stop();
+		      }
+		    },
+		    leave: function(element, done) {
+		      element.fadeOut(500, done)
+		      return function() {
+		        element.stop();
+		      }
+		    },
+		    beforeAddClass: function(element, className,done) {
+		    	if(className == 'ng-hide') {
+		    		element.fadeOut(500, done)
+				      return function() {
+				        element.stop();
+				      }
+		          } else {
+		            done();
+		          }
+			    },
+			removeClass: function(element, className,done) {
+			    	if(className == 'ng-hide') {
+			            //set the height back to zero to make the animation work properly
+			            element.css('display', 'none');
+		      element.fadeIn(500, done);
+		      return function() {
+		        element.stop();
+		      }
+			          } else {
+			            done();
+			          }
+		    }
+		  }
+		});
+
+// util function to make arrays unique
+// this is a compatible with all browsers (including IE9)
+function toUnique(a,b,c){//array,placeholder,placeholder
+	 b=a.length;
+	 while(c=--b)while(c--)a[b]!==a[c]||a.splice(c,1);
+	 return a // not needed ;)
+}

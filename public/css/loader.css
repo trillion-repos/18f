@@ -1,0 +1,80 @@
+.preloader2 {
+   width:100%;
+   height:30px;
+   display:inline-block;
+   padding-left:25%;
+   background-color: rgba(138, 136, 136, 0.39);
+   border-radius: 4px;
+}
+.preloader2 span {
+   position:absolute;
+   display:inline-block;
+   width:30px;
+   height:30px;
+   border-radius:100%;
+   background:#041B42 none repeat scroll 0% 0%;;
+   opacity:0.3;
+   -webkit-animation:preloader21 2s linear infinite alternate;
+   animation:preloader21 2s linear infinite alternate;
+}
+.preloader2 span:nth-child(2) {animation-name:preloader22;-webkit-animation-name:preloader22;}
+.preloader2 span:nth-child(3) {animation-name:preloader23;-webkit-animation-name:preloader23;}
+.preloader2 span:nth-child(4) {animation-name:preloader24;-webkit-animation-name:preloader24;}
+.preloader2 span:nth-child(5) {animation-name:preloader25;-webkit-animation-name:preloader25;}
+
+@keyframes preloader21 {
+   0% {margin-left:0px;}
+   50% {margin-left:128px;}
+   100% {margin-left:128px;}
+}
+@-webkit-keyframes preloader21 {
+   0% {margin-left:0px;}
+   50% {margin-left:128px;}
+   100% {margin-left:128px;}
+}
+@keyframes preloader22 {
+   0% {margin-left:0px;}
+   37.5% {margin-left:96px;}
+   87.5% {margin-left:96px;}
+   100% {margin-left:128px;}
+}
+@-webkit-keyframes preloader22 {
+   0% {margin-left:0px;}
+   37.5% {margin-left:96px;}
+   87.5% {margin-left:96px;}
+   100% {margin-left:128px;}
+}
+@keyframes preloader23 {
+   0% {margin-left:0px;}
+   25% {margin-left:64px;}
+   75% {margin-left:64px;}
+   100% {margin-left:128px;}
+}
+@-webkit-keyframes preloader23 {
+   0% {margin-left:0px;}
+   25% {margin-left:32px;}
+   75% {margin-left:32px;}
+   100% {margin-left:64px;}
+}
+@keyframes preloader24 {
+   0% {margin-left:0px;}
+   12.5% {margin-left:32px;}
+   62.5% {margin-left:32px;}
+   100% {margin-left:128px;}
+}
+@-webkit-keyframes preloader24 {
+   0% {margin-left:0px;}
+   12.5% {margin-left:32px;}
+   62.5% {margin-left:32px;}
+   100% {margin-left:128px;}
+}
+@keyframes preloader25 {
+   0% {margin-left:0px;}
+   50% {margin-left:0px;}
+   100% {margin-left:128px;}
+}
+@-webkit-keyframes preloader25 {
+   0% {margin-left:0px;}
+   50% {margin-left:0px;}
+   100% {margin-left:128px;}
+}

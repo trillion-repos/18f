@@ -1,0 +1,65 @@
+<nav data-ng-controller="NavCtrl" class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; background-color: #D00000">
+	<div id="navbarSignedIn" class="navbar-right">
+		<ul class="nav navbar-nav">
+	        <li id="fat-menu" class="dropdown"> <a href="javascript:void(0);" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown"><strong>{{user.fname}} {{user.lname}}</strong> <b class="caret"></b></a>
+	          <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+	            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="logout()">Logout</a></li>
+	          </ul>
+	        </li>
+	    </ul>
+    </div>
+	<div class="">
+            <div class="navbar-header" data-ng-click="deactivateAll()">
+	             <a class="navbar-brand" data-ng-href="#!/" >
+			        <img style="margin-top: -9px" alt="Brand" height="35px" width="80px" src="img/ttsilogo.png">
+			      </a>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" data-ng-href="#!/" >OpenFDA</a>
+                
+                <!-- <div class="form-inline"> -->
+           
+            </div>
+             <!-- <div class="btn-group cafs-top-menu">
+              <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{myApp}} &nbsp;&nbsp;<span class="caret"></span></button>
+              <ul class="dropdown-menu"  data-ng-show=" myApp == defaultAppName || accessApps.length > 1">
+                <li class= "" data-ng-repeat="app in accessApps | filter:filterApps" data-ng-click="goTo('/app/'+app.id); ">
+                  <input type="radio" value="1" name="ex1" id="ex1_1">
+                  <label for="ex1_1">{{app.appName}}</label>
+                </li>                
+              </ul>              
+            </div>
+             -->
+            
+         
+   
+          <div class="navbar-default sidebar" role="navigation">
+
+			<div class="sidebar-nav navbar-collapse">
+             
+					 <ul class="nav in" id="side-menu">
+				        <li data-ng-repeat="module in activeMenu.modules" data-ng-click="showChilds($index)" >
+				            <div class="{{(module.active && 'active') +  ' ' + (module.selected && 'selected')}}">
+				            	<a href="javascript:void(0);">{{module.moduleName}}<span class="fa arrow"></span></a>
+			            	</div>
+				            <ul aria-expanded="true" class="nav nav-second-level collapse in" data-ng-click="$event.stopPropagation()">
+				                <li  data-ng-repeat="subMod in module.subModules" data-ng-show="module.active" >
+				                	<div data-ng-attr-class="{{subMod.selected && 'selected' || '' }}" 
+				                		data-ng-click="goTo(activeMenu.id + '/' + module.id + '/' + subMod.id)">
+				                    	<a href="javascript:void(0);">{{subMod.displayName}}</a>
+			                    	</div>
+				                </li>
+				            </ul>
+				        </li>
+				    </ul>
+				</div>
+            </div>
+	</div> 
+</nav>
+
+
+

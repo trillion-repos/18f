@@ -1,0 +1,15 @@
+<script type="text/ng-template" id="submitFailModal">
+        <div class="modal-header ">
+            <h3 class="modal-title"><i style="display:inline" class="fa fa-close text-danger fa-lg"></i> Error </h3>
+        </div>
+        <div class="modal-body">
+            <strong>Error Ocurred: {{error}}. </strong>
+			<br/>
+			Please retry again, if this issue persists, please contact the administrator.
+        </div>
+        <div class="modal-footer">            
+            <button class="btn btn-default" ng-click="home()">Home</button>
+			<button type="button" class="btn btn-default"  ng-csv="getExportArray()"  csv-header="getExportHeaders()" filename="{{theForm.fileName}}">Export to File</button>
+        	<button class="btn btn-primary" ng-click="returnNoDelete()">Return</button>
+		</div>
+</script>
