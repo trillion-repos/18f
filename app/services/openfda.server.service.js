@@ -3,38 +3,47 @@
 var request = require('request');
 var allProperites = require('./../../config/env/all.js');
 
-var openFDABaseUrl='https://api.fda.gov/drug/event.json';
+module.exports.getData = function(query, callback){
+  var queryUrl = new openFDAUrl(query);
+  queryUrl.generateCompleteUrl;
+  console.log("Query URL: " + queryUrl.completeUrl);
 
-var openFDAUrl = function(noun,endpoint,params){
-
-};
-
-module.exports.getData = function (query, callback) {
-
-  var completeUrl = openFDABaseUrl;
-  completeUrl = addUrlParam(completeUrl,'api_key',allProperites.openFDAKey,true);
-  completeUrl = addUrlParam(completeUrl,'search','patient.drug.openfda.pharm_class_epc:"nonsteroidal+anti-inflammatory+drug"',false);
-  completeUrl = addUrlParam(completeUrl,'count','patient.reaction.reactionmeddrapt.exact',false);
-
-  console.log(completeUrl);
-
-  request(completeUrl, function (error, response, body) {
+  request(queryUrl.completeUrl, function (error, response, data){
       if (error)
         return error;
 
       if (!error && response.statusCode == 200) {
-        console.log(body);
+        callback(error,data);
       }
 
   })
 
 }
 
-function addUrlParam(url,key,value,atStart){
-  if(atStart){
-     return url += '?' + key + '=' + encodeURIComponent(value);
-  } else {
-     return url += '&' + key + '=' + encodeURIComponent(value);
-  }
-}
+function openFDAUrl(query){
+  var self = this;
+  self.openFDABaseUrl = 'https://api.fda.gov/' + query.noun + '/' + query.endpoint + '.json';
 
+  var addUrlParam = function(url,key,value,atStart){
+    if(atStart){
+       return url += '?' + key + '=' + encodeURIComponent(value);
+    } else {
+       return url += '&' + key + '=' + encodeURIComponent(value);
+    }
+  };
+
+  var index = 0;
+  self.generateCompleteUrl = function(){
+    for (var property in query.params) {
+      if(index == 0){
+        self.completeUrl = addUrlParam(self.openFDABaseUrl,property,query.params[property],true);
+      }else {
+        self.completeUrl = addUrlParam(self.completeUrl,property,query.params[property],false);
+      }
+      index++;
+    }
+  };
+
+  self.generateCompleteUrl();
+  return self;
+};
