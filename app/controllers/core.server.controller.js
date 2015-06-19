@@ -8,33 +8,42 @@ var config = require('./../../config/config');
 exports.nav = function(req, res) {
 	//console.trace(__filename);
 	var navArray = [ {
-		appName:"STS",
-		id: "sts",
+		appName:"openFDA",
+		id: "openfda",
 		modules:[{		  
-				moduleName : "File Upload",
-				id:"sftp",
+				moduleName : "Drugs",
+				id:"drugs",
 				subModules : [ {
 
-					displayName : "Lines of Accounting",
-					id:"loa"
-					}, {
-
-					displayName : "User Profile",
-					id:"up"
-					}, {
-
-					displayName : "Organization Xwalk",
-					id:"oxw"
+					displayName : "Recalls Per State",
+					id:"rps"
 					} ]
-			}]
+			},
+			
+			{		  
+				moduleName : "Devices",
+				id:"devices",
+				subModules : [ {
+
+					displayName : "Recalls Per State",
+					id:"rps"
+					} ]
+			},
+			{		  
+				moduleName : "Food",
+				id:"food",
+				subModules : [ {
+
+					displayName : "Recalls Per State",
+					id:"rps"
+					} ]
+			}
+			
+			]
 		}
 	];
 	
 	var temp = {};
-	temp.user = {};
-	temp.user.fname = req.user.fname;
-	temp.user.lname = req.user.lname;
-	temp.user.username = req.user.username;
 	temp.nav = navArray;
 	res.send(temp);
 };
