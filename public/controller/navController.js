@@ -1,41 +1,27 @@
-var navController = angular.module('navController', [ ]);
+//var navController = angular.module('navController', [ ]);
 
-navController.controller('NavCtrl', [ '$scope','$location','$cookies', '$routeParams','SftpNavSrvc','LogoutSrvc', '$window',
-		function($scope, $location, $cookies, $routeParams, SftpNavSrvc, LogoutSrvc, $window) {
-			
-			$scope.logout = function(){
-				LogoutSrvc.get(function(response){
-					console.log(JSON.stringify(response));
-					
-					if(response.redirect)
-						$window.location.href = response.redirect;
-					
-					
-				}, function(errorResponse){
-					console.error("Error Logging out. Error: " + JSON.stringify(errorResponse));
-				});
-			};
+openFDA.controller('NavCtrl', [ '$scope','$location', '$routeParams','NavSrvc', '$window',
+		function($scope, $location, $routeParams, NavSrvc, $window) {
 
 			
-			SftpNavSrvc.get(function(response){
-				console.log(JSON.stringify(response));
+			NavSrvc.get(function(response){
+				console.log("Nav: " + JSON.stringify(response));
 				$scope.accessApps = response.nav;
-				$scope.user = response.user;
 				
 				if($routeParams.appId){
-				$scope.setApp($routeParams.appId);
-				
-				$scope.activeMenu.modules.forEach(function(mod){
-					if(mod.id === $routeParams.modId){
-						mod.selected = true;	
-						mod.active = true;
-						}						
+					$scope.setApp($routeParams.appId);
 					
-					mod.subModules.forEach(function(subMod){
-						if(subMod.id === $routeParams.fnId)
-							subMod.selected = true;
+					$scope.activeMenu.modules.forEach(function(mod){
+						if(mod.id === $routeParams.modId){
+							mod.selected = true;	
+							mod.active = true;
+							}						
+						
+						mod.subModules.forEach(function(subMod){
+							if(subMod.id === $routeParams.fnId)
+								subMod.selected = true;
+						});
 					});
-				});
 
 				}
 				

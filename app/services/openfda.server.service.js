@@ -10,13 +10,13 @@ module.exports.getData = function(query, callback){
 
   request(queryUrl.completeUrl, function (error, response, data){
       if (error)
-        return error;
+    	  callback(error);
 
-      if (!error && response.statusCode == 200) {
+      if (!error && response.statusCode === 200) {
         callback(error,data);
       }
 
-  })
+  });
 
 }
 

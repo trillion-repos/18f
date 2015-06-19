@@ -20,23 +20,23 @@ return $resource("./form/app/:appId/mod/:modId/fn/:fnId",{}, {
 }]);
 
 
-caffsRestServices.factory('SftpNavSrvc', ['$resource',
+caffsRestServices.factory('NavSrvc', ['$resource',
 function($resource) {
 return $resource("./nav",{}, {
 		get: {method: 'GET', cache: false, isArray: false}
 		});
 }]);
 
-caffsRestServices.factory('LogoutSrvc', ['$resource',
-function($resource) {
-return $resource("./auth/signout",{}, {
-		get: {method: 'GET', cache: false, isArray: false}
-		});
-}]);
-
-caffsRestServices.factory('openFDASrvc', ['$resource',
+caffsRestServices.factory('MapOpenFDASrvc', ['$resource',
  function($resource) {
- return $resource("./query/qId",{}, {
+ return $resource("./map/:appId/:modId/:fnId",{}, {
  		get: {method: 'GET', cache: false, isArray: false}
  		});
 }]);
+
+caffsRestServices.factory('TableOpenFDASrvc', ['$resource',
+  function($resource) {
+  return $resource("./table/:appId/:modId/:fnId",{}, {
+  		get: {method: 'GET', cache: false, isArray: false}
+  		});
+ }]);

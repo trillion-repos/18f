@@ -1,34 +1,25 @@
 'use strict';
 
-var cafs = angular.module('cafsApp', [ 'ngRoute', 'sftpControllers', ,'sftpFormController','navController','caffsRestServices' ,'sftpServices', 'ngCsvImport', 'ngTable', 
-                                             'angularUtils.directives.dirPagination','ui.bootstrap', 'ngAnimate', 'authServices', 
-											 'ngCookies', 'cafsDirectives', 'sftpTableControllers', 'ngSanitize', 'ngCsv', 'gsaModule']);
+var openFDA = angular.module('OpenFDA', [ 'ngRoute','caffsRestServices' ,'ngTable', 'datamaps',
+                                             'angularUtils.directives.dirPagination','ui.bootstrap', 'ngAnimate', 'ngSanitize', 'gsaModule']);
 
-cafs.config([ '$routeProvider', '$locationProvider',
+openFDA.config([ '$routeProvider', '$locationProvider',
 		function($routeProvider, $locationProvider) {
-			$routeProvider.when('/login', {
-				templateUrl : 'view/core/login.html',
-				controller : 'LoginCtrl'
-			});
 			
-			$routeProvider.when('/', {
-				templateUrl : 'view/core/main.html'
-			});
-			
-			$routeProvider.when('/:appId/:modId/:fnId', {
-				templateUrl : 'view/sftp/main.html'
-			});
-			
-			$routeProvider.when('/app/:appId', {
+			$routeProvider.when('/:appId', {
 				templateUrl : 'view/core/homepage.html'
 			});
 			
-			$routeProvider.otherwise('/'); //TODO should be ISAAC
+			$routeProvider.when('/:appId/:modId/:fnId', {
+				templateUrl : 'view/core/main.html'
+			});
+			
+			$routeProvider.otherwise('/openfda'); //TODO should be ISAAC
 			$locationProvider.html5Mode(false).hashPrefix('!');
 		} ]);
 
 
-cafs.factory('authHttpResponseInterceptor',['$q','$window',function($q,$window){
+openFDA.factory('authHttpResponseInterceptor',['$q','$window',function($q,$window){
     return {
         response: function(response){
             if (response.status === 401) {
@@ -50,7 +41,7 @@ cafs.factory('authHttpResponseInterceptor',['$q','$window',function($q,$window){
     $httpProvider.interceptors.push('authHttpResponseInterceptor');
 }]);
 
-cafs.run(function ($rootScope, $location, $cookies) {
+openFDA.run(function ($rootScope, $location) {
 	
 
 
@@ -64,7 +55,7 @@ cafs.run(function ($rootScope, $location, $cookies) {
 });
 
 
-cafs.animation('.reveal-animation', function() {
+openFDA.animation('.reveal-animation', function() {
 	  return {
 		    enter: function(element, done) {
 		      element.css('display', 'none');

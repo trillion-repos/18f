@@ -1,4 +1,4 @@
-<html lang="en" id="ng-app" ng-app="cafsApp">
+<html lang="en" id="ng-app" ng-app="OpenFDA">
 <head>
 	<title>Trillion Technologies - 18F</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="css/menu.css" media="screen" />
 	<link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css" media="screen" />
 	<link rel="stylesheet" href="lib/ng-table/dist/ng-table.min.css" media="screen" />
-	<link rel="stylesheet" href="css/cafs.css" media="screen" />
+	<link rel="stylesheet" href="css/styles.css" media="screen" />
 	<link rel="stylesheet" href="css/loader.css" media="screen" />
 
 	<!-- <link rel="stylesheet" href="lib/semantic/dist/semantic.min.css" media="screen" /> -->
@@ -24,11 +24,15 @@
 	<script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>	
 	<script src="lib/angular-route/angular-route.min.js"></script>
 	<script src="lib/angular-resource/angular-resource.min.js"></script>
-	<script src="lib/angular-cookies/angular-cookies.min.js"></script>
-	<script src="lib/angular-csv-import/dist/angular-csv-import.js"></script>
+	<script src="lib/d3/d3.min.js"></script>
+	<script src="lib/topojson/topojson.js"></script>
+	<script src="lib/datamaps/dist/datamaps.usa.min.js"></script>
+	<script src="lib/angular-datamaps/dist/angular-datamaps.min.js"></script>
+
+
 	<script src="lib/ng-table/dist/ng-table.js"></script>
 	<script src="lib/bootstrap_dropdowns_enhancement/dist/js/dropdowns-enhancement.js"></script>
-	<script src="lib/ng-csv/build/ng-csv.min.js"></script>
+
 	<script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
 	
 	
@@ -48,8 +52,9 @@
 	<script src="controller/controllers.js"></script> 
 	<script src="controller/navController.js"></script> 
 	<script src="controller/sftpFormController.js"></script>
-	<script src="controller/sftpTableController.js"></script>
+	<script src="controller/tableController.js"></script>
 	<script src="controller/openFDAController.js"></script>
+	<script src="controller/dataMapController.js"></script>
 	<script src="service/services.js"></script>
 	<script src="service/authServices.js"></script>
 	<script src="service/restServices.js"></script>

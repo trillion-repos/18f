@@ -16,27 +16,28 @@ module.exports.queryOpenFDA = function(req,res){
 
     var stateQueries = generateStateCountQueries();
     var results = {};
-
+    var completeQueries = 0;
+    
     stateQueries.forEach(function(entry){
       openFDAService.getData(entry,function(error,data){
+    	// TODO : handle errors. Don't forget to increment in case of not sending 4xx status
         data = JSON.parse(data);
-        console.log(data.results[0].term + " : " + data.results[0].count);
-        results[data.results[0].term] = { filkey: 'H', count: data.results[0].count};
-        console.log(results);
-      });
+        //console.log(data.results[0].term + " : " + data.results[0].count);
+        results[data.results[0].term] = { filkey: 'H', count: data.results[0].count}; 
+        
+        if (++completeQueries == stateQueries.length){
+    	    console.log('results: ' + JSON.stringify(results));
+    	    res.send(results);
+        }
+      });      
     });
-
-    console.log('results');
-    console.log(results);
+    
 
     // openFDAService.getData(currentQuery,function(error,data){
     //   console.log('callback');
     //   console.log(data);
     // });
-
-    var result = "success";
-    console.log("result: " + result);
-    res.send(result);
+    
 };
 
 /*

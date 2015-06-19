@@ -300,3 +300,8 @@ input.disabled {
 	margin-top: 10px;
 }
 
+.dataMapTitle{
+	text-align: center;
+	color: grey;
+}
+

@@ -1,17 +1,16 @@
 'use strict';
 /* Controllers */
-var sftpTableControllers = angular.module('sftpTableControllers', []);
+//var sftpTableControllers = angular.module('sftpTableControllers', []);
 
 
-sftpTableControllers.controller('SftpLoaListCtrl', [
+openFDA.controller('TableCtrl', [
 		'$scope',
 		'$filter',
 		'$routeParams',
-		'openFDASrvc',
+		'TableOpenFDASrvc',
 		'ngTableParams',
-		'SftpSrvc',
 		'$location',
-		function($scope, $filter, $routeParams, openFDASrvc, ngTableParams, SftpSrvc, $location) {
+		function($scope, $filter, $routeParams, TableOpenFDASrvc, ngTableParams, $location) {
 			
 			$scope.organizedData = [];
 			$scope.filteredData = [];
@@ -32,12 +31,15 @@ sftpTableControllers.controller('SftpLoaListCtrl', [
 				}
 			});
 			
+			
+			console.log(JSON.stringify($routeParams));
+			
 			var getTableData = function(){
 				
 				$scope.error = [];
 				
 				
-				openFDASrvc.get({qId: "OpenFDAData"},
+				TableOpenFDASrvc.get({appId:$routeParams.appId, modId: $routeParams.modId, fnId:$routeParams.fnId},
 				function success(response) {
 					
 					
@@ -95,20 +97,8 @@ sftpTableControllers.controller('SftpLoaListCtrl', [
 			
 			
 			
-			getTableData();
+			//getTableData();
 			
-			
-			
-			
-			
-			$scope.$watch(function () { return SftpSrvc.getNumber(); },
-			   function (value) {
-				   if(value){
-					   SftpSrvc.setNumber();
-					   getTableData();
-				   }
-			   }
-			);
 			
 
 			
