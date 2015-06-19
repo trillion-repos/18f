@@ -1,7 +1,7 @@
 'use strict';
 
 var config = require('../../config/config');
-var Client = require('ssh2').Client;
+//var Client = require('ssh2').Client;
 
 var connectionConfig= {
              		  	host: config.sftpServerAddress,
@@ -22,7 +22,7 @@ module.exports.sendData = function(data, fileName, callback){
 	conn.on('ready', function() {
 		  //console.log('DATA: ' + JSON.stringify(data));
 		  conn.exec('echo "' + data + '"> ' + '"' + config.sftpServerPath + fileName + '"', function(err, stream) {
-		    callback(err);		    
+		    callback(err);
 		    stream.on('close', function(code, signal) {
 		      console.log('Stream :: close :: code: ' + code + ', signal: ' + signal);
 		      conn.end();
@@ -39,12 +39,12 @@ module.exports.getSftpFileNames = function(callback){
 	conn.on('ready', function() {
 		  //console.log('DATA: ' + JSON.stringify(data));
 		  conn.exec('ls', function(err, stream) {
-		    var resultData= null;		    
+		    var resultData= null;
 		    stream.on('close', function(code, signal) {
 		      console.log('Stream :: close :: code: ' + code + ', signal: ' + signal);
 		      callback(resultData, err);
 		      conn.end();
-		    }).on('data', function(data) {		    	
+		    }).on('data', function(data) {
 		        //console.log('STDOUT: ' + data);
 		    	resultData = data;
 		        conn.end();
@@ -59,4 +59,3 @@ module.exports.getSftpFileNames = function(callback){
 			conn.end();
 			}).connect(connectionConfig);
 };
-
