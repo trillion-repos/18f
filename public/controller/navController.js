@@ -44,6 +44,8 @@ openFDA.controller('NavCtrl', [ '$scope','$location', '$routeParams','NavSrvc', 
 
 			
 			$scope.deactivateAll = function(){
+				if(!$scope.activeMenu)
+					return;
 				$scope.activeMenu.modules.forEach(function(mod){
 					
 					mod.selected = false;

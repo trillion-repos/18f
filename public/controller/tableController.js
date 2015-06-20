@@ -7,10 +7,9 @@ openFDA.controller('TableCtrl', [
 		'$scope',
 		'$filter',
 		'$routeParams',
-		'TableOpenFDASrvc',
 		'ngTableParams',
 		'$location',
-		function($scope, $filter, $routeParams, TableOpenFDASrvc, ngTableParams, $location) {
+		function($scope, $filter, $routeParams, ngTableParams, $location) {
 			
 			$scope.organizedData = [];
 			$scope.filteredData = [];
@@ -39,7 +38,7 @@ openFDA.controller('TableCtrl', [
 				$scope.error = [];
 				
 				
-				TableOpenFDASrvc.get({appId:$routeParams.appId, modId: $routeParams.modId, fnId:$routeParams.fnId},
+				FetchOpenFDASrvc.get({appId:$routeParams.appId, modId: $routeParams.modId, fnId:$routeParams.fnId},
 				function success(response) {
 					
 					

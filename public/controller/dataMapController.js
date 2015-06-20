@@ -1,8 +1,8 @@
-openFDA.controller('DataMapCtrl', [ '$scope', 'MapOpenFDASrvc', '$routeParams',
-		function($scope , MapOpenFDASrvc, $routeParams) {
+openFDA.controller('DataMapCtrl', [ '$scope', 'FetchOpenFDASrvc', '$routeParams',
+		function($scope , FetchOpenFDASrvc, $routeParams) {
 
 	
-	MapOpenFDASrvc.get({appId:$routeParams.appId, modId: $routeParams.modId, fnId:$routeParams.fnId},
+	FetchOpenFDASrvc.get({appId:$routeParams.appId, modId: $routeParams.modId, fnId:$routeParams.fnId, qId:"mapRps"},
 			function success(response) {
 				
 				
@@ -15,7 +15,7 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'MapOpenFDASrvc', '$routeParams',
 				console.log("Map Success:" + JSON.stringify(response));
 				$scope.map.data = response.mapData;
 				$scope.orderedData = response.orderedData.slice(0,10);
-
+				$scope.title = response.mapDataTitle;
 				
 				},
 			function error(errorResponse) {
@@ -24,13 +24,12 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'MapOpenFDASrvc', '$routeParams',
 				$scope.error.push(errorResponse.data);
 				});
 	
-	
-	$scope.title = "Drug Recals Per State";
-	
 	$scope.map = {
 			  scope: 'usa',
 			  options: {
 				  staticGeoData: true,
+				  labels: true,
+				  labelSize: 10,
 			    width: 900,
 			    legendHeight: 60 // optionally set the padding for the legend
 			  },
@@ -39,6 +38,7 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'MapOpenFDASrvc', '$routeParams',
 			    highlighBorderWidth: 2
 			  },
 			  fills: {
+				"VH":'#2a4644',
 			    "H": '#558C89',
 			    "M": '#74AFAD',
 			    "L": '#D5E7E6',
@@ -68,10 +68,11 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'MapOpenFDASrvc', '$routeParams',
 			        label = '';
 			    for (var fillKey in this.options.fills) {
 			    	switch (true) {
-					case fillKey === "H": label = ">300";			break;
-					case fillKey === "M": label = ">200"; 		break;
-					case fillKey === "L": label = ">0 &nbsp;&nbsp;&nbsp;"; 		break;
-					case fillKey === "defaultFill" : label = "0&nbsp;&nbsp;&nbsp;&nbsp;"; break;
+			    	case fillKey === "VH": label = ">400"; break;
+					case fillKey === "H": label = ">300";  break;
+					case fillKey === "M": label = ">200";  break;
+					case fillKey === "L": label = ">0 &nbsp;&nbsp;&nbsp;"; 	break;
+					case fillKey === "defaultFill" : label = "unknown"; break;
 					default:
 						break;
 					}
@@ -87,8 +88,35 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'MapOpenFDASrvc', '$routeParams',
 			  }
 			};
 			
-	$scope.mapPluginData = {
-			  bubbles: [{}]
-			};
+	$scope.mapPluginData = { bubbles: [{}]};
+	
+	
+	
+	//GRAPH
+	
+	$scope.drillDownToYear = function(geography){
+		var stateName = geography.properties.name;
+		var stateCode = geography.id;
+		console.log(stateName + " : " +  stateCode);
+		
+		FetchOpenFDASrvc.get({appId:$routeParams.appId, modId: $routeParams.modId, fnId:$routeParams.fnId, qId:"graphRpy"},
+				function success(response) {
+					
+					
+					if(!response){
+						console.warn("No data found for graph="+$routeParams);
+						return;
+					}
+					
+
+					console.log("Graph per Year Success:" + JSON.stringify(response));
+					
+					
+					},
+				function error(errorResponse) {
+					console.log("Error:" + JSON.stringify(errorResponse));				
+					$scope.error.push(errorResponse.data);
+					});
+	};
 
 		} ]);

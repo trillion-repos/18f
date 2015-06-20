@@ -45,7 +45,9 @@ module.exports.queryOpenFDA = function(req,res){
 			break;
 		case data.results[0].count < 300: fillkey = 'M';			
 		break;
-		case data.results[0].count > 299: fillkey = 'H';			
+		case data.results[0].count < 400: fillkey = 'H';			
+		break;
+		case data.results[0].count > 399: fillkey = 'VH';			
 		break;
 		default:
 			break;
@@ -60,6 +62,7 @@ module.exports.queryOpenFDA = function(req,res){
         	var response = {};
         	response.mapData = results;
         	response.orderedData = resultsArray;
+        	response.mapDataTitle = "Drug Recals Per State";
     	    console.log('results: ' + JSON.stringify(response));
     	    res.send(response);
         }
