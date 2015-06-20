@@ -11,10 +11,14 @@ module.exports.getData = function(query, callback){
   request(queryUrl.completeUrl, function (error, response, data){
       if (error)
     	  callback(error);
+      
+      else if (response.statusCode !== 200)
+    	  callback(response);
 
-      if (!error && response.statusCode === 200) {
+      else{
         callback(error,data);
       }
+      
 
   });
 

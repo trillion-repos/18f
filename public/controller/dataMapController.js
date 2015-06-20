@@ -6,14 +6,15 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'MapOpenFDASrvc', '$routeParams',
 			function success(response) {
 				
 				
-				if(!response && !response.length){
+				if(!response){
 					console.warn("No data found for MapId="+$routeParams);
 					return;
 				}
 				
 
 				console.log("Map Success:" + JSON.stringify(response));
-				$scope.map.data = response;
+				$scope.map.data = response.mapData;
+				$scope.orderedData = response.orderedData.slice(0,10);
 
 				
 				},
@@ -25,10 +26,12 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'MapOpenFDASrvc', '$routeParams',
 	
 	
 	$scope.title = "Drug Recals Per State";
+	
 	$scope.map = {
 			  scope: 'usa',
 			  options: {
-			    width: 1110,
+				  staticGeoData: true,
+			    width: 900,
 			    legendHeight: 60 // optionally set the padding for the legend
 			  },
 			  geographyConfig: {
@@ -36,25 +39,12 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'MapOpenFDASrvc', '$routeParams',
 			    highlighBorderWidth: 2
 			  },
 			  fills: {
-			    'H': '#CC4731',
-			    'M': '#306596',
-			    'L': '#667FAF',
-			    'defaultFill': '#DDDDDD'
+			    "H": '#558C89',
+			    "M": '#74AFAD',
+			    "L": '#D5E7E6',
+			    'defaultFill': '#ECECEA'
 			  },
-/*			  data: {
-			    "AZ": {
-			      "fillkey": "M",
-			    },
-			    "CO": {
-			      "fillkey": "H",
-			    },
-			    "DE": {
-			      "fillkey": "L",
-			    },
-			    "GA": {
-			      "fillkey": "M",
-			    }
-			  },*/
+			  data: {},
 			  geographyConfig: {
 		            popupTemplate: function(geo, data) {
 		            	if(!data)
@@ -70,6 +60,35 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'MapOpenFDASrvc', '$routeParams',
 		        }
 			}
 			
+	
+	$scope.mapPlugins = {
+			  bubbles: null,
+			  customLegend: function(layer, data, options) {
+			    var html = ['<ul class="list-inline" style="padding-left:40px">'],
+			        label = '';
+			    for (var fillKey in this.options.fills) {
+			    	switch (true) {
+					case fillKey === "H": label = ">300";			break;
+					case fillKey === "M": label = ">200"; 		break;
+					case fillKey === "L": label = ">0 &nbsp;&nbsp;&nbsp;"; 		break;
+					case fillKey === "defaultFill" : label = "0&nbsp;&nbsp;&nbsp;&nbsp;"; break;
+					default:
+						break;
+					}
+			      html.push('<li class="key" ',
+			                  'style="border-top: 10px solid ' + this.options.fills[fillKey] + '">',
+			                  label,
+			                  '</li>');
+			    }
+			    html.push('</ul>');
+			    d3.select(this.options.element).append('div')
+			      .attr('class', 'datamaps-legend')
+			      .html(html.join(''));
+			  }
+			};
 			
+	$scope.mapPluginData = {
+			  bubbles: [{}]
+			};
 
 		} ]);

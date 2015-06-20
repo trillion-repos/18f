@@ -17,18 +17,53 @@ module.exports.queryOpenFDA = function(req,res){
     var stateQueries = generateStateCountQueries();
     var results = {};
     var completeQueries = 0;
+    var resultsArray = [];
     
     stateQueries.forEach(function(entry){
       openFDAService.getData(entry,function(error,data){
-    	// TODO : handle errors. Don't forget to increment in case of not sending 4xx status
-        data = JSON.parse(data);
-        //console.log(data.results[0].term + " : " + data.results[0].count);
-        results[data.results[0].term] = { filkey: 'H', count: data.results[0].count}; 
-        
-        if (++completeQueries == stateQueries.length){
-    	    console.log('results: ' + JSON.stringify(results));
-    	    res.send(results);
+    	  var temp = {};
+    	  ++completeQueries;
+    	  
+    	  if(error){
+    		  console.error("ERROR: ", JSON.stringify(error), JSON.stringify(entry));    
+    		  return;
+    	  }
+    	  
+    	  if(data){
+    		  data = JSON.parse(data);
+    	  }
+    	  
+    	  if(!data.results){
+    		  console.log("No Results for: " + JSON.stringify(entry));
+    		  return;
+    	  }
+    	//console.log("results: " + JSON.stringify(data) + " : " + completeQueries);   
+        //console.log(entry.state + " : " + data.results[0].count + " : " + entry.params.search);
+    	var fillkey = 'U';
+    	switch (true) {
+		case data.results[0].count < 200: fillkey = 'L';			
+			break;
+		case data.results[0].count < 300: fillkey = 'M';			
+		break;
+		case data.results[0].count > 299: fillkey = 'H';			
+		break;
+		default:
+			break;
+		}  
+        results[entry.state] = { fillKey: fillkey, count: data.results[0].count}; 
+        temp.count = data.results[0].count;
+        temp.state = entry.state;
+        resultsArray.push(temp);
+        resultsArray.sort(compare);
+        //console.log("temp: " + JSON.stringify(temp) + " : " + completeQueries);
+        if (completeQueries == stateQueries.length){
+        	var response = {};
+        	response.mapData = results;
+        	response.orderedData = resultsArray;
+    	    console.log('results: ' + JSON.stringify(response));
+    	    res.send(response);
         }
+		        
       });      
     });
     
@@ -69,11 +104,61 @@ function transfromData(data){
 };
 
 function generateStateCountQueries(){
-  var states = ['va','tx','ny'];
+  var states = ['AL',
+                'AK',
+                'AZ',
+                'AR',
+                'CA',
+                'CO',
+                'CT',
+                'DE',
+                'FL',
+                'GA',
+                'HI',
+                'ID',
+                'IL',
+                'IN',
+                'IA',
+                'KS',
+                'KY',
+                'LA',
+                'ME',
+                'MD',
+                'MA',
+                'MI',
+                'MN',
+                'MS',
+                'MO',
+                'MT',
+                'NE',
+                'NV',
+                'NH',
+                'NJ',
+                'NM',
+                'NY',
+                'NC',
+                'ND',
+                'OH',
+                'OK',
+                'OR',
+                'PA',
+                'RI',
+                'SC',
+                'SD',
+                'TN',
+                'TX',
+                'UT',
+                'VT',
+                'VA',
+                'WA',
+                'WV',
+                'WI',
+                'WY'];
   var stateQueries = [];
   states.forEach(function(state){
     stateQueries.push(
       {
+    	state:state,
         queryId: 1,
         noun:'drug',
         endpoint:'enforcement',
@@ -90,6 +175,16 @@ function generateStateCountQueries(){
   //console.log(stateQueries);
   return stateQueries;
 }
+
+function compare(a,b) {
+	  if (a.count > b.count)
+	    return -1;
+	  if (a.count < b.count)
+	    return 1;
+	  return 0;
+	}
+
+	
 
 var queries = [
   {

@@ -1,5 +1,26 @@
 <div ng-controller="DataMapCtrl" class="panel panel-primary loaList">
 
+<div class="statesTop">
+<h4 class='statesTopTitle'>Top 10 States</h4>
+<table>
+  <thead>
+    <tr>
+      <th>State</th>
+      <th>Recall Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr data-ng-repeat='row in orderedData'>
+      <td><strong>{{row.state.toUpperCase()}}</strong></td>
+      <td>{{row.count}}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
 <h2 class="dataMapTitle"> {{title}}</h2>
-	<datamap  map="map" > </datamap>
+<div class="fdaDataMap">
+	<datamap  map="map" plugins="mapPlugins" plugin-data="mapPluginData"> </datamap>
+</div>
+
 </div>
