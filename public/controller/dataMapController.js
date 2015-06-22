@@ -7,6 +7,7 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'FetchOpenFDASrvc', '$routeParams'
 	var isTableTop = false;
 	var top = null;
 	var bottom = null;
+	
 	$scope.changeTopStates = function(){
 		isTableTop = !isTableTop;
 		
@@ -39,17 +40,17 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'FetchOpenFDASrvc', '$routeParams'
 		$scope.title = titleAll[dataset];
 		
 		switch (dataset) {
-		case "Drugs":
+		case "drug":
 			$scope.selectedDatasetDrugs = true;
 			$scope.selectedDatasetDevices = false;
 			$scope.selectedDatasetFood = false;
 			break;
-		case "Devices":
+		case "device":
 			$scope.selectedDatasetDrugs = false;
 			$scope.selectedDatasetDevices = true;
 			$scope.selectedDatasetFood = false;
 			break;
-		case "Food":
+		case "food":
 			$scope.selectedDatasetDrugs = false;
 			$scope.selectedDatasetDevices = false;
 			$scope.selectedDatasetFood = true;
@@ -75,7 +76,7 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'FetchOpenFDASrvc', '$routeParams'
 				orderedDataAll = response.orderedData;
 				titleAll = response.mapDataTitle;
 				
-				$scope.changeMap("Drugs");
+				$scope.changeMap("drug");
 				
 				},
 			function error(errorResponse) {
