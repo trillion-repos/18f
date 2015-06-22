@@ -5,7 +5,7 @@ var config = require("./../../config/config");
 var queryCache = {};
 var states = config.states;
 
-module.exports.queryOpenFDA = function(req,res){
+module.exports.queryOpenFDA = function(req,res) {
     //var queryId = 1;//req.params.qId;
     //console.log("quId: " + queryId);
 
@@ -31,7 +31,7 @@ module.exports.queryOpenFDA = function(req,res){
     var datasets = ["drug", "device", "food"];
 
     datasets.forEach(function(dataset){
-    	
+
 		var allTermQuery = {
 		    queryId: 1,
 		    noun:dataset,
@@ -43,26 +43,26 @@ module.exports.queryOpenFDA = function(req,res){
 		      skip:0
 		    }
 		  }
-	
+
 			openFDAService.getData(allTermQuery,function(error,data, query){
 				completeQueries++;
-				
+
 				if(error){
 					console.error("ERROR: ", JSON.stringify(error), JSON.stringify(allTermQuery));
 					return;
 				}
-	
+
 				if(data){
 					data = JSON.parse(data);
 				}
-	
+
 				if(!data.results){
 					console.log("No Results for: " + JSON.stringify(allTermQuery));
 					return;
 				}
-				
+
 				//console.log("RAW DATA: ", data);
-	
+
 				var stateCounts = {};
 				data.results.forEach(function(entry){
 					for(var state in states){
@@ -74,30 +74,33 @@ module.exports.queryOpenFDA = function(req,res){
 						}
 					}
 				});
-	
-	
-	
-				for(var state in stateCounts){
+
+				for(var state in stateCounts) {
 					var fillkey = 'U';
+
 					switch (true) {
-				case stateCounts[state] < 200: fillkey = 'L';
-					break;
-				case stateCounts[state]  < 300: fillkey = 'M';
-				break;
-				case stateCounts[state]  < 400: fillkey = 'H';
-				break;
-				case stateCounts[state]  > 399: fillkey = 'VH';
-				break;
-				default:
-					break;
-				}
+						case stateCounts[state] < 200:
+							fillkey = 'L';
+							break;
+						case stateCounts[state] < 300:
+							fillkey = 'M';
+							break;
+						case stateCounts[state] < 400:
+							fillkey = 'H';
+							break;
+						case stateCounts[state] > 399:
+							fillkey = 'VH';
+							break;
+						default:
+							break;
+					}
 					results[state] = { fillKey: fillkey, count: stateCounts[state]};
 					resultsArray.push({state:state, count:stateCounts[state]});
 				}
-				
-				
+
+
 				resultsArray.sort(compareCount);
-	
+
 				var response = {};
 				response.mapData = {};
 				response.orderedData = {};
@@ -105,19 +108,16 @@ module.exports.queryOpenFDA = function(req,res){
 				response.mapData[dataset] = results;
 				response.orderedData[dataset] = resultsArray;
 				response.mapDataTitle[dataset] = "Drug Recals Per State";
-				
-				if (completeQueries == datasets.length){
+
+				if (completeQueries == datasets.length) {
 					queryCache[queryId] = response;
 					console.log('results: ' + JSON.stringify(response));
 					res.send(response);
 				}
-				
-	
+
 			});
     });//end dataset iteration
-
 };
-
 
 function generateStateCountQueries(){
 
