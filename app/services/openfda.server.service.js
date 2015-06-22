@@ -14,7 +14,7 @@ module.exports.getData = function(query, callback){
       } else if (response.statusCode !== 200) {
         callback(response);
       } else{
-        callback(error,data);
+        callback(error,data, query);
       }
   });
 
@@ -26,9 +26,9 @@ function openFDAUrl(query){
 
   var addUrlParam = function(url,key,value,atStart){
     if(atStart){
-      return url += '?' + key + '=' + encodeURIComponent(value);
+      return url += '?' + key + '=' + (value);
     } else {
-      return url += '&' + key + '=' + encodeURIComponent(value);
+      return url += '&' + key + '=' + (value);
     }
   };
 

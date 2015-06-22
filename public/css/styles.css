@@ -305,23 +305,47 @@ input.disabled {
 	color: grey;
 }
 
-
+.mapCheckbox{
+	float: left; 
+	width: 100px; 
+	z-index:1; 
+}
 
 .statesTop{
 	width: 300px;
 	float: right;
-	margin-top: 70px;
 	height: 100%;
+	margin-top: 60px;
 }
 
 .statesTopTitle{
 	width: 200px;
 	margin: auto;
 	padding-left: 10px;
+	
+}
+
+.statesTopTitleSort{
+	color:#ffffff; 
+	border-radius: 7px; 
+	background-color: #5F5F5F; 
+	float:left;
+}
+
+.statesTopTitleSort:hover{
+
+	background-color: #727272; 
+	color:#ffffff;
+}
+
+.statesTopTitleSort:active, .statesTopTitleSort:focus{
+
+	background-color: #5F5F5F; 
+	color:#ffffff;
 }
 
 .fdaDataMap{
-
+	width: 950px;
 }
 
 .datamaps-legend {
@@ -361,7 +385,7 @@ th:after {
 	height: 25%;
 	left: 0;
 	margin: 1px 0 0 0;
-	position: absolute;
+	/* position: absolute; */
 	top: 25%;
 	width: 100%;
 }

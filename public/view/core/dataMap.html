@@ -1,26 +1,50 @@
-<div ng-controller="DataMapCtrl" class="panel panel-primary loaList">
 
-<div class="statesTop">
-<h4 class='statesTopTitle'>Top 10 States</h4>
-<table>
-  <thead>
-    <tr>
-      <th>State</th>
-      <th>Recall Count</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr data-ng-repeat='row in orderedData'>
-      <td><strong>{{row.state.toUpperCase()}}</strong></td>
-      <td>{{row.count}}</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+<div data-ng-controller="DataMapCtrl" class="">
 
-<h2 class="dataMapTitle"> {{title}}</h2>
-<div class="fdaDataMap">
-	<datamap  map="map" plugins="mapPlugins" plugin-data="mapPluginData" on-click="drillDownToYear"> </datamap>
-</div>
+	<div class="statesTop">
+		<div>
+			<a href="javascript:void(0);" class="btn btn-default btn-sm statesTopTitleSort" data-ng-click="changeTopStates()"> <span
+				class="glyphicon glyphicon-arrow-{{glyPos}}"></span>
+			</a>
+		</div>
+		<h4 class='statesTopTitle'>{{tableTopTitle}} 10 States</h4>
+		<div>
+			<table>
+				<thead>
+					<tr>
+						<th>State</th>
+						<th>Recall Count</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-repeat='row in orderedDataTable'>
+						<td><strong>{{row.state.toUpperCase()}}</strong></td>
+						<td>{{row.count}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+	<div class="fdaDataMap">
+		<h2 class="dataMapTitle">{{title}}</h2>
+		<div style = "position:absolute">
+			<div class="radio radio-info radio-circle" style="" data-ng-click="changeMap('Drugs')">
+				<input type="radio" data-ng-checked="selectedDatasetDrugs" id="radio1"> 
+				<label for="radio1">	<strong>Drugs</strong> </label> 
+			</div>
+			<div class="radio radio-info radio-circle" style="" data-ng-click="changeMap('Devices')">
+				<input type="radio" data-ng-checked="selectedDatasetDevices" id="radio2"> 
+				<label for="radio2"> <strong>Devices</strong> </label> 
+			</div>
+			<div class="radio radio-info radio-circle" style=""data-ng-click="changeMap('Food')">
+				<input type="radio" data-ng-checked="selectedDatasetFood" id="radio3"> 
+				<label for="radio3"> <strong>Food</strong> </label>
+			</div>
+		</div>
+		<datamap map="map" plugins="mapPlugins" plugin-data="mapPluginData"
+			on-click="drillDownToYear"> </datamap>
+	</div>
 
 </div>

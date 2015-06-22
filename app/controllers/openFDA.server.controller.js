@@ -1,10 +1,18 @@
 'use strict';
 
 var openFDAService = require('./../services/openfda.server.service');
+var queryCache = {};
 
 module.exports.queryOpenFDA = function(req,res){
     //var queryId = 1;//req.params.qId;
     //console.log("quId: " + queryId);
+	
+    var queryId = req.params.qId;
+    
+    if(queryCache[queryId]){//TODO add expiration to cache. Make it more sophisticated, maybe memcache
+    	res.send(queryCache[queryId]);
+    	return;
+    }
 
     var currentQuery = {};
 
@@ -20,7 +28,7 @@ module.exports.queryOpenFDA = function(req,res){
     var resultsArray = [];
 
     stateQueries.forEach(function(entry){
-      openFDAService.getData(entry,function(error,data){
+      openFDAService.getData(entry,function(error,data, query){
     	  var temp = {};
     	  ++completeQueries;
 
@@ -39,30 +47,36 @@ module.exports.queryOpenFDA = function(req,res){
     	  }
     	//console.log("results: " + JSON.stringify(data) + " : " + completeQueries);
         //console.log(entry.state + " : " + data.results[0].count + " : " + entry.params.search);
+    	var totalCount = data.results[{term:query.stateName}].count;// +  data.results[query.stateName].count;
     	var fillkey = 'U';
     	switch (true) {
-		case data.results[0].count < 200: fillkey = 'L';
+		case totalCount < 200: fillkey = 'L';
 			break;
-		case data.results[0].count < 300: fillkey = 'M';
+		case totalCount < 300: fillkey = 'M';
 		break;
-		case data.results[0].count < 400: fillkey = 'H';
+		case totalCount < 400: fillkey = 'H';
 		break;
-		case data.results[0].count > 399: fillkey = 'VH';
+		case totalCount > 399: fillkey = 'VH';
 		break;
 		default:
 			break;
 		}
-        results[entry.state] = { fillKey: fillkey, count: data.results[0].count};
-        temp.count = data.results[0].count;
+
+        results[query.stateAbbr] = { fillKey: fillkey, count: totalCount};
+        temp.count = totalCount;
         temp.state = entry.state;
         resultsArray.push(temp);
         resultsArray.sort(compareCount);
         //console.log("temp: " + JSON.stringify(temp) + " : " + completeQueries);
         if (completeQueries == stateQueries.length){
         	var response = {};
-        	response.mapData = results;
-        	response.orderedData = resultsArray;
-        	response.mapDataTitle = "Drug Recals Per State";
+        	response.mapData = {};
+        	response.orderedData = {};
+        	response.mapDataTitle = {};
+        	response.mapData['Drugs'] = results;
+        	response.orderedData['Drugs'] = resultsArray;
+        	response.mapDataTitle['Drugs'] = "Drug Recals Per State";
+        	queryCache[queryId] = response;
     	    console.log('results: ' + JSON.stringify(response));
     	    res.send(response);
         }
@@ -91,7 +105,7 @@ module.exports.queryOpenFDA = function(req,res){
            ]
   }
 ]
-*/
+
 function transfromData(data){
   var result = {};
   var state = data.results[0].term
@@ -105,94 +119,77 @@ function transfromData(data){
   );
   return result;
 };
-
+*/
 function generateStateCountQueries(){
   var states = {
-    "AL": "Alabama",
-    "AK": "Alaska",
-    "AS": "American Samoa",
-    "AZ": "Arizona",
-    "AR": "Arkansas",
-    "CA": "California",
-    "CO": "Colorado",
-    "CT": "Connecticut",
-    "DE": "Delaware",
-    "DC": "District Of Columbia",
-    "FM": "Federated States Of Micronesia",
-    "FL": "Florida",
-    "GA": "Georgia",
-    "GU": "Guam",
-    "HI": "Hawaii",
-    "ID": "Idaho",
-    "IL": "Illinois",
-    "IN": "Indiana",
-    "IA": "Iowa",
-    "KS": "Kansas",
-    "KY": "Kentucky",
-    "LA": "Louisiana",
-    "ME": "Maine",
-    "MH": "Marshall Islands",
-    "MD": "Maryland",
-    "MA": "Massachusetts",
-    "MI": "Michigan",
-    "MN": "Minnesota",
-    "MS": "Mississippi",
-    "MO": "Missouri",
-    "MT": "Montana",
-    "NE": "Nebraska",
-    "NV": "Nevada",
-    "NH": "New Hampshire",
-    "NJ": "New Jersey",
-    "NM": "New Mexico",
-    "NY": "New York",
-    "NC": "North Carolina",
-    "ND": "North Dakota",
-    "MP": "Northern Mariana Islands",
-    "OH": "Ohio",
-    "OK": "Oklahoma",
-    "OR": "Oregon",
-    "PW": "Palau",
-    "PA": "Pennsylvania",
-    "PR": "Puerto Rico",
-    "RI": "Rhode Island",
-    "SC": "South Carolina",
-    "SD": "South Dakota",
-    "TN": "Tennessee",
-    "TX": "Texas",
-    "UT": "Utah",
-    "VT": "Vermont",
-    "VI": "Virgin Islands",
-    "VA": "Virginia",
-    "WA": "Washington",
-    "WV": "West Virginia",
-    "WI": "Wisconsin",
-    "WY": "Wyoming",
-    "U.S.":"Nationwide"
+		  "al": "alabama",
+		    "ak": "alaska",
+		    "as": "american samoa",
+		    "az": "arizona",
+		    "ar": "arkansas",
+		    "ca": "california",
+		    "co": "colorado",
+		    "ct": "connecticut",
+		    "de": "delaware",
+		    "dc": "district of columbia",
+		    "fl": "florida",
+		    "ga": "georgia",
+		    "gu": "guam",
+		    "hi": "hawaii",
+		    "id": "idaho",
+		    "il": "illinois",
+		    "in": "indiana",
+		    "ia": "iowa",
+		    "ks": "kansas",
+		    "ky": "kentucky",
+		    "la": "louisiana",
+		    "me": "maine",
+		    "md": "maryland",
+		    "ma": "massachusetts",
+		    "mi": "michigan",
+		    "mn": "minnesota",
+		    "ms": "mississippi",
+		    "mo": "missouri",
+		    "mt": "montana",
+		    "ne": "nebraska",
+		    "nv": "nevada",
+		    "nh": "new hampshire",
+		    "nj": "new jersey",
+		    "nm": "new mexico",
+		    "ny": "new york",
+		    "nc": "north carolina",
+		    "nd": "north dakota",
+		    "oh": "ohio",
+		    "ok": "oklahoma",
+		    "or": "oregon",
+		    "pa": "pennsylvania",
+		    "pr": "puerto rico",
+		    "ri": "rhode island",
+		    "sc": "south carolina",
+		    "sd": "south dakota",
+		    "tn": "tennessee",
+		    "tx": "texas",
+		    "ut": "utah",
+		    "vt": "vermont",
+		    "vi": "virgin islands",
+		    "va": "virginia",
+		    "wa": "washington",
+		    "wv": "west virginia",
+		    "wi": "wisconsin",
+		    "wy": "wyoming"/*,
+		    "u.s.":"nationwide"*/
   }
   var stateQueries = [];
   for(var state in states){
     stateQueries.push(
       {
-    	state:state,
+    	stateName:states[state],
+    	stateAbbr:state,
         queryId: 1,
         noun:'drug',
         endpoint:'enforcement',
         params:{
-          search:'distribution_pattern:"' + state + '"',
-          count:'distribution_pattern',
-          limit:0,
-          skip:0
-        }
-      }
-    );
-    stateQueries.push(
-      {
-      state:state,
-        queryId: 1,
-        noun:'drug',
-        endpoint:'enforcement',
-        params:{
-          search:'distribution_pattern:"' + state[state] + '"',
+          search:'(distribution_pattern:"' + state + '"+distribution_pattern:"' + states[state] + '")',
           count:'distribution_pattern',
           limit:0,
           skip:0

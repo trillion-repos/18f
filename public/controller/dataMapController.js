@@ -1,6 +1,64 @@
 openFDA.controller('DataMapCtrl', [ '$scope', 'FetchOpenFDASrvc', '$routeParams',
 		function($scope , FetchOpenFDASrvc, $routeParams) {
 
+	var mapDataAll = null;
+	var orderedDataAll = null
+	var titleAll = null;
+	var isTableTop = false;
+	var top = null;
+	var bottom = null;
+	$scope.changeTopStates = function(){
+		isTableTop = !isTableTop;
+		
+		if(isTableTop){
+			
+			if(!top)
+				top = $scope.orderedData.slice(0,10);
+			
+			$scope.glyPos = "down";
+			$scope.tableTopTitle = "Top ";
+			$scope.orderedDataTable = top;
+		}
+		else{
+			
+			if(!bottom)
+				bottom = $scope.orderedData.reverse().slice(0,10);
+			
+			$scope.glyPos = "up";
+			$scope.tableTopTitle = "Bottom ";
+			$scope.orderedDataTable = bottom;
+		}
+	};
+	
+	$scope.selectedDatasetDrugs = true;
+	$scope.changeMap = function(dataset){
+		isTableTop = false;
+		$scope.map.data = mapDataAll[dataset];
+		$scope.orderedData = orderedDataAll[dataset];
+		$scope.changeTopStates();
+		$scope.title = titleAll[dataset];
+		
+		switch (dataset) {
+		case "Drugs":
+			$scope.selectedDatasetDrugs = true;
+			$scope.selectedDatasetDevices = false;
+			$scope.selectedDatasetFood = false;
+			break;
+		case "Devices":
+			$scope.selectedDatasetDrugs = false;
+			$scope.selectedDatasetDevices = true;
+			$scope.selectedDatasetFood = false;
+			break;
+		case "Food":
+			$scope.selectedDatasetDrugs = false;
+			$scope.selectedDatasetDevices = false;
+			$scope.selectedDatasetFood = true;
+			break;
+		default:
+			break;
+		}
+	};
+	
 	
 	FetchOpenFDASrvc.get({appId:$routeParams.appId, modId: $routeParams.modId, fnId:$routeParams.fnId, qId:"mapRps"},
 			function success(response) {
@@ -13,9 +71,11 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'FetchOpenFDASrvc', '$routeParams'
 				
 
 				console.log("Map Success:" + JSON.stringify(response));
-				$scope.map.data = response.mapData;
-				$scope.orderedData = response.orderedData.slice(0,10);
-				$scope.title = response.mapDataTitle;
+				mapDataAll = response.mapData;
+				orderedDataAll = response.orderedData;
+				titleAll = response.mapDataTitle;
+				
+				$scope.changeMap("Drugs");
 				
 				},
 			function error(errorResponse) {
@@ -93,6 +153,53 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'FetchOpenFDASrvc', '$routeParams'
 	
 	
 	//GRAPH
+	
+$scope.title2 = "Drug Recalls per Year for ..."
+	
+	$scope.config2 = {
+			  title: 'Drug Recalls Per Year for ...'  , // chart title. If this is false, no title element will be created.
+			  tooltips: true,
+			  labels: false, // labels on data points
+			  // exposed events
+			  mouseover: function() {},
+			  mouseout: function() {},
+			  click: function() {},
+			  // legend config
+			  legend: {
+			    display: true, // can be either 'left' or 'right'.
+			    position: 'right',
+			    // you can have html in series name
+			    htmlEnabled: false
+			  },
+			  // override this array if you're not happy with default colors
+			  colors: ['#558C89', '#96281B', '#4DAF7C'],
+			  innerRadius: 0, // Only on pie Charts
+			  lineLegend: 'lineEnd', // Only on line Charts
+			  lineCurveType: 'cardinal', // change this as per d3 guidelines to avoid smoothline
+			  isAnimate: true, // run animations while rendering chart
+			  yAxisTickFormat: 's', //refer tickFormats in d3 to edit this value
+			  xAxisMaxTicks: 7, // Optional: maximum number of X axis ticks to show if data points exceed this number
+			  yAxisTickFormat: 's', // refer tickFormats in d3 to edit this value,
+			  yAxisLabel: '# of Recalls',
+			  waitForHeightAndWidth: true // if true, it will not throw an error when the height or width are not defined (e.g. while creating a modal form), and it will be keep watching for valid height and width values
+			};
+	
+	$scope.acData = {
+		    series: ['Drugs', 'Devices', 'Food'],
+		    data: [{
+		      x: "2000",
+		      y: [100, 500, 0]
+		    }, {
+		      x: "2001",
+		      y: [300, 100, 100]
+		    }, {
+		      x: "2002",
+		      y: [351]
+		    }, {
+		      x: "2003",
+		      y: [54, 0, 879]
+		    }]
+		  };
 	
 	$scope.drillDownToYear = function(geography){
 		var stateName = geography.properties.name;
