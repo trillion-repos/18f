@@ -9,17 +9,13 @@ module.exports.getData = function(query, callback){
   console.log("Query URL: " + queryUrl.completeUrl);
 
   request(queryUrl.completeUrl, function (error, response, data){
-      if (error)
-    	  callback(error);
-      
-      else if (response.statusCode !== 200)
-    	  callback(response);
-
-      else{
+      if (error) {
+        callback(error);
+      } else if (response.statusCode !== 200) {
+        callback(response);
+      } else{
         callback(error,data);
       }
-      
-
   });
 
 }
@@ -30,9 +26,9 @@ function openFDAUrl(query){
 
   var addUrlParam = function(url,key,value,atStart){
     if(atStart){
-       return url += '?' + key + '=' + encodeURIComponent(value);
+      return url += '?' + key + '=' + encodeURIComponent(value);
     } else {
-       return url += '&' + key + '=' + encodeURIComponent(value);
+      return url += '&' + key + '=' + encodeURIComponent(value);
     }
   };
 
