@@ -6,9 +6,9 @@ var queryCache = {};
 module.exports.queryOpenFDA = function(req,res){
     //var queryId = 1;//req.params.qId;
     //console.log("quId: " + queryId);
-	
+
     var queryId = req.params.qId;
-    
+
     if(queryCache[queryId]){//TODO add expiration to cache. Make it more sophisticated, maybe memcache
     	res.send(queryCache[queryId]);
     	return;
@@ -26,6 +26,87 @@ module.exports.queryOpenFDA = function(req,res){
     var results = {};
     var completeQueries = 0;
     var resultsArray = [];
+
+		var allTermQuery = {
+	    queryId: 1,
+	    noun:'drug',
+	    endpoint:'enforcement',
+	    params:{
+	      //search:'distribution_pattern:"va"',
+	      count:'distribution_pattern',
+	      limit:0,
+	      skip:0
+	    }
+	  }
+
+		openFDAService.getData(allTermQuery,function(error,data, query){
+			if(error){
+				console.error("ERROR: ", JSON.stringify(error), JSON.stringify(allTermQuery));
+				return;
+			}
+
+			if(data){
+				data = JSON.parse(data);
+			}
+
+			if(!data.results){
+				console.log("No Results for: " + JSON.stringify(allTermQuery));
+				return;
+			}
+
+			var stateCounts = {};
+			data.results.forEach(function(entry){
+				for(var state in states){
+					if(entry.term === state || entry.term === states[state]){
+						if(stateCounts[state]){
+							stateCounts[state] = 0;
+						}
+						stateCounts[state] += entry.count;
+					}
+				}
+			});
+
+
+
+
+			stateCounts.forEach(function(state){
+				var fillkey = 'U';
+				switch (true) {
+			case state.count < 200: fillkey = 'L';
+				break;
+			case state.count < 300: fillkey = 'M';
+			break;
+			case state.count < 400: fillkey = 'H';
+			break;
+			case state.count > 399: fillkey = 'VH';
+			break;
+			default:
+				break;
+			}
+				results[state] = { fillKey: fillkey, count: state.count};
+
+				resultsArray.push(state);
+				resultsArray.sort(compareCount);
+
+			});
+
+			//console.log("temp: " + JSON.stringify(temp) + " : " + completeQueries);
+			//if (completeQueries == stateQueries.length){
+				var response = {};
+				response.mapData = {};
+				response.orderedData = {};
+				response.mapDataTitle = {};
+				response.mapData['Drugs'] = results;
+				response.orderedData['Drugs'] = resultsArray;
+				response.mapDataTitle['Drugs'] = "Drug Recals Per State";
+				queryCache[queryId] = response;
+				console.log('results: ' + JSON.stringify(response));
+				res.send(response);
+		//	}
+			
+
+		});
+
 
     stateQueries.forEach(function(entry){
       openFDAService.getData(entry,function(error,data, query){
@@ -122,9 +203,8 @@ function transfromData(data){
 */
 function generateStateCountQueries(){
   var states = {
-		  "al": "alabama",
+		  	"al": "alabama",
 		    "ak": "alaska",
-		    "as": "american samoa",
 		    "az": "arizona",
 		    "ar": "arkansas",
 		    "ca": "california",
@@ -134,7 +214,6 @@ function generateStateCountQueries(){
 		    "dc": "district of columbia",
 		    "fl": "florida",
 		    "ga": "georgia",
-		    "gu": "guam",
 		    "hi": "hawaii",
 		    "id": "idaho",
 		    "il": "illinois",
@@ -163,7 +242,6 @@ function generateStateCountQueries(){
 		    "ok": "oklahoma",
 		    "or": "oregon",
 		    "pa": "pennsylvania",
-		    "pr": "puerto rico",
 		    "ri": "rhode island",
 		    "sc": "south carolina",
 		    "sd": "south dakota",
@@ -171,14 +249,13 @@ function generateStateCountQueries(){
 		    "tx": "texas",
 		    "ut": "utah",
 		    "vt": "vermont",
-		    "vi": "virgin islands",
 		    "va": "virginia",
 		    "wa": "washington",
 		    "wv": "west virginia",
 		    "wi": "wisconsin",
 		    "wy": "wyoming"/*,
 		    "u.s.":"nationwide"*/
-  }
+  };
   var stateQueries = [];
   for(var state in states){
     stateQueries.push(
