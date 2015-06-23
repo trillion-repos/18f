@@ -4,7 +4,8 @@ var queryService = require("./queryOfda.server.sevice");
 
 modules.exports.graphRpy = function (callback){
 	var response = {};
-	var datasets = [{name:'drug'},{name:'device'},{name:'food'}];
+	var response.graphData = {};
+	var datasets = [{name:'drug', displayName="Drugs"},{name:'device', displayName="Devices"},{name:'food', displayName="Food"}];
 	
 	
 	datasets.forEach(function(dataset){
@@ -13,7 +14,7 @@ modules.exports.graphRpy = function (callback){
 			    noun:dataset.name,
 			    endpoint:'enforcement',
 			    params:{
-			      //search:'distribution_pattern:"va"',
+			      search:'distribution_pattern:"va"',
 			      count:'distribution_pattern',
 			      limit:1000, //if set to 0, it will default to 100 results
 			      skip:0
@@ -39,9 +40,25 @@ modules.exports.graphRpy = function (callback){
 			
 			//console.log("RAW DATA: ", data);
 			
-			//response.mapData[dataset.name] = results;
 			
-			if (completeQueries == datasets.length){					
+			
+			if (completeQueries == datasets.length){
+				response.graphData = {
+					    series: getDisplayNames(),
+					    data: [{
+					      x: "2000",
+					      y: [100, 500, 0]
+					    }, {
+					      x: "2001",
+					      y: [300, 100, 100]
+					    }, {
+					      x: "2002",
+					      y: [351]
+					    }, {
+					      x: "2003",
+					      y: [54, 0, 879]
+					    }]
+					  };
 				console.log('results: ' + JSON.stringify(response));
 				callback(null, response);
 			}
@@ -51,4 +68,14 @@ modules.exports.graphRpy = function (callback){
 		
 		
 	});
+	
+	
+	function getDisplayNames(){
+		var displayNames = [];
+		datasets.forEach(function(dataset){
+			displayNames.push(dataset.displayName);
+		});
+		
+		return displayNames;
+	}
 };

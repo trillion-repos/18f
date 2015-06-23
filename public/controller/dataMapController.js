@@ -222,7 +222,7 @@ $scope.title2 = "Drug Recalls per Year for ..."
 					
 
 					console.log("Graph per Year Success:" + JSON.stringify(response));
-					
+					$scope.acData = response.graphData;
 					
 					},
 				function error(errorResponse) {
