@@ -5,36 +5,92 @@ var config = require("./../../config/config");
 var queryCache = {};
 var states = config.states;
 
-module.exports.queryOpenFDA = function(req,res) {
+/*module.exports.queryOpenFDA = function(req, res){
+	var queryId = req.params.qId;
+
+    if(queryCache[queryId]){//TODO add expiration to cache. Make it more sophisticated, maybe memcache
+    	res.send(queryCache[queryId]);
+    	return;
+    }
+    
+    if(typeof(openFDAService[queryId]) == 'function')
+    	openFDAService[queryId](function(error, response){
+    		if(error)
+    			res.status("500").send(error.message);
+    		else
+    			res.send(response);
+    	});
+}*/
+
+module.exports.queryOpenFDA = function(req,res){
     //var queryId = 1;//req.params.qId;
     //console.log("quId: " + queryId);
 
-    var queryId = req.params.qId;
+	var queryId = req.params.qId;
 
     if(queryCache[queryId]){//TODO add expiration to cache. Make it more sophisticated, maybe memcache
     	res.send(queryCache[queryId]);
     	return;
     }
 
-    var currentQuery = {};
-
-    // queries.forEach(function(query){
-    //   if(query.queryId === queryId){
-    //     currentQuery = query;
-    //   }
-    // })
 
     var stateQueries = generateStateCountQueries();
-    var results = {};
-    var completeQueries = 0;
-    var resultsArray = [];
-    var datasets = ["drug", "device", "food"];
+    var response = {};
+	response.mapData = {};
+	response.orderedData = {};
+	response.mapDataTitle = {}; 
+	response.mapDataFills = {};
+	response.mapDataLegends = {};
+    var completeQueries = 0;    
+    var datasets = [{name:"drug",title:"Drug Recals Per State", defaultFill:"#ECECEA", thresholds:[{val:200, color:"#D5E7E6", key:"L"}, {val:300, color:"#74AFAD", key:"M"}, {val:400, color:"#558C89", key:"H"}, {val:400, color:"#2a4644", key:"VH"}]}, 
+                    {name:"device",title:"Device Recals Per State", defaultFill:"#ECECEA",thresholds:[{val:1000, color:"#d5a9a3", key:"L"}, {val:1500, color:"#b5685f", key:"M"}, {val:2000, color:"#96281b", key:"H"}, {val:2000, color:"#691c12", key:"VH"}]}, 
+                    {name:"food",title:"Food Recals Per State", defaultFill:"#ECECEA",thresholds:[{val:500, color:"#dbefe4", key:"L"}, {val:1000, color:"#82c7a3", key:"M"}, {val:2000, color:"#4daf7c", key:"H"}, {val:2000, color:"#357a56", key:"VH"}]}                    
+                  ];
+    
+    function findKeyFill(dataset, count){
+    	var max = {};
+    	for(var i = 0; i < dataset.thresholds.length; i++){
+    		var th = dataset.thresholds[i];
+    		if(count < th.val)
+    			return th;
+    		else
+    			max = th;
+    	}
+    	
+    	return max;
+    }
+    
+    function getFills(dataset){
+    	var fills = {};
+    	dataset.thresholds.forEach(function(th){
+    		fills[th.key] = th.color;
+    	});
+    	fills['defaultFill'] = dataset.defaultFill;	
+    	return fills;
+    }
+    
+    function getLegends(dataset){
+    	var labels = {};
+    	var i =0;
+    	dataset.thresholds.forEach(function(th){
+    		
+    		if(++i == dataset.thresholds.length)
+    			labels[th.key] =  th.val + " >= ";
+    		else	
+    			labels[th.key] = " < " + th.val;
+    		
+    	});
+    	labels['defaultFill'] = 'unknown';
+    	return labels;
+    }
 
     datasets.forEach(function(dataset){
-
+    	var results = {};
+        var resultsArray = [];
+        
 		var allTermQuery = {
 		    queryId: 1,
-		    noun:dataset,
+		    noun:dataset.name,
 		    endpoint:'enforcement',
 		    params:{
 		      //search:'distribution_pattern:"va"',
@@ -43,26 +99,26 @@ module.exports.queryOpenFDA = function(req,res) {
 		      skip:0
 		    }
 		  }
-
+	
 			openFDAService.getData(allTermQuery,function(error,data, query){
 				completeQueries++;
-
+				
 				if(error){
 					console.error("ERROR: ", JSON.stringify(error), JSON.stringify(allTermQuery));
 					return;
 				}
-
+	
 				if(data){
 					data = JSON.parse(data);
 				}
-
+	
 				if(!data.results){
 					console.log("No Results for: " + JSON.stringify(allTermQuery));
 					return;
 				}
-
+				
 				//console.log("RAW DATA: ", data);
-
+	
 				var stateCounts = {};
 				data.results.forEach(function(entry){
 					for(var state in states){
@@ -74,50 +130,38 @@ module.exports.queryOpenFDA = function(req,res) {
 						}
 					}
 				});
-
-				for(var state in stateCounts) {
-					var fillkey = 'U';
-
-					switch (true) {
-						case stateCounts[state] < 200:
-							fillkey = 'L';
-							break;
-						case stateCounts[state] < 300:
-							fillkey = 'M';
-							break;
-						case stateCounts[state] < 400:
-							fillkey = 'H';
-							break;
-						case stateCounts[state] > 399:
-							fillkey = 'VH';
-							break;
-						default:
-							break;
-					}
-					results[state] = { fillKey: fillkey, count: stateCounts[state]};
+	
+	
+	
+				for(var state in stateCounts){
+					var th = findKeyFill(dataset, stateCounts[state] );
+					//console.log(state, " : " , stateCounts[state]);
+					results[state] = { fillKey: th.key, count: stateCounts[state], label: th.val};
 					resultsArray.push({state:state, count:stateCounts[state]});
 				}
-
-
+				
+				
 				resultsArray.sort(compareCount);
-
-				var response = {};
-				response.mapData = {};
-				response.orderedData = {};
-				response.mapDataTitle = {};
-				response.mapData[dataset] = results;
-				response.orderedData[dataset] = resultsArray;
-				response.mapDataTitle[dataset] = "Drug Recals Per State";
-
-				if (completeQueries == datasets.length) {
+	
+				
+				response.mapData[dataset.name] = results;
+				response.orderedData[dataset.name] = resultsArray;
+				response.mapDataTitle[dataset.name] = dataset.title;
+				response.mapDataFills[dataset.name] = getFills(dataset);
+				response.mapDataLegends[dataset.name] = getLegends(dataset);
+				
+				if (completeQueries == datasets.length){
 					queryCache[queryId] = response;
 					console.log('results: ' + JSON.stringify(response));
 					res.send(response);
 				}
-
+				
+	
 			});
     });//end dataset iteration
+
 };
+
 
 function generateStateCountQueries(){
 

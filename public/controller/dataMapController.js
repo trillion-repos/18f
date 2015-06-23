@@ -4,40 +4,50 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'FetchOpenFDASrvc', '$routeParams'
 	var mapDataAll = null;
 	var orderedDataAll = null
 	var titleAll = null;
+	var mapFillsAll = null;
+	var mapLegends = null;
 	var isTableTop = false;
-	var top = null;
-	var bottom = null;
+	var top = {};
+	var bottom = {};
+	var selectedDataset = 'drug';
 	
 	$scope.changeTopStates = function(){
 		isTableTop = !isTableTop;
 		
 		if(isTableTop){
 			
-			if(!top)
-				top = $scope.orderedData.slice(0,10);
+			if(!top[selectedDataset])
+				top[selectedDataset] = $scope.orderedData.slice(0,10);
 			
 			$scope.glyPos = "down";
 			$scope.tableTopTitle = "Top ";
-			$scope.orderedDataTable = top;
+			$scope.orderedDataTable = top[selectedDataset];
 		}
-		else{
-			
-			if(!bottom)
-				bottom = $scope.orderedData.reverse().slice(0,10);
+		else{			
+
+			if(!bottom[selectedDataset])
+				bottom[selectedDataset] = $scope.orderedData.reverse().slice(0,10);
 			
 			$scope.glyPos = "up";
 			$scope.tableTopTitle = "Bottom ";
-			$scope.orderedDataTable = bottom;
+			$scope.orderedDataTable = bottom[selectedDataset];
 		}
 	};
 	
 	$scope.selectedDatasetDrugs = true;
+	
 	$scope.changeMap = function(dataset){
 		isTableTop = false;
+		selectedDataset = dataset;
 		$scope.map.data = mapDataAll[dataset];
+		$scope.map.fills = mapFillsAll[dataset];
 		$scope.orderedData = orderedDataAll[dataset];
-		$scope.changeTopStates();
+		$scope.changeTopStates(dataset);
 		$scope.title = titleAll[dataset];
+		$scope.map.options.mapLegends = mapLegends[dataset];
+		$scope.mapPluginData = {customLegend:mapLegends[dataset]};
+		
+		//$scope.map.updateChoropleth();
 		
 		switch (dataset) {
 		case "drug":
@@ -75,8 +85,11 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'FetchOpenFDASrvc', '$routeParams'
 				mapDataAll = response.mapData;
 				orderedDataAll = response.orderedData;
 				titleAll = response.mapDataTitle;
+				mapFillsAll = response.mapDataFills;
+				mapLegends = response.mapDataLegends;
+				$scope.mapPluginData = {customLegend:mapLegends[selectedDataset]};
 				
-				$scope.changeMap("drug");
+				$scope.changeMap(selectedDataset);
 				
 				},
 			function error(errorResponse) {
@@ -88,21 +101,22 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'FetchOpenFDASrvc', '$routeParams'
 	$scope.map = {
 			  scope: 'usa',
 			  options: {
-				  staticGeoData: true,
+				  staticGeoData: false,
 				  labels: true,
 				  labelSize: 10,
 			    width: 900,
-			    legendHeight: 60 // optionally set the padding for the legend
+			    legendHeight: 60// optionally set the padding for the legend
+
 			  },
 			  geographyConfig: {
 			    highlighBorderColor: '#EAA9A8',
 			    highlighBorderWidth: 2
 			  },
-			  fills: {
+			  fills: {/*
 				"VH":'#2a4644',
 			    "H": '#558C89',
 			    "M": '#74AFAD',
-			    "L": '#D5E7E6',
+			    "L": '#D5E7E6',*/
 			    'defaultFill': '#ECECEA'
 			  },
 			  data: {},
@@ -123,23 +137,16 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'FetchOpenFDASrvc', '$routeParams'
 			
 	
 	$scope.mapPlugins = {
-			  bubbles: null,
 			  customLegend: function(layer, data, options) {
+				  if(!data)
+					  return;
+				  console.log("OPTIONS: ",JSON.stringify(data));
 			    var html = ['<ul class="list-inline" style="padding-left:40px">'],
 			        label = '';
 			    for (var fillKey in this.options.fills) {
-			    	switch (true) {
-			    	case fillKey === "VH": label = ">400"; break;
-					case fillKey === "H": label = ">300";  break;
-					case fillKey === "M": label = ">200";  break;
-					case fillKey === "L": label = ">0 &nbsp;&nbsp;&nbsp;"; 	break;
-					case fillKey === "defaultFill" : label = "unknown"; break;
-					default:
-						break;
-					}
 			      html.push('<li class="key" ',
 			                  'style="border-top: 10px solid ' + this.options.fills[fillKey] + '">',
-			                  label,
+			                  data[fillKey],
 			                  '</li>');
 			    }
 			    html.push('</ul>');
@@ -148,9 +155,6 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'FetchOpenFDASrvc', '$routeParams'
 			      .html(html.join(''));
 			  }
 			};
-			
-	$scope.mapPluginData = { bubbles: [{}]};
-	
 	
 	
 	//GRAPH
@@ -158,7 +162,7 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'FetchOpenFDASrvc', '$routeParams'
 $scope.title2 = "Drug Recalls per Year for ..."
 	
 	$scope.config2 = {
-			  title: 'Drug Recalls Per Year for ...'  , // chart title. If this is false, no title element will be created.
+			  title: false  , // chart title. If this is false, no title element will be created.
 			  tooltips: true,
 			  labels: false, // labels on data points
 			  // exposed events
