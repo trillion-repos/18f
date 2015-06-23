@@ -1,6 +1,6 @@
 'use strict'
 
-var queryService = require("./queryOfda.server.sevice");
+var queryService = require("./queryOfda.server.service");
 
 module.exports.graphRpy = function (callback){
 	var response = {};
