@@ -1,6 +1,6 @@
 'use strict';
 
-var openFDAService = require('./../services/mapOfda.server.service');
+var openFDAService = require('./../services/openFDA.server.service');
 var config = require("./../../config/config");
 var queryCache = {};
 
@@ -13,8 +13,11 @@ module.exports.queryOpenFDA = function(req, res){
     	return;
     }
     
-    if(typeof(openFDAService[queryId]) == 'function')
-    	openFDAService[queryId](function(error, response){
+    if(typeof(openFDAService[queryId]) == 'function'){
+    	
+    	var params = {};
+    	
+    	openFDAService[queryId](params, function(error, response){
     		if(error)
     			res.status("500").send(error.message);
     		else{
@@ -22,4 +25,7 @@ module.exports.queryOpenFDA = function(req, res){
     			res.send(response);
     		}
     	});
+    }
+    else
+    	res.status("500").send("QueryId : ", queryId, " not implemented.");
 }
