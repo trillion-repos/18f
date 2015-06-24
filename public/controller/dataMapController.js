@@ -159,6 +159,7 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 	
 	//GRAPH
 	
+	$scope.graphLabels = [2012, 2013, 2014, 2015];
 	$scope.config2 = {
 			  title: false  , // chart title. If this is false, no title element will be created.
 			  tooltips: true,
@@ -166,7 +167,7 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 			  // exposed events
 			  mouseover: function() {},
 			  mouseout: function() {},
-			  click: function() {},
+			  click: function(d, e){ console.log(JSON.stringify("Test", d));},
 			  // legend config
 			  legend: {
 			    display: true, // can be either 'left' or 'right'.
@@ -186,6 +187,10 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 			  yAxisLabel: '# of Recalls',
 			  waitForHeightAndWidth: true // if true, it will not throw an error when the height or width are not defined (e.g. while creating a modal form), and it will be keep watching for valid height and width values
 			};
+	
+/*	$scope.drillDownYear = function(d, e){
+		console.log(JSON.stringify(d));
+	};*/
 	
 	$scope.drillDownToYear = function(geography){
 		var stateName = geography.properties.name;
