@@ -12,6 +12,8 @@ module.exports.graphRpy = function (params, callback){
 	var completeQueries = 0;
 	var state = config.states[params.state];
 	var it = 0;
+	var monYearSwitch = params.year ? 6 : 4;
+
 
 	datasets.forEach(function(dataset){
 		var query = {
@@ -51,7 +53,7 @@ module.exports.graphRpy = function (params, callback){
 			
 			var yearTotals = {};
 			data.results.forEach(function(entry){
-				var currentYear = entry.time.substring(0,4);
+				var currentYear = entry.time.substring(0,monYearSwitch);
 			
 				if(yearTotals[currentYear])
 					yearTotals[currentYear] += entry.count;
