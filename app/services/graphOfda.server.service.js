@@ -13,7 +13,8 @@ module.exports.graphRpy = function (params, callback){
 	var state = config.states[params.state];
 	var it = 0;
 	var monYearSwitch = params.year ? 6 : 4;
-
+	var startYear = params.year ? params.year : (new Date().getFullYear() - 10);
+	var endYear = params.year ? new Number(params.year) + 1 : new Number(new Date().getFullYear()) + 1
 
 	datasets.forEach(function(dataset){
 		var query = {
@@ -21,7 +22,7 @@ module.exports.graphRpy = function (params, callback){
 			    noun:dataset.name,
 			    endpoint:'enforcement',
 			    params:{
-			      search:'(distribution_pattern:"'+params.state+'"+distribution_pattern:"'+state+'")+AND+(report_date:[2005-01-01+TO+2100-01-01])',
+			      search:'(distribution_pattern:"'+params.state+'"+distribution_pattern:"'+state+'")+AND+(report_date:['+startYear+'-01-01+TO+'+endYear+'-01-01])',
 			      count:'report_date',
 			      limit:1000, //if set to 0, it will default to 100 results
 			      skip:0
@@ -78,9 +79,12 @@ module.exports.graphRpy = function (params, callback){
 			if (completeQueries == datasets.length){
 				console.log(graphEntries);
 				var graphData = [];
-			
+				var month = null;
 				for(var entry in graphEntries){
-					graphData.push({x:entry, y: graphEntries[entry]});
+					if(params.year){
+						month = entry.substring(4);
+					}
+					graphData.push({x:month || entry, y: graphEntries[entry]});
 				}
 				
 				console.log(JSON.stringify(graphData));
