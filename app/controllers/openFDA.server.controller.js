@@ -8,7 +8,8 @@ var queryCache = {};
 module.exports.queryOpenFDA = function(req, res){
 	var queryId = req.params.qId;
 	console.log("query = ", queryId, " ", JSON.stringify(req.query));
-	var key = crypto.createHash('md5').update(queryId+req.query).digest('hex');
+	var key = crypto.createHash('md5').update(queryId+JSON.stringify(req.query)).digest('hex');
+	
     if(queryCache[key]){//TODO add expiration to cache. Make it more sophisticated, maybe memcache
     	console.log("Query already Cached...");
     	res.send(queryCache[key]);
