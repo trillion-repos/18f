@@ -158,8 +158,7 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 	
 	
 	//GRAPH
-	
-	$scope.graphLabels = [2012, 2013, 2014, 2015];
+	var showingMonth = false;
 	$scope.config2 = {
 			  title: false  , // chart title. If this is false, no title element will be created.
 			  tooltips: true,
@@ -167,7 +166,7 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 			  // exposed events
 			  mouseover: function(d) {$scope.currentYear = d.x;},
 			  mouseout: function(d) {$scope.currentYear = null;},
-			  click: function(d){ getGraphData() },
+			  click: function(d){ if(!showingMonth)getGraphData(); else getTableData()},
 			  // legend config
 			  legend: {
 			    display: true, // can be either 'left' or 'right'.
@@ -182,7 +181,7 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 			  lineCurveType: 'cardinal', // change this as per d3 guidelines to avoid smoothline
 			  isAnimate: true, // run animations while rendering chart
 			  yAxisTickFormat: 's', //refer tickFormats in d3 to edit this value
-			  xAxisMaxTicks: 7, // Optional: maximum number of X axis ticks to show if data points exceed this number
+			  xAxisMaxTicks: 12, // Optional: maximum number of X axis ticks to show if data points exceed this number
 			  yAxisTickFormat: 's', // refer tickFormats in d3 to edit this value,
 			  yAxisLabel: '# of Recalls',
 			  waitForHeightAndWidth: true // if true, it will not throw an error when the height or width are not defined (e.g. while creating a modal form), and it will be keep watching for valid height and width values
@@ -202,6 +201,10 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 		getGraphData();
 	};
 	
+	function getTableData (){
+		console.log("Getting table data");
+		
+	}
 function getGraphData (){
 		var graphParams = {};
 		graphParams.appId = $routeParams.appId;
@@ -224,12 +227,16 @@ function getGraphData (){
 
 					console.log("Graph per Year Success:" + JSON.stringify(response));
 					$rootScope.acData = response.graph;
-					$rootScope.graphTitle = "Recalls per Year for " + $rootScope.stateName;
+					
+					if($scope.currentYear)
+						$rootScope.graphTitle = "Recalls for " + $scope.currentYear + " per Month for " + $rootScope.stateName ;
+					else
+						$rootScope.graphTitle = "Recalls per Year for " + $rootScope.stateName;
 					
 					 $location.hash('graphAnchor');
 
-				      // call $anchorScroll()
 				      $anchorScroll();
+				      showingMonth = true;
 					
 					
 					},

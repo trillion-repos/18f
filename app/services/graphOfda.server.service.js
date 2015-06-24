@@ -83,6 +83,7 @@ module.exports.graphRpy = function (params, callback){
 				for(var entry in graphEntries){
 					if(params.year){
 						month = entry.substring(4);
+						month = monthArray[new Number(month) - 1];
 					}
 					graphData.push({x:month || entry, y: graphEntries[entry]});
 				}
@@ -126,4 +127,18 @@ module.exports.graphRpy = function (params, callback){
 
 		return displayNames;
 	}
+	
+	var monthArray = new Array();
+	monthArray[0] = "Jan";
+	monthArray[1] = "Feb";
+	monthArray[2] = "Mar";
+	monthArray[3] = "Apr";
+	monthArray[4] = "May";
+	monthArray[5] = "Jun";
+	monthArray[6] = "Jul";
+	monthArray[7] = "Aug";
+	monthArray[8] = "Sep";
+	monthArray[9] = "Oct";
+	monthArray[10] = "Nov";
+	monthArray[11] = "Dec";
 };
