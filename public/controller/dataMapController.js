@@ -165,9 +165,9 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 			  tooltips: true,
 			  labels: false, // labels on data points
 			  // exposed events
-			  mouseover: function() {},
-			  mouseout: function() {},
-			  click: function(d, e){ console.log(JSON.stringify("Test", d));},
+			  mouseover: function(d) {$scope.currentYear = d.x;},
+			  mouseout: function(d) {$scope.currentYear = null;},
+			  click: function(d){ getGraphData() },
 			  // legend config
 			  legend: {
 			    display: true, // can be either 'left' or 'right'.
@@ -187,25 +187,33 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 			  yAxisLabel: '# of Recalls',
 			  waitForHeightAndWidth: true // if true, it will not throw an error when the height or width are not defined (e.g. while creating a modal form), and it will be keep watching for valid height and width values
 			};
-	
-/*	$scope.drillDownYear = function(d, e){
-		console.log(JSON.stringify(d));
-	};*/
+
 	
 	$scope.drillDownToYear = function(geography){
-		var stateName = geography.properties.name;
-		var stateCode = geography.id;
-		console.log(stateName + " : " +  stateCode);
+		$rootScope.stateName = geography.properties.name;
+		$rootScope.stateCode = geography.id;
+		console.log($rootScope.stateName + " : " +  $rootScope.stateCode);
 		
 		if($rootScope.acData)
 			$rootScope.acData = {};
 		
 		$rootScope.graphTitle = "";
 		
+		getGraphData();
+	};
+	
+function getGraphData (){
+		var graphParams = {};
+		graphParams.appId = $routeParams.appId;
+		graphParams.modId = $routeParams.modId;
+		graphParams.fnId = $routeParams.fnId;
+		graphParams.qId = "graphRpy";
+		graphParams.state = $rootScope.stateCode.toLowerCase();
 		
+		if($scope.currentYear)
+			graphParams.year = $scope.currentYear;
 		
-		FetchOpenFDASrvc.get({appId:$routeParams.appId, modId: $routeParams.modId, fnId:$routeParams.fnId, qId:"graphRpy", state:stateCode.toLowerCase()},
-				function success(response) {
+		FetchOpenFDASrvc.get(graphParams, function success(response) {
 					
 					
 					if(!response){
@@ -216,7 +224,7 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 
 					console.log("Graph per Year Success:" + JSON.stringify(response));
 					$rootScope.acData = response.graph;
-					$rootScope.graphTitle = "Recalls per Year for " + stateName;
+					$rootScope.graphTitle = "Recalls per Year for " + $rootScope.stateName;
 					
 					 $location.hash('graphAnchor');
 
@@ -229,6 +237,6 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 					console.log("Error:" + JSON.stringify(errorResponse));				
 					$scope.error.push(errorResponse.data);
 					});
-	};
+	}
 
 		} ]);
