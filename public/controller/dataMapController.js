@@ -1,5 +1,5 @@
-openFDA.controller('DataMapCtrl', [ '$scope', 'FetchOpenFDASrvc', '$routeParams',
-		function($scope , FetchOpenFDASrvc, $routeParams) {
+openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', '$routeParams', '$location', '$anchorScroll',
+		function($rootScope, $scope , FetchOpenFDASrvc, $routeParams, $location, $anchorScroll) {
 
 	var mapDataAll = null;
 	var orderedDataAll = null
@@ -159,8 +159,6 @@ openFDA.controller('DataMapCtrl', [ '$scope', 'FetchOpenFDASrvc', '$routeParams'
 	
 	//GRAPH
 	
-$scope.title2 = "Drug Recalls per Year for ..."
-	
 	$scope.config2 = {
 			  title: false  , // chart title. If this is false, no title element will be created.
 			  tooltips: true,
@@ -189,29 +187,19 @@ $scope.title2 = "Drug Recalls per Year for ..."
 			  waitForHeightAndWidth: true // if true, it will not throw an error when the height or width are not defined (e.g. while creating a modal form), and it will be keep watching for valid height and width values
 			};
 	
-	$scope.acData = {
-		    series: ['Drugs', 'Devices', 'Food'],
-		    data: [{
-		      x: "2000",
-		      y: [100, 500, 0]
-		    }, {
-		      x: "2001",
-		      y: [300, 100, 100]
-		    }, {
-		      x: "2002",
-		      y: [351]
-		    }, {
-		      x: "2003",
-		      y: [54, 0, 879]
-		    }]
-		  };
-	
 	$scope.drillDownToYear = function(geography){
 		var stateName = geography.properties.name;
 		var stateCode = geography.id;
 		console.log(stateName + " : " +  stateCode);
 		
-		FetchOpenFDASrvc.get({appId:$routeParams.appId, modId: $routeParams.modId, fnId:$routeParams.fnId, qId:"graphRpy"},
+		if($rootScope.acData)
+			$rootScope.acData = {};
+		
+		$rootScope.graphTitle = "";
+		
+		
+		
+		FetchOpenFDASrvc.get({appId:$routeParams.appId, modId: $routeParams.modId, fnId:$routeParams.fnId, qId:"graphRpy", state:stateCode.toLowerCase()},
 				function success(response) {
 					
 					
@@ -222,7 +210,14 @@ $scope.title2 = "Drug Recalls per Year for ..."
 					
 
 					console.log("Graph per Year Success:" + JSON.stringify(response));
-					$scope.acData = response.graphData;
+					$rootScope.acData = response.graph;
+					$rootScope.graphTitle = "Recalls per Year for " + stateName;
+					
+					 $location.hash('graphAnchor');
+
+				      // call $anchorScroll()
+				      $anchorScroll();
+					
 					
 					},
 				function error(errorResponse) {

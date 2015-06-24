@@ -1,5 +1,5 @@
 'use strict';
-
+var crypto = require('crypto');
 var openFDAService = require('./../services/openFDA.server.service');
 var config = require("./../../config/config");
 var queryCache = {};
@@ -7,25 +7,27 @@ var queryCache = {};
 
 module.exports.queryOpenFDA = function(req, res){
 	var queryId = req.params.qId;
-
-    if(queryCache[queryId]){//TODO add expiration to cache. Make it more sophisticated, maybe memcache
-    	res.send(queryCache[queryId]);
+	console.log("query = ", queryId, " ", JSON.stringify(req.query));
+	var key = crypto.createHash('md5').update(queryId+req.query).digest('hex');
+    if(queryCache[key]){//TODO add expiration to cache. Make it more sophisticated, maybe memcache
+    	console.log("Query already Cached...");
+    	res.send(queryCache[key]);
     	return;
     }
     
-    if(typeof(openFDAService[queryId]) == 'function'){
+    if(typeof(openFDAService[queryId]) == 'function'){    	
     	
-    	var params = {};
-    	
-    	openFDAService[queryId](params, function(error, response){
+    	openFDAService[queryId](req.query, function(error, response){
     		if(error)
     			res.status("500").send(error.message);
     		else{
-    			queryCache[queryId] = response;
+    			queryCache[key] = response;
     			res.send(response);
     		}
     	});
     }
-    else
+    else{
+    	console.log(JSON.stringify(queryId, " is not a function"));
     	res.status("500").send("QueryId : ", queryId, " not implemented.");
+    }
 }

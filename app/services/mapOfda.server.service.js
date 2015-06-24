@@ -6,7 +6,7 @@ var states = config.states;
 
 
 
-module.exports.mapRps = function(callback){
+module.exports.mapRps = function(params, callback){
 	var response = {};
 	response.mapData = {};
 	response.orderedData = {};
@@ -16,9 +16,9 @@ module.exports.mapRps = function(callback){
     var completeQueries = 0;
 
 
-    var datasets = [{name:"drug",title:"Drug Recals Per State", defaultFill:"#ECECEA", thresholds:[{val:200, color:"#D5E7E6", key:"L"}, {val:300, color:"#74AFAD", key:"M"}, {val:400, color:"#558C89", key:"H"}, {val:400, color:"#2a4644", key:"VH"}]},
-                    {name:"device",title:"Device Recals Per State", defaultFill:"#ECECEA",thresholds:[{val:1000, color:"#d5a9a3", key:"L"}, {val:1500, color:"#b5685f", key:"M"}, {val:2000, color:"#96281b", key:"H"}, {val:2000, color:"#691c12", key:"VH"}]},
-                    {name:"food",title:"Food Recals Per State", defaultFill:"#ECECEA",thresholds:[{val:500, color:"#dbefe4", key:"L"}, {val:1000, color:"#82c7a3", key:"M"}, {val:2000, color:"#4daf7c", key:"H"}, {val:2000, color:"#357a56", key:"VH"}]}
+    var datasets = [{name:"drug",title:"Drug Recalls Per State", defaultFill:"#ECECEA", thresholds:[{val:200, color:"#D5E7E6", key:"L"}, {val:300, color:"#74AFAD", key:"M"}, {val:400, color:"#558C89", key:"H"}, {val:400, color:"#2a4644", key:"VH"}]},
+                    {name:"device",title:"Device Recalls Per State", defaultFill:"#ECECEA",thresholds:[{val:1000, color:"#d5a9a3", key:"L"}, {val:1500, color:"#b5685f", key:"M"}, {val:2000, color:"#96281b", key:"H"}, {val:2000, color:"#691c12", key:"VH"}]},
+                    {name:"food",title:"Food Recalls Per State", defaultFill:"#ECECEA",thresholds:[{val:500, color:"#dbefe4", key:"L"}, {val:1000, color:"#82c7a3", key:"M"}, {val:2000, color:"#4daf7c", key:"H"}, {val:2000, color:"#357a56", key:"VH"}]}
                   ];
 
 
@@ -42,17 +42,18 @@ module.exports.mapRps = function(callback){
 				completeQueries++;
 
 				if(error){
-//					console.error("ERROR: ", JSON.stringify(error), JSON.stringify(allTermQuery));
-					return;
+					console.error("ERROR: ", JSON.stringify(error), JSON.stringify(allTermQuery));
 				}
 
 				if(data){
 					data = JSON.parse(data);
+				}else{
+					data = {};
 				}
 
 				if(!data.results){
-//					console.log("No Results for: " + JSON.stringify(allTermQuery));
-					return;
+					console.log("No Results for: " + JSON.stringify(allTermQuery));
+					data.results = [];
 				}
 
 				//console.log("RAW DATA: ", data);

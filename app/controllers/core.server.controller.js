@@ -11,14 +11,14 @@ exports.nav = function(req, res) {
 		appName:"openFDA",
 		id: "openfda",
 		modules:[{		  
-				moduleName : "Drugs",
+				moduleName : "Datasets",
 				id:"drugs",
 				subModules : [ {
 
-					displayName : "Recalls Per State",
+					displayName : "Recalls",
 					id:"rps"
 					} ]
-			},
+			}/*,
 			
 			{		  
 				moduleName : "Devices",
@@ -37,7 +37,7 @@ exports.nav = function(req, res) {
 					displayName : "Recalls Per State",
 					id:"rps"
 					} ]
-			}
+			}*/
 			
 			]
 		}

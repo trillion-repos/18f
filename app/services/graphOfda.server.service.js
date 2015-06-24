@@ -1,15 +1,17 @@
 'use strict'
 
 var queryService = require("./queryOfda.server.service");
+var config = require('./../../config/config');
 
 module.exports.graphRpy = function (params, callback){
 	var response = {};
-	response.graphData = {};
-	response.temp = {};
+	var graphEntries = {};
 	var datasets = [{name:'drug', displayName:"Drugs"},{name:'device', displayName:"Devices"},{name:'food', displayName:"Food"}];
 
-	console.log('in graph');
+	var graphEntries = {};
 	var completeQueries = 0;
+	var state = config.states[params.state];
+	var it = 0;
 
 	datasets.forEach(function(dataset){
 		var query = {
@@ -17,7 +19,7 @@ module.exports.graphRpy = function (params, callback){
 			    noun:dataset.name,
 			    endpoint:'enforcement',
 			    params:{
-			      search:'(distribution_pattern:VA+Virginia)+AND+(report_date:[1900-01-01+TO+2018-01-01])',
+			      search:'(distribution_pattern:"'+params.state+'"+distribution_pattern:"'+state+'")+AND+(report_date:[2005-01-01+TO+2100-01-01])',
 			      count:'report_date',
 			      limit:1000, //if set to 0, it will default to 100 results
 			      skip:0
@@ -31,63 +33,56 @@ module.exports.graphRpy = function (params, callback){
 
 			if(error){
 				console.error("ERROR: ", JSON.stringify(error), JSON.stringify(query));
-				return;
 			}
 
 			if(data){
 				data = JSON.parse(data);
+			}else{
+				data = {};
 			}
 
 			if(!data.results){
 				console.log("No Results for: " + JSON.stringify(query));
-				return;
+				data.results = [];
 			}
 			console.log("SIZE:" + data.results.length);
-			console.log("RAW DATA: ", data);
+			//console.log("RAW DATA: ", data);
 
-			/*
-			[
-				{
-					year: 2012
-					count: 56
-				}
-			]
-
-			*/
-
-			var yearTotals = [];
+			
+			var yearTotals = {};
 			data.results.forEach(function(entry){
 				var currentYear = entry.time.substring(0,4);
-			//	console.log("CurrentYear: " + currentYear);
-				//console.log(yearTotals.length);
-				if(yearTotals.length > 0){
-					for(var i = 1; i < yearTotals.length; i++){
-						//console.log("In year total loop " + yearTotals.length);
-						//console.log(yearTotals);
-						if(yearTotals[i].year == currentYear){
-							//console.log("Encremrnting year - " + yearTotals[i].year );
-							yearTotals[i].count += entry.count;
-						} else {
-							yearTotals.push({year: currentYear, count: entry.count});
-						}
-					}
-				} else {
-				//	console.log("Making new year");
-					yearTotals.push({'year': currentYear, 'count': entry.count});
-				}
-
-				//console.log("YEAR: " + year);
+			
+				if(yearTotals[currentYear])
+					yearTotals[currentYear] += entry.count;
+				else
+					yearTotals[currentYear] = entry.count;
+				
 			});
+			
+			for(var year in yearTotals){
+				
+				if(!graphEntries[year] )
+					graphEntries[year] = [];
+				
+				while(graphEntries[year].length < it)
+					graphEntries[year].push(0);
+				
+				graphEntries[year].push(yearTotals[year]);
+			}
 
-			console.log(yearTotals);
-			response.temp[dataset] = yearTotals;
+			it++;
+			//response.temp[dataset] = yearTotals;
 			if (completeQueries == datasets.length){
-
-			//	response.temp.forEach(funciton(entry){
-			//		var data = [];
-			///		var x = entry.;
-			//		var y = [];
-				//});
+				console.log(graphEntries);
+				var graphData = [];
+			
+				for(var entry in graphEntries){
+					graphData.push({x:entry, y: graphEntries[entry]});
+				}
+				
+				console.log(JSON.stringify(graphData));
+				response.graph = {series: getDisplayNames(), data: graphData};
 
 
 				/*response.graphData = {
@@ -106,7 +101,7 @@ module.exports.graphRpy = function (params, callback){
 					      y: [54, 0, 879]
 					    }]
 					  };*/
-				console.log('results: ' + JSON.stringify(response));
+				console.log('GRAPH RESPONSE: ' + JSON.stringify(response));
 				callback(null, response);
 			}
 
