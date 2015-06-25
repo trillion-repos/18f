@@ -1,8 +1,8 @@
 openFDA.controller('GraphCtrl', [
 		'$scope',
 		'SharedDataSrvc',
-		'$routeParams',
-		function($scope, SharedDataSrvc, $routeParams ) {
+		'$routeParams', '$location', '$anchorScroll' ,
+		function($scope, SharedDataSrvc, $routeParams, $location, $anchorScroll ) {
 			
     $scope.showingMonth = false;
 	$scope.graphConfig = {
@@ -17,7 +17,7 @@ openFDA.controller('GraphCtrl', [
 				  						SharedDataSrvc.fetchData("graphRpy", $scope.state, $routeParams, $scope.currentYear);
 
 			  						else 
-			  							SharedDataSrvc.fetchData("graphRpy", $scope.state, $routeParams, $scope.currentYear, $scope.currentMonth);
+			  							SharedDataSrvc.fetchData("tableRpm", $scope.state, $routeParams, $scope.currentYear, $scope.currentMonth);
 				  					
 		  							$scope.showingMonth = true;
 		  							},
@@ -63,6 +63,9 @@ openFDA.controller('GraphCtrl', [
 					   $scope.graphData = value.data;
 					   $scope.graphTitle = value.title;
 					   $scope.state = value.state;
+					   
+				 	 $location.hash('graphAnchor');
+				     $anchorScroll();
 					   
 				   }
 			   }

@@ -9,7 +9,6 @@ module.exports.graphRpy = function (params, callback){
 	var datasets = [{name:'drug', displayName:"Drugs"},{name:'device', displayName:"Devices"},{name:'food', displayName:"Food"}];
 	var completeQueries = 0;
 	var state = config.states[params.state];
-	var it = 0;
 	var monYearSwitch = params.year ? 6 : 4;
 	var startYear = params.year ? params.year : (new Date().getFullYear() - 10);
 	var endYear = params.year ? new Number(params.year) + 1 : new Number(new Date().getFullYear()) + 1;
@@ -71,8 +70,6 @@ module.exports.graphRpy = function (params, callback){
 				graphEntries[year][query.noun]= yearTotals[year];
 			}
 
-			it++;
-			//response.temp[dataset] = yearTotals;
 			if (completeQueries == datasets.length){
 				console.log(JSON.stringify(graphEntries));
 				var graphData = [];
@@ -98,6 +95,13 @@ module.exports.graphRpy = function (params, callback){
 				
 				console.log(JSON.stringify(graphData));
 				response.graph = {series: getDisplayNames(), data: graphData};
+				
+				if(params.year){
+					response.graphTitle = "Recalls for " + params.year + " per Month for " + state.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+				}
+				else{
+					response.graphTitle = "Recalls per Year for " + state.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+				}
 
 				console.log('GRAPH RESPONSE: ' + JSON.stringify(response));
 				callback(null, response);

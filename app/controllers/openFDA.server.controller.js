@@ -29,6 +29,6 @@ module.exports.queryOpenFDA = function(req, res){
     }
     else{
     	console.log(JSON.stringify(queryId, " is not a function"));
-    	res.status("500").send("QueryId : ", queryId, " not implemented.");
+    	res.status("500").send("QueryId : " + queryId + " not Suported.");
     }
 }

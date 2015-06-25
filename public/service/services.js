@@ -7,6 +7,7 @@ function(FetchOpenFDASrvc, $location, $anchorScroll) {
 	 var graphData;
 	 var showingMonth = false;
 	 var foundData = false;
+	 var tableData;
 
 	 
      function getGraphData() {
@@ -23,6 +24,10 @@ function(FetchOpenFDASrvc, $location, $anchorScroll) {
      
      function getFoundData(){
     	 return foundData;
+     }
+     
+     function getTableData(){
+    	 return tableData;
      }
      
      function fetchData (qId, state, routeParams, year, month){
@@ -50,25 +55,22 @@ function(FetchOpenFDASrvc, $location, $anchorScroll) {
  					}
  					
 
- 					console.log("Graph per Year Success:" + JSON.stringify(response));
+ 					console.log("Response Success:" + JSON.stringify(response));
  					
- 					graphData = {};
- 					graphData.state = state;
+ 					if(response.graph){
+	 					graphData = {};
+	 					graphData.state = state; 					
+	 					graphData.data = response.graph;
+	 					graphData.title = response.graphTitle; 		
+	 					}
  					
- 					if(year){
- 						graphData.title = "Recalls for " + year + " per Month for " + state.stateName;						
- 					}
- 					else{
- 						graphData.title = "Recalls per Year for " + state.stateName;
- 						
- 					}
- 					
- 					graphData.data = response.graph;
- 					
- 					 $location.hash('graphAnchor');
+ 					if(response.table){
+ 						tableData = {};
+ 						tableData.title = response.tableTitle;
+ 						tableData.columns = response.columns;
+ 						tableData.data = response.table;
 
- 				      $anchorScroll();		      
- 					
+ 					}
  					
  					},
  				function error(errorResponse) {
@@ -83,7 +85,8 @@ function(FetchOpenFDASrvc, $location, $anchorScroll) {
     	getGraphData : getGraphData,
     	getShowingMonth: getShowingMonth,
     	toggleShowingMonth: toggleShowingMonth,
-    	getFoundData : getFoundData
+    	getFoundData : getFoundData,
+    	getTableData : getTableData
     }
 
 }]);

@@ -8,12 +8,13 @@ openFDA.controller('TableCtrl', [
 		'$filter',
 		'$routeParams',
 		'ngTableParams',
-		'$location',
-		function($scope, $filter, $routeParams, ngTableParams, $location) {
+		'$location','$anchorScroll', 'SharedDataSrvc',
+		function($scope, $filter, $routeParams, ngTableParams, $location, $anchorScroll, SharedDataSrvc) {
 			
 			$scope.organizedData = [];
 			$scope.filteredData = [];
 			$scope.columns = [];
+			$scope.pageSize = 5;
 			$scope.tableParams = new ngTableParams({
 				page : 1, // show first page
 				count : 5, // count per page
@@ -31,7 +32,26 @@ openFDA.controller('TableCtrl', [
 			});
 			
 			
-			console.log(JSON.stringify($routeParams));
+	
+			$scope.$watch(function () { return SharedDataSrvc.getTableData(); },
+			   function (value) {
+				   if(value && value.data){
+					   console.log("TableData: ", JSON.stringify(value));
+					   
+					   $scope.organizedData = value.data;
+					   $scope.filteredData = $scope.organizedData;
+					   $scope.title = value.title;
+					   $scope.columns = value.columns;
+					   $scope.tableParams.reload();
+					   
+					 	$location.hash('tableAnchor');
+					    $anchorScroll();
+					   
+				   }
+			   }
+			);
+			
+/*			console.log(JSON.stringify($routeParams));
 			
 			var getTableData = function(){
 				
@@ -88,9 +108,9 @@ openFDA.controller('TableCtrl', [
 					$scope.error.push(errorResponse.data);
 					});
 
-				$scope.pageSize = 5;
+				
 
-			};
+			};*/
 			
 			
 			
