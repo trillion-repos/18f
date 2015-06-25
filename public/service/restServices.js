@@ -1,9 +1,9 @@
 'use strict';
 
 /* Services */
-//var caffsRestServices = angular.module('caffsRestServices', ['ngResource']);
+var openFdaRestServices = angular.module('OpenFda.restServices', ['ngResource']);
 
-openFDA.factory('NavSrvc', ['$resource',
+openFdaRestServices.factory('NavSrvc', ['$resource',
 function($resource) {
 return $resource("./nav",{}, {
 		get: {method: 'GET', cache: false, isArray: false}

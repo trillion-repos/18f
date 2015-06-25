@@ -1,9 +1,7 @@
-<div data-ng-controller='DataMapCtrl' class="reveal-animation"  > <!-- data-ng-show="acData" -->
+<div data-ng-controller='GraphCtrl' class="reveal-animation"  data-ng-show="foundData">
 <hr/>
 <a id='graphAnchor'></a>
 <h2 class="dataMapTitle">{{graphTitle}}</h2>
-	<div ac-chart="'bar'" ac-data="acData" ac-config="config2" id='chart' class='chart chart-bar' style="height:400px; width:100%">
+	<div ac-chart="'bar'" ac-data="graphData" ac-config="graphConfig" id='chart' class='chart chart-bar' style="height:400px; width:100%">
 	</div>
-	
-	{{ass}}
 </div>
