@@ -1,8 +1,7 @@
 'use strict'
 
-var queryService = require("./queryOfda.server.service"),
-logger = require('./../utils/logger.js')(module),
-config = require('./../../config/config');
+var queryService = require("./queryOfda.server.service");
+var config = require('./../../config/config');
 
 module.exports.graphRpy = function (params, callback){
 	var response = {};
@@ -28,11 +27,13 @@ module.exports.graphRpy = function (params, callback){
 			    }
 			  };
 
-		queryService.getData(query,function(error,data, query) {
+//				console.log(query);
+
+		queryService.getData(query,function(error,data, query){
 			completeQueries++;
 
 			if(error){
-				logger.error(JSON.stringify(error), JSON.stringify(query));
+				console.error("ERROR: ", JSON.stringify(error), JSON.stringify(query));
 			}
 
 			if(data){
@@ -42,38 +43,38 @@ module.exports.graphRpy = function (params, callback){
 			}
 
 			if(!data.results){
-				logger.info("No Results for: " + JSON.stringify(query));
+				console.log("No Results for: " + JSON.stringify(query));
 				data.results = [];
 			}
-			logger.info("SIZE:" + data.results.length);
-			//logger.trace("RAW DATA: ", data);
+			console.log("SIZE:" + data.results.length);
+			//console.log("RAW DATA: ", data);
 
-
+			
 			var yearTotals = {};
 			data.results.forEach(function(entry){
 				var currentYear = entry.time.substring(0,monYearSwitch);
-
+			
 				if(yearTotals[currentYear])
 					yearTotals[currentYear] += entry.count;
 				else
 					yearTotals[currentYear] = entry.count;
-
+				
 			});
-
-			logger.debug("YEAR TOTALS: ", dataset.name, " : " ,JSON.stringify(yearTotals));
-
+			
+			console.log("YEAR TOTALS: ", dataset.name, " : " ,JSON.stringify(yearTotals));
+			
 			for(var year in yearTotals){
-
+				
 				if(!graphEntries[year] )
 					graphEntries[year] = {};
-
+				
 				graphEntries[year][query.noun]= yearTotals[year];
 			}
 
 			it++;
 			//response.temp[dataset] = yearTotals;
 			if (completeQueries == datasets.length){
-				logger.debug(JSON.stringify(graphEntries));
+				console.log(JSON.stringify(graphEntries));
 				var graphData = [];
 				var month = null;
 				for(var year in graphEntries){
@@ -82,7 +83,7 @@ module.exports.graphRpy = function (params, callback){
 						month = monthArray[new Number(month) - 1];
 					}
 					var y = [];
-
+					
 					datasets.forEach(function(dataset){
 						if(graphEntries[year][dataset.name]){
 							y.push(graphEntries[year][dataset.name]);
@@ -94,11 +95,11 @@ module.exports.graphRpy = function (params, callback){
 
 					graphData.push({x:month || year, y: y});
 				}
-
-				logger.debug(JSON.stringify(graphData));
+				
+				console.log(JSON.stringify(graphData));
 				response.graph = {series: getDisplayNames(), data: graphData};
 
-				logger.debug('GRAPH RESPONSE: ' + JSON.stringify(response));
+				console.log('GRAPH RESPONSE: ' + JSON.stringify(response));
 				callback(null, response);
 			}
 
@@ -117,7 +118,7 @@ module.exports.graphRpy = function (params, callback){
 
 		return displayNames;
 	}
-
+	
 	var monthArray = new Array();
 	monthArray[0] = "Jan";
 	monthArray[1] = "Feb";
