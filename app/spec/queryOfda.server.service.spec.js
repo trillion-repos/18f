@@ -13,7 +13,21 @@ describe("Test Suite for queryOfda.server.service", function() {
           skip:0
         }
       };
+
+    var query2 = {
+          queryId: 1,
+          noun:'drug',
+          endpoint:'enforcement',
+          params:{
+            search:'distribution_pattern:NA',//no state with this name
+            count:'distribution_pattern',
+            limit:1000, //if set to 0, it will default to 100 results
+            skip:0
+          }
+        };
+
   it("Spec for getData function", function(done) {
+    //positive test
     queryService.getData(query1,function(error,data, query){
         if(error){
           console.error("ERROR: ", JSON.stringify(error), JSON.stringify(query));
@@ -30,10 +44,20 @@ describe("Test Suite for queryOfda.server.service", function() {
           data.results = [];
         }
 
-        var testTerm = data.results[0].term;
-
-        expect(testTerm).toBe("va");
-        done();
+        expect(data.results[0].term).toBe("va");
+        //done();
       });
-  },250); // timeout after 250 ms
+
+      //negative test
+      queryService.getData(query2,function(error,data, query){
+          if(error.body){
+            error = JSON.parse(error.body);
+          }else{
+            error = {};
+          }
+
+          expect(error.error.code).toBe("NOT_FOUND");
+          done();
+        });
+  },500); // timeout after 500 ms
 });
