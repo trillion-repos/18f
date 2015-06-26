@@ -5,21 +5,26 @@
 openFDA.factory('SharedDataSrvc', ['FetchOpenFDASrvc','$location','$anchorScroll',
 function(FetchOpenFDASrvc, $location, $anchorScroll) {
 	 var graphData;
-	 var showingMonth = false;
+	 var view;
 	 var foundData = false;
 	 var tableData;
+	 var currentYear;
+	 var mapData;
+	 var fillKey;
+	 var currentState;
 
 	 
      function getGraphData() {
         return graphData;
     }
      
-     function getShowingMonth(){
-    	 return showingMonth;
+     function getView(){
+    	 return view;
      }
      
-     function toggleShowingMonth(){
-    	 showingMonth = !showingMonth;
+     function setView(v){
+    	 console.log("Set View: " + v);
+    	 view = v;
      }
      
      function getFoundData(){
@@ -30,7 +35,54 @@ function(FetchOpenFDASrvc, $location, $anchorScroll) {
     	 return tableData;
      }
      
-     function fetchData (qId, state, routeParams, year, month){
+     function removeTableData(){
+    	 tableData = {};
+     }
+     
+     function getYear(){
+    	 return currentYear;
+     }
+     
+     function getFillKey(){
+    	 return fillKey;
+     }
+     
+     function getState(){
+    	 return currentState;
+     }
+     
+     function getMapData(routeParams, qId, callback){    	 
+    	 if (mapData){
+    		 callback(null, mapData);
+    	 }
+    	 else{
+	    	 FetchOpenFDASrvc.get({appId:routeParams.appId, modId: routeParams.modId, fnId:routeParams.fnId, qId:qId},
+	 				function success(response) {
+	 					
+	 				//SharedDataSrvc.setView("mapRps");
+	 				
+	 					if(!response){
+	 						console.warn("No data found for MapId="+routeParams);
+	 						callback(null, {});
+	 					}
+	 					
+	 	
+	 					//console.log("Map Success:" + JSON.stringify(response));
+	 					mapData =  response;
+	 					callback(null, response);
+	 					
+	 					},
+	 				function error(errorResponse) {
+	 					console.log("Error:" + JSON.stringify(errorResponse));
+	 					callback(err);
+	 					});
+    	 }
+     }
+     
+     function fetchData (qId, state, routeParams, year, month, fk){
+    	 if(fk)
+    		 fillKey = fk;
+    	 currentState = state;
     	 foundData = true;
  		var graphParams = {};
  		graphParams.appId = routeParams.appId;
@@ -40,8 +92,10 @@ function(FetchOpenFDASrvc, $location, $anchorScroll) {
  		graphParams.state = state.stateCode.toLowerCase();
  		
  		
- 		if(year)
+ 		if(year){
  			graphParams.year = year;
+ 			currentYear = year;
+ 		}
  		
  		if(month)
  			graphParams.month = month;
@@ -83,10 +137,15 @@ function(FetchOpenFDASrvc, $location, $anchorScroll) {
     return {
     	fetchData: fetchData,
     	getGraphData : getGraphData,
-    	getShowingMonth: getShowingMonth,
-    	toggleShowingMonth: toggleShowingMonth,
+    	getView: getView,
+    	setView: setView,
     	getFoundData : getFoundData,
-    	getTableData : getTableData
+    	getTableData : getTableData,
+    	getYear : getYear,
+    	getMapData : getMapData,
+    	removeTableData : removeTableData,
+    	getFillKey : getFillKey,
+    	getState : getState
     }
 
 }]);

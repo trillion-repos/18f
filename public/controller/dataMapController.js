@@ -11,6 +11,46 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 	var bottom = {};
 	var selectedDataset = 'drug';
 	
+	
+	
+	$scope.theMap = {
+			  scope: 'usa',
+			  options: {
+				  staticGeoData: false,
+				  labels: true,
+				  labelSize: 10,
+			   /* width: 500,*/
+			    legendHeight: 60// optionally set the padding for the legend
+
+			  },
+			  geographyConfig: {
+			    highlighBorderColor: '#EAA9A8',
+			    highlighBorderWidth: 2
+			  },
+			  fills: {/*
+				"VH":'#2a4644',
+			    "H": '#558C89',
+			    "M": '#74AFAD',
+			    "L": '#D5E7E6',*/
+			    'defaultFill': '#ECECEA', 
+			    'selectedFill': '#F5D76E'
+			  },
+			  data: {},
+			  geographyConfig: {
+		            popupTemplate: function(geo, data) {
+		            	if(!data)
+		            		return ['<div class="hoverinfo"><strong>',
+			                        'No Known Recalls for ' + geo.properties.name
+			                       ].join('');
+		            	
+		                return ['<div class="hoverinfo"><strong>',
+		                        'Number of Recalls in ' + geo.properties.name,
+		                        ': ' + data.count,
+		                        '</strong></div>'].join('');
+		            }
+		        }
+			};
+	
 	$scope.changeTopStates = function(){
 		isTableTop = !isTableTop;
 		
@@ -70,70 +110,25 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 		}
 	};
 	
+	var response = SharedDataSrvc.getMapData($routeParams, "mapRps", function(err, response){
+		
+		if(err){
+			console.error(JASON.stringify(err));
+			return;
+		}
+		
+		mapDataAll = response.mapData;
+		orderedDataAll = response.orderedData;
+		titleAll = response.mapDataTitle;
+		mapFillsAll = response.mapDataFills;
+		mapLegends = response.mapDataLegends;
+		$scope.mapPluginData = {customLegend:mapLegends[selectedDataset]};
+		
+		$scope.changeMap(selectedDataset);
+	});
 	
-	FetchOpenFDASrvc.get({appId:$routeParams.appId, modId: $routeParams.modId, fnId:$routeParams.fnId, qId:"mapRps"},
-			function success(response) {
-				
-				
-				if(!response){
-					console.warn("No data found for MapId="+$routeParams);
-					return;
-				}
-				
-
-				//console.log("Map Success:" + JSON.stringify(response));
-				mapDataAll = response.mapData;
-				orderedDataAll = response.orderedData;
-				titleAll = response.mapDataTitle;
-				mapFillsAll = response.mapDataFills;
-				mapLegends = response.mapDataLegends;
-				$scope.mapPluginData = {customLegend:mapLegends[selectedDataset]};
-				
-				$scope.changeMap(selectedDataset);
-				
-				},
-			function error(errorResponse) {
-				console.log("Error:" + JSON.stringify(errorResponse));					
-				
-				$scope.error.push(errorResponse.data);
-				});
 	
-	$scope.theMap = {
-			  scope: 'usa',
-			  options: {
-				  staticGeoData: false,
-				  labels: true,
-				  labelSize: 10,
-			   /* width: 500,*/
-			    legendHeight: 60// optionally set the padding for the legend
-
-			  },
-			  geographyConfig: {
-			    highlighBorderColor: '#EAA9A8',
-			    highlighBorderWidth: 2
-			  },
-			  fills: {/*
-				"VH":'#2a4644',
-			    "H": '#558C89',
-			    "M": '#74AFAD',
-			    "L": '#D5E7E6',*/
-			    'defaultFill': '#ECECEA'
-			  },
-			  data: {},
-			  geographyConfig: {
-		            popupTemplate: function(geo, data) {
-		            	if(!data)
-		            		return ['<div class="hoverinfo"><strong>',
-			                        'No Known Recalls for ' + geo.properties.name
-			                       ].join('');
-		            	
-		                return ['<div class="hoverinfo"><strong>',
-		                        'Number of Recalls in ' + geo.properties.name,
-		                        ': ' + data.count,
-		                        '</strong></div>'].join('');
-		            }
-		        }
-			};
+	
 	
 	$scope.theMap.responsive = true;
 			
@@ -146,10 +141,12 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 			    var html = ['<ul class="list-inline" style="padding-left:40px">'],
 			        label = '';
 			    for (var fillKey in this.options.fills) {
-			      html.push('<li class="key" ',
-			                  'style="border-top: 10px solid ' + this.options.fills[fillKey] + '">',
-			                  data[fillKey],
-			                  '</li>');
+			    	if(data[fillKey]){
+				      html.push('<li class="key" ',
+				                  'style="border-top: 10px solid ' + this.options.fills[fillKey] + '">',
+				                  data[fillKey],
+				                  '</li>');
+			    	}
 			    }
 			    html.push('</ul>');
 			    d3.select(this.options.element).append('div')
@@ -164,10 +161,18 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 		state.stateName = geography.properties.name;
 		state.stateCode = geography.id;
 		console.log(state.stateName + " : " +  state.stateCode);
+		SharedDataSrvc.removeTableData();
+		SharedDataSrvc.setView("graphRpy");		
 		
-		SharedDataSrvc.toggleShowingMonth();
-
-		SharedDataSrvc.fetchData("graphRpy", state, $routeParams);
+		//un-highlight selected state
+		if(SharedDataSrvc.getFillKey()){
+			$scope.theMap.data[SharedDataSrvc.getState().stateCode.toLowerCase()].fillKey = SharedDataSrvc.getFillKey();			
+		}				
+		
+		SharedDataSrvc.fetchData("graphRpy", state, $routeParams, null, null, $scope.theMap.data[geography.id.toLowerCase()].fillKey);
+		
+		//highlight selected state
+		$scope.theMap.data[geography.id.toLowerCase()].fillKey = 'selectedFill'; 
 	};
 	
 	

@@ -54,7 +54,7 @@ openFDA.controller('TableCtrl', [
 			$scope.$watch(function () { return SharedDataSrvc.getTableData(); },
 			   function (value) {
 				   if(value && value.data){
-					   console.log("TableData: ", JSON.stringify(value));
+					   //console.log("TableData: ", JSON.stringify(value));
 					   
 					   $scope.organizedData = value.data;
 					   $scope.filteredData = $scope.organizedData;

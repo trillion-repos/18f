@@ -4,22 +4,27 @@ openFDA.controller('GraphCtrl', [
 		'$routeParams', '$location', '$anchorScroll' ,
 		function($scope, SharedDataSrvc, $routeParams, $location, $anchorScroll ) {
 			
-    $scope.showingMonth = false;
+    //var showingMonth = true;
 	$scope.graphConfig = {
 			  title: false  , // chart title. If this is false, no title element will be created.
 			  tooltips: true,
 			  labels: false, // labels on data points
 			  // exposed events
-			  mouseover: function(d, e) {if(!$scope.showingMonth) $scope.currentYear = d.x; else $scope.currentMonth = d.x;},
+			  mouseover: function(d, e) {
+			  								if(SharedDataSrvc.getView() === 'graphRpy') 
+			  									SharedDataSrvc.getCurrentYear = d.x; 
+			  								else if(SharedDataSrvc.getView() === 'graphRpm')
+			  									$scope.currentMonth = d.x;
+  									},			  
 			  mouseout: function(d) {},
 			  click: function(d){ 
-				  					if(!$scope.showingMonth)
-				  						SharedDataSrvc.fetchData("graphRpy", $scope.state, $routeParams, $scope.currentYear);
+				  					if(SharedDataSrvc.getView() === 'graphRpy')
+				  						SharedDataSrvc.fetchData("graphRpy", $scope.state, $routeParams, SharedDataSrvc.getCurrentYear);
 
-			  						else 
-			  							SharedDataSrvc.fetchData("tableRpm", $scope.state, $routeParams, $scope.currentYear, $scope.currentMonth);
+				  					else if(SharedDataSrvc.getView() === 'graphRpm') 
+			  							SharedDataSrvc.fetchData("tableRpm", $scope.state, $routeParams, SharedDataSrvc.getCurrentYear, $scope.currentMonth);
 				  					
-		  							$scope.showingMonth = true;
+				  					SharedDataSrvc.setView('graphRpm');
 		  							},
 			  // legend config
 			  legend: {
@@ -42,11 +47,13 @@ openFDA.controller('GraphCtrl', [
 			};
 			
 
-			$scope.$watch(function () { return SharedDataSrvc.getShowingMonth(); },
+/*			$scope.$watch(function () { return SharedDataSrvc.getView(); },
 			   function (value) {
-				   $scope.showingMonth = false;				   
+					console.log("It changed! ", value);
+					if(value === false)
+						showingMonth = value;				   
 			   }
-			);
+			);*/
 			
 			$scope.$watch(function () { return SharedDataSrvc.getFoundData(); },
 			   function (value) {
