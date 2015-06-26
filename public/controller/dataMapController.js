@@ -104,7 +104,7 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 				  staticGeoData: false,
 				  labels: true,
 				  labelSize: 10,
-			    width: 900,
+			   /* width: 500,*/
 			    legendHeight: 60// optionally set the padding for the legend
 
 			  },
@@ -133,7 +133,9 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 		                        '</strong></div>'].join('');
 		            }
 		        }
-			}
+			};
+	
+	$scope.theMap.responsive = true;
 			
 	
 	$scope.mapPlugins = {

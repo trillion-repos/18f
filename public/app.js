@@ -1,7 +1,7 @@
 'use strict';
 
 var openFDA = angular.module('OpenFDA', [ 'ngRoute','ngTable', 'datamaps', 'angularUtils.directives.dirPagination','ngResource','OpenFda.restServices', 
-                                          'ui.bootstrap', 'ngAnimate', 'ngSanitize', 'gsaModule', 'angularCharts']);
+                                          'ui.bootstrap', 'ngAnimate', 'ngSanitize', 'angularCharts']);
 
 openFDA.config([ '$routeProvider', '$locationProvider',
 		function($routeProvider, $locationProvider) {

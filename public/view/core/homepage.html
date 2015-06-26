@@ -1,5 +1,5 @@
 <div data-ng-include src="'view/core/navBar.html'"></div>
-<div id="page-wrapper" class="bg-white">
+<div id="page-wrapper" data-ng-controller="HomeCtrl" class="bg-white">
 	<br /> <br />
 	<header class="jumbotron hero-spacer well">
 		<h2 class="text-primary">
@@ -9,7 +9,14 @@
 		<p>Version 1 - Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non
 			incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
 	</header>
+	
+	
 
-	<hr></hr>
+	<hr/>
+	
+	<div style="text-align:center" data-ng-click="goTo('openfda/drugs/rps')">
+		<a class="btn btn-lg btn-primary" href="javascript:void(0);">
+	  	<i class="fa fa-bar-chart fa-2x pull-left"></i>Explore OpenFDA </a>
+  </div>
 
 </div>

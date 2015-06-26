@@ -312,10 +312,9 @@ input.disabled {
 }
 
 .statesTop{
-	width: 300px;
+	width: 25%;
 	float: right;
-	height: 100%;
-	margin-top: 60px;
+	margin-top: 5%;
 }
 
 .statesTopTitle{
@@ -345,11 +344,12 @@ input.disabled {
 }
 
 .fdaDataMap{
-	width: 950px;
+	width: 75%;
 }
 
 .datamaps-legend {
 	left: 40px;
+	top:100%;
 }
 
 
@@ -362,6 +362,8 @@ table {
 	line-height: 24px;
 	margin: 20px auto;
 	text-align: left;
+	overflow-x: auto;
+	display: block;
 }	
 
 th {

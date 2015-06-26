@@ -1,14 +1,12 @@
 'use strict';
 /* Controllers */
-var gsaModule = angular.module('gsaModule', []);
 
-gsaModule.controller('ReportCtrl', [
-    '$scope',
-	function ($scope) {
+openFDA.controller('HomeCtrl', [
+    '$scope', '$location',
+	function ($scope, $location) {
 
-		//console.log("in logout controller");
-    	$scope.getData = function(){
-    		console.log("Getting data!");
-    	}
+		$scope.goTo = function(loc){
+			$location.path(loc);
+		};
 	
 }]);
