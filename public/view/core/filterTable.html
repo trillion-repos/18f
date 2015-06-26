@@ -1,9 +1,26 @@
 <br/>
 <hr/>
+
+<div ng-controller="TableCtrl" class="panel panel-primary loaList reveal-animation" style="border-color: black;" data-ng-show="organizedData.length">
+
 <a id='tableAnchor'></a>
-<div ng-controller="TableCtrl" class="panel panel-primary loaList" data-ng-show="organizedData.length">
-	<div class="panel-heading" style="text-align:center"> <strong>{{title}}<strong></div>
-  <div class="panel-body">
+
+
+  
+	<div class="panel-heading dark-background" style="text-align:center"> <strong>{{title}}<strong></div>
+	<div class="toggleFieldsParent">
+		<div class="toggleFields">
+			<strong>Toggle Table Fields</strong>
+		</div>
+		<div class="btn-group padded" data-toggle="buttons">
+			<label data-ng-repeat="col in allColumns" data-ng-class="col.active ? 'btn-primary active' : 'btn-default' "
+				class="btn btn-xs round" data-ng-click="toggleField(col)"> <input
+				type="checkbox" autocomplete="off" data-ng-attr-id="{{col.field}}"
+				checked> {{col.title}}
+			</label>
+		</div>
+	</div>
+	<div class="panel-body">
 	
  	<form class="form-horizontal" role="form">
     <div class="form-group">
@@ -21,7 +38,7 @@
       
     </div>
     </form>
-<br/><br/><br/>
+<br/>
 	<table  data-ng-table="tableParams" template-header="sample_ng_header" show-filter="true" id="searchTextResults" 
 			class="table table-striped table-condensed" style="font-size:11px" >
 

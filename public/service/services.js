@@ -55,7 +55,7 @@ function(FetchOpenFDASrvc, $location, $anchorScroll) {
  					}
  					
 
- 					console.log("Response Success:" + JSON.stringify(response));
+ 					//console.log("Response Success:" + JSON.stringify(response));
  					
  					if(response.graph){
 	 					graphData = {};

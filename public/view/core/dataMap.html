@@ -16,7 +16,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr data-ng-repeat='row in orderedDataTable'>
+					<tr class="reveal-animation" data-ng-repeat='row in orderedDataTable'>
 						<td><strong>{{row.state.toUpperCase()}}</strong></td>
 						<td>{{row.count}}</td>
 					</tr>
@@ -45,7 +45,5 @@
 		<datamap map="theMap" plugins="mapPlugins" plugin-data="mapPluginData"
 			on-click="drillDownToYear"> </datamap>
 	</div>
-	
-	{{shit}}
 
 </div>

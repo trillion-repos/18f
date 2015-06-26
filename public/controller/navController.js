@@ -5,7 +5,7 @@ openFDA.controller('NavCtrl', [ '$scope','$location', '$routeParams','NavSrvc', 
 
 			
 			NavSrvc.get(function(response){
-				console.log("Nav: " + JSON.stringify(response));
+				//console.log("Nav: " + JSON.stringify(response));
 				$scope.accessApps = response.nav;
 				
 				if($routeParams.appId){

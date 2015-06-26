@@ -47,7 +47,7 @@
 				            	<a href="javascript:void(0);">{{module.moduleName}}<span class="fa arrow"></span></a>
 			            	</div>
 				            <ul aria-expanded="true" class="nav nav-second-level collapse in" data-ng-click="$event.stopPropagation()">
-				                <li  data-ng-repeat="subMod in module.subModules" data-ng-show="module.active" >
+				                <li  class="reveal-animation" data-ng-repeat="subMod in module.subModules" data-ng-show="module.active" >
 				                	<div data-ng-attr-class="{{subMod.selected && 'selected' || '' }}" 
 				                		data-ng-click="goTo(activeMenu.id + '/' + module.id + '/' + subMod.id)">
 				                    	<a href="javascript:void(0);">{{subMod.displayName}}</a>

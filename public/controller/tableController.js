@@ -10,11 +10,11 @@ openFDA.controller('TableCtrl', [
 		'ngTableParams',
 		'$location','$anchorScroll', 'SharedDataSrvc',
 		function($scope, $filter, $routeParams, ngTableParams, $location, $anchorScroll, SharedDataSrvc) {
-			
+			var activeCols = ["recall_number", "reason_for_recall", "status", "distribution_pattern", "product_quantity", "recall_initiation_date", "product_type"];
 			$scope.organizedData = [];
 			$scope.filteredData = [];
 			$scope.columns = [];
-			$scope.pageSize = 5;
+			$scope.pageSize = 25;
 			$scope.tableParams = new ngTableParams({
 				page : 1, // show first page
 				count : 5, // count per page
@@ -32,6 +32,24 @@ openFDA.controller('TableCtrl', [
 			});
 			
 			
+			$scope.toggleField = function(col){
+				//console.log("Column: " , JSON.stringify(col));
+				
+				if(col.active === 'active'){
+					delete col.active;
+					
+					var index = $scope.columns.indexOf(col);
+					$scope.columns.splice(index, 1);
+				}
+				
+				else{
+					col['active'] = 'active';
+					$scope.columns.push(col);
+				}
+					
+			};
+			
+			
 	
 			$scope.$watch(function () { return SharedDataSrvc.getTableData(); },
 			   function (value) {
@@ -41,7 +59,15 @@ openFDA.controller('TableCtrl', [
 					   $scope.organizedData = value.data;
 					   $scope.filteredData = $scope.organizedData;
 					   $scope.title = value.title;
-					   $scope.columns = value.columns;
+					   $scope.allColumns = value.columns;
+					   $scope.columns = [];
+					   $scope.allColumns.forEach(function(col){
+						   if (activeCols.indexOf(col.field) > -1){
+							   $scope.columns.push(col);
+							   col.active = 'active';
+						   }
+					   });
+					   
 					   $scope.tableParams.reload();
 					   
 					 	$location.hash('tableAnchor');
@@ -49,77 +75,6 @@ openFDA.controller('TableCtrl', [
 					   
 				   }
 			   }
-			);
-			
-/*			console.log(JSON.stringify($routeParams));
-			
-			var getTableData = function(){
-				
-				$scope.error = [];
-				
-				
-				FetchOpenFDASrvc.get({appId:$routeParams.appId, modId: $routeParams.modId, fnId:$routeParams.fnId},
-				function success(response) {
-					
-					
-					if(!response && !response.length){
-						console.warn("No data found for TableId="+$routeParams);
-						return;
-					}
-					
-
-					console.log("Table Success:" + JSON.stringify(response));
-					$scope.theTable = response;					
-					
-					if(!response || !response.length)
-						return; 
-					
-					$scope.title = response[0].typeTitle;
-					response[0].fields.forEach(function(entry){
-						var column = {};
-						column['title'] = entry.fieldHeader;
-						column['field'] = entry.fieldName;
-						column['filter'] = {};
-						column.filter[entry.fieldName] = 'text';
-						$scope.columns.push(column);
-					}
-					);					
-					
-
-					response.forEach(function(data){
-						var row = {};
-						data.fields.forEach(function(field){
-							row[field.fieldName] = field.fieldValue;
-						});
-						$scope.organizedData.push(row);						
-					});
-					
-					//console.log("DATA: " + JSON.stringify($scope.columns));
-					
-					$scope.filteredData = $scope.organizedData;
-					
-					$scope.tableParams.reload();
-
-					
-					},
-				function error(errorResponse) {
-					console.log("Error:" + JSON.stringify(errorResponse));					
-					
-					$scope.error.push(errorResponse.data);
-					});
-
-				
-
-			};*/
-			
-			
-			
-			
-			
-			//getTableData();
-			
-			
-
-			
+			);			
 
 		} ]);

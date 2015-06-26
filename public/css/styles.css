@@ -409,3 +409,35 @@ td {
 	transition: all 300ms;
 }
 
+.dark-background{
+	background: url(http://jackrugile.com/images/misc/noise-diagonal.png), linear-gradient(#777, #444) !important;
+	border-color: black !important;
+}
+
+.btn-xs.round {
+    border-radius: 20px !important;
+    margin-left: 5px  !important;
+    margin-bottom: 3px;
+}
+
+.btn-group.padded{
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 80%;
+}
+
+.toggleFields{
+	padding: 10px;
+	font-weight: bold;
+	width: 20%;
+	float: left;
+	text-align: center;
+}
+
+.toggleFieldsParent{
+	width: 100%;
+	margin-top: 12px;
+	padding-bottom: 10px;
+	border-bottom: grey solid 1px;
+	
+}

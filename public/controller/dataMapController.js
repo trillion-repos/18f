@@ -81,7 +81,7 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 				}
 				
 
-				console.log("Map Success:" + JSON.stringify(response));
+				//console.log("Map Success:" + JSON.stringify(response));
 				mapDataAll = response.mapData;
 				orderedDataAll = response.orderedData;
 				titleAll = response.mapDataTitle;
@@ -140,7 +140,7 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 			  customLegend: function(layer, data, options) {
 				  if(!data)
 					  return;
-				  console.log("OPTIONS: ",JSON.stringify(data));
+				  //console.log("OPTIONS: ",JSON.stringify(data));
 			    var html = ['<ul class="list-inline" style="padding-left:40px">'],
 			        label = '';
 			    for (var fillKey in this.options.fills) {
