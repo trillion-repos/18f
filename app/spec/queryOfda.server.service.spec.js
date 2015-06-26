@@ -1,8 +1,7 @@
 var queryService = require("./../services/queryOfda.server.service");
 
 describe("Test Suite for queryOfda.server.service", function() {
-  var expectedURL = 'https://api.fda.gov/drug/enforcement.json?search=distribution_pattern:VA&count=distribution_pattern';
-  var query1 = {
+  var query = {
         queryId: 1,
         noun:'drug',
         endpoint:'enforcement',
@@ -14,7 +13,7 @@ describe("Test Suite for queryOfda.server.service", function() {
         }
       };
 
-    var query2 = {
+    var negativeQuery = {
           queryId: 1,
           noun:'drug',
           endpoint:'enforcement',
@@ -28,7 +27,7 @@ describe("Test Suite for queryOfda.server.service", function() {
 
   it("Spec for getData function", function(done) {
     //positive test
-    queryService.getData(query1,function(error,data, query){
+    queryService.getData(query,function(error,data, query){
         if(error){
           console.error("ERROR: ", JSON.stringify(error), JSON.stringify(query));
         }
@@ -45,11 +44,14 @@ describe("Test Suite for queryOfda.server.service", function() {
         }
 
         expect(data.results[0].term).toBe("va");
-        //done();
+        done();
       });
 
+  },500); // timeout after 500 ms
+
+  it("Neg Spec for getData function", function(done) {
       //negative test
-      queryService.getData(query2,function(error,data, query){
+      queryService.getData(negativeQuery,function(error,data, query){
           if(error.body){
             error = JSON.parse(error.body);
           }else{
