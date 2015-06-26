@@ -3,11 +3,23 @@
 	<br /> <br />
 	<header class="jumbotron hero-spacer well">
 		<h2 class="text-primary">
-			<strong>Welcome GSA OpenFDA</strong>
+			<strong>Welcome to 18f OpenFDA</strong>
+			
 		</h2>
-		<br />
-		<p>Version 1 - Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non
-			incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
+		<p class="sponsoring-text">Brought to you by <a href='http://www.ttsiglobal.com/'>Trillion Technology Solutions, Inc</a> </p>
+
+		<p>
+			This prototype provides a graphical interface to OpenFDA - Enforcement Reports, using <a href="https://open.fda.gov/">OpenFDA</a> publicly available 
+			<a href="https://open.fda.gov/api/reference/API">API</a>.
+			This interface provides an inside to Recalls reported to FDA for Drugs, Devices and Foods. The following information is made available:
+			<ul>
+				<li>Number of recalls per US state, for each category - Drugs, Devices and Foods</li>
+				<li>Number of recalls per Year for a selected US State, for each category - Drugs, Devices and Foods</li>
+				<li>Number of recalls per Month for a selected US State and Year, for each category - Drugs, Devices and Foods</li>
+				<li>List of recalled records for a selected Month and Year and State, for each category - Drugs, Devices and Foods</li>
+			</ul>
+			
+		</p>
 	</header>
 	
 	
@@ -15,6 +27,7 @@
 	<hr/>
 	
 	<div style="text-align:center" data-ng-click="goTo('openfda/drugs/rps')">
+	<p>(Click below)</p>
 		<a class="btn btn-lg btn-primary" href="javascript:void(0);">
 	  	<i class="fa fa-bar-chart fa-2x pull-left"></i>Explore OpenFDA </a>
   </div>

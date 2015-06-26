@@ -443,3 +443,15 @@ td {
 	border-bottom: grey solid 1px;
 	
 }
+
+.jumbotron .sponsoring-text{
+	margin-bottom: 50px;
+	font-size: 10px;
+	font-weight:bold;
+}
+
+.instructions{
+	text-align: center;
+	font-weight:bold;
+	
+}
