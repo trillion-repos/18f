@@ -1,8 +1,6 @@
 var tableService = require("./../services/tableOfda.server.service");
 require("./../utils/utils.js");
 
-var states = config.states;
-
 describe("Test Suite for tableOfda.server.service", function() {
   var params = {
     month:'aug',
