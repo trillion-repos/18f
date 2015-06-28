@@ -20,7 +20,6 @@ See our [Installation Guide](INSTALL.md)
 
 ## How this works
 
-
 ![Number of recalls per US state, for each category - Drugs, Devices and Foods](/doc/page1.png)
 ![Number of recalls per Year for a selected US State, for each category - Drugs, Devices and Foods](/doc/page2.png)
 ![Number of recalls per Month for a selected US State and Year, for each category - Drugs, Devices and Foods](/doc/page3.png)
