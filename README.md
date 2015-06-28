@@ -1,4 +1,4 @@
-# Trillion OpenFDA Data Analytics Platform 
+# Trillion OpenFDA Data Visulaization Platform 
 
 
 Welcome to 18f OpenFDA 
