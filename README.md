@@ -13,14 +13,22 @@ The following information is made available:
 * List of recalled records for a selected Month and Year and State, for each category - Drugs, Devices and Foods
  
 
+## Application Archicture & Design 
+(/doc/Archicture.png)
+
+## Deployment Architecture
+(/doc/Deployment.png)
 
 ## Install and Run the App (as a developer)
 
 See our [Installation Guide](INSTALL.md)
 
-## Build Status(http://18fci.ttsiglobal.com:8080/view/All/builds)
 
-## Production (http://18f.ttsiglobal.com:3000)
+## Build Status
+(http://18fci.ttsiglobal.com:8080/view/All/builds)
+
+## Production 
+(http://18f.ttsiglobal.com:3000)
 
 
 ## How this works
