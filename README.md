@@ -1,19 +1,17 @@
 # Trillion OpenFDA Data Visulaization Platform 
 [![Build Status](http://18fci.ttsiglobal.com:8080/view/All/builds)](http://18fci.ttsiglobal.com:3000)
 
-The goal of this project is to make it easy to turn a lot of potentially large
-csv files into open data via an API and the ability for people to download
-smaller csv files with a subset of the data.
+Welcome to 18f OpenFDA 
+Brought to you by Trillion Technology Solutions, Inc 
 
-Preliminary research suggests that open data users (journalists and others)
-actually know how to work with spreadsheets really well, but a lot of the
-data sets that we have in government are huge.
+This prototype provides a graphical interface to OpenFDA - Enforcement Reports, using OpenFDA publicly available API. This interface provides an insight to Recalls reported to FDA for Drugs, Devices and Foods.
 
-The first version of this project will allow us to host a website for an
-agency with a specific set of csv files, which are deployed with the app.
-This will allows us to deploy more quickly since there will be a lower risk
-security profile than if an agency could upload the CSV files (which might
-be a nice longer term feature).
+The following information is made available: 
+•Number of recalls per US state, for each category - Drugs, Devices and Foods
+•Number of recalls per Year for a selected US State, for each category - Drugs, Devices and Foods
+•Number of recalls per Month for a selected US State and Year, for each category - Drugs, Devices and Foods
+•List of recalled records for a selected Month and Year and State, for each category - Drugs, Devices and Foods
+
 
 
 ## Install and Run the App (as a developer)
