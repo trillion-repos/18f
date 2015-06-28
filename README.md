@@ -1,5 +1,6 @@
 # Trillion OpenFDA Data Visulaization Platform 
-## Build Status
+## Build Status(http://18fci.ttsiglobal.com:8080/view/All/builds)
+
 [![Build Status](http://18fci.ttsiglobal.com:8080/view/All/builds)](http://18f.ttsiglobal.com:3000)
 
 Welcome to 18f OpenFDA 
