@@ -7,8 +7,7 @@ install with Docker Container
 * start docker service 
 
 ## Build openFDA  in docker container
-* docker pull trilliongit/18f  
-*
+* docker pull trilliongit/18f 
 
 ## Run the App on container
 * docker -p 3000:3000 -d trilliongit/18f
@@ -22,7 +21,6 @@ install with node JS
 * Git 
 
 
-```
 ## Build openFDA 
 * git clone git@github.com:trillion1-repos/18f.git
 * cd 18f
@@ -31,8 +29,6 @@ install with node JS
 * npm test
 
 
-
-```
 
 ## Run the App
 * forserver start server.js
