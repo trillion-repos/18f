@@ -1,7 +1,5 @@
 # Trillion OpenFDA Data Visulaization Platform 
-## Build Status(http://18fci.ttsiglobal.com:8080/view/All/builds)
 
-## Production (http://18f.ttsiglobal.com:3000)
 
 Welcome to 18f OpenFDA 
 Brought to you by Trillion Technology Solutions, Inc 
@@ -19,6 +17,11 @@ The following information is made available:
 ## Install and Run the App (as a developer)
 
 See our [Installation Guide](INSTALL.md)
+
+## Build Status(http://18fci.ttsiglobal.com:8080/view/All/builds)
+
+## Production (http://18f.ttsiglobal.com:3000)
+
 
 ## How this works
 ![Number of recalls per US state, for each category - Drugs, Devices and Foods](/doc/Page1.png)
