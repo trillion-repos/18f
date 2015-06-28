@@ -14,10 +14,10 @@ The following information is made available:
  
 
 ## Application Archicture & Design 
-(/doc/Archicture.png)
+![Application Archicture](/doc/Page1.png)(/doc/Archicture.png)
 
 ## Deployment Architecture
-(/doc/Deployment.png)
+![Deployment Archicture](/doc/Page1.png)(/doc/Archicture.png)(/doc/Deployment.png)
 
 ## Install and Run the App (as a developer)
 
