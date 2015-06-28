@@ -1,4 +1,4 @@
-# Open Data Maker
+# Trillion OpenFDA Data Visulaization Platform 
 [![Build Status](http://18fci.ttsiglobal.com:8080/view/All/builds)](http://18fci.ttsiglobal.com:3000)
 
 The goal of this project is to make it easy to turn a lot of potentially large
