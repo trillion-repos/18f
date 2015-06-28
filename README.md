@@ -14,7 +14,7 @@ The following information is made available:
  
 
 ## Application Archicture & Design 
-![Application Archicture](/doc/Archicture.png)
+![Application Archicture](/doc/Architecture.png)
 
 ## Deployment Architecture
 ![Deployment Archicture](/doc/Deployment.png)
