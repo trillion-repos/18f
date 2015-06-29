@@ -5,7 +5,7 @@ Please  use one of the below options to install Trillion OpenFDA Visualization P
 
 Install with Docker Container
 * Install docker.
-* If your operating system is window or Mac, please use boot2docker
+* If your operating system is Windows or Mac, please use boot2docker
 * Start docker service
 
 ## Build openFDA  in docker container
@@ -17,7 +17,7 @@ $ docker -p 3000:3000 -d trilliongit/18f
 ```
 * Open your browser
 * http://localhost:3000 on http://localhost:3000/ or http://<your computer IP>:3000 on linux
-* On Window boot2docker ip and get IP and http://<ip>:3000
+* On Windows, get the IP using boot2docker ip and http://<ip>:3000
 
 
 2) Option two for Installation
