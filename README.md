@@ -14,7 +14,7 @@ The following information is made available:
 * List of recalled records for a selected Month and Year and State, for each category - Drugs, Devices and Foods
  
 
-## Application Archicture & Design 
+## Application Architecture & Design 
 ![Application Archicture](/doc/Architecture.png)
 
 ## Deployment Architecture
