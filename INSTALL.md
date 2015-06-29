@@ -14,7 +14,7 @@ $ docker -p 3000:3000 -d trilliongit/18f
 Once running the application can be accessed at -
 
 * http://localhost:3000
-* http://<your computer IP>:3000
+* http://<<your computer IP>>:3000
 
 If using boot2docker, get the VM's IP using
 
