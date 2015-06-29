@@ -1,5 +1,5 @@
 ## Get Started
-Please  use one the options to instal Trillion OpenFDA Visualization Platform
+Please  use one of the below options to instal Trillion OpenFDA Visualization Platform
 
 1) Option one for Installation 
 
