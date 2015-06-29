@@ -1,5 +1,6 @@
 # Trillion OpenFDA Data Visulaization Platform 
 
+[![Build Status](http://ec2-52-5-43-99.compute-1.amazonaws.com:8080/buildStatus/icon?job=18f-openfda)](http://ec2-52-5-43-99.compute-1.amazonaws.com:8080/me/my-views/view/All/job/18f-openfda/)
 
 Welcome to 18f OpenFDA 
 Brought to you by Trillion Technology Solutions, Inc 
@@ -24,8 +25,6 @@ The following information is made available:
 See our [Installation Guide](INSTALL.md)
 
 
-## Build Status
-(http://18fci.ttsiglobal.com:8080/view/All/builds)
 
 ## Production 
 (http://18f.ttsiglobal.com:3000)
