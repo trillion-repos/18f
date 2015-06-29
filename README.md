@@ -1,4 +1,4 @@
-# Trillion OpenFDA Data Visulaization Platform 
+# Trillion OpenFDA Data Visualization Platform 
 
 [![Build Status](http://ec2-52-5-43-99.compute-1.amazonaws.com:8080/buildStatus/icon?job=18f-openfda)](http://ec2-52-5-43-99.compute-1.amazonaws.com:8080/me/my-views/view/All/job/18f-openfda/)
 
