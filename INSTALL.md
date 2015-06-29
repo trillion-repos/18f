@@ -20,8 +20,8 @@ Install with Docker Container
 2) Option two for Installation
 
 Install with node JS 
-* node js 
-* Git 
+* Install node.js 
+* Install git 
 
 
 ## Build openFDA 
@@ -30,7 +30,6 @@ Install with node JS
 * npm install
 * npm install -g forever
 * npm test
-
 
 ## Run the App
 * forserver start server.js
