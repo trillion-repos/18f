@@ -1,4 +1,4 @@
-# Get Started
+# Installation
 Please  use one of the below options to install Trillion OpenFDA Visualization Platform
 
 1. Docker Container
@@ -14,7 +14,7 @@ $ docker -p 3000:3000 -d trilliongit/18f
 Once running the application can be accessed at -
 
 * http://localhost:3000
-* http://<<your computer IP>>:3000
+* http://[your IP]:3000
 
 If using boot2docker, get the VM's IP using
 
@@ -40,7 +40,7 @@ $ forserver start server.js
 ```
 Once running the application can be accessed at -
 * http://localhost:3000
-* http://<your computer IP>:3000
+* http://[your IP]:3000
 
 [docker]:https://www.docker.com
 [boot2docker]:http://boot2docker.io
