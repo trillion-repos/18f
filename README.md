@@ -3,6 +3,7 @@
 [![Build Status](http://18fci.ttsiglobal.com:8080/buildStatus/icon?job=18f-openfda)](http://18fci.ttsiglobal.com:8080/me/my-views/view/All/job/18f-openfda/)
 
 Welcome to 18f OpenFDA
+
 Brought to you by Trillion Technology Solutions, Inc.
 
 This prototype provides a graphical interface to OpenFDA - Enforcement Reports, using the publicly available OpenFDA API. This interface provides an insight to Recalls reported to FDA for Drugs, Devices and Foods.
