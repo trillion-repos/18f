@@ -1,22 +1,25 @@
 ## Get Started
+Please  use one the options to instal Trillion OpenFDA Visualization Platform
 
+1) Option one for Installation 
 
-install with Docker Container 
-* install docker. 
+Install with Docker Container 
+* Install docker. 
 * If your operating system is window or Mac, please use boot2docker 
-* start docker service 
+* Start docker service 
 
 ## Build openFDA  in docker container
 * docker pull trilliongit/18f 
 
-## Run the App on container
+## Run the App on the docker container
 * docker -p 3000:3000 -d trilliongit/18f
 * Open your browser
 * http://localhost:3000 on http://localhost:3000/ or http://<your computer IP>:3000 on linux
 * On Window boot2docker ip and get IP and http://<ip>:3000
 
+2) Option two for Installation
 
-install with node JS 
+Install with node JS 
 * node js 
 * Git 
 
@@ -27,7 +30,6 @@ install with node JS
 * npm install
 * npm install -g forever
 * npm test
-
 
 
 ## Run the App
