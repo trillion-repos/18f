@@ -3,6 +3,7 @@
 var queryService = require("./queryOfda.server.service");
 var config = require("./../../config/config");
 var states = config.states;
+var logger = require('./../utils/logger.js')(module);
 
 
 
@@ -31,7 +32,6 @@ module.exports.mapRps = function(params, callback){
 		    noun:dataset.name,
 		    endpoint:'enforcement',
 		    params:{
-		      //search:'distribution_pattern:"va"',
 		      count:'distribution_pattern',
 		      limit:1000, //if set to 0, it will default to 100 results
 		      skip:0
@@ -42,7 +42,7 @@ module.exports.mapRps = function(params, callback){
 				completeQueries++;
 
 				if(error){
-					console.error("ERROR: ", JSON.stringify(error), JSON.stringify(allTermQuery));
+					logger.error("ERROR: ", JSON.stringify(error), JSON.stringify(allTermQuery));
 				}
 
 				if(data){
@@ -52,11 +52,11 @@ module.exports.mapRps = function(params, callback){
 				}
 
 				if(!data.results){
-					console.log("No Results for: " + JSON.stringify(allTermQuery));
+					logger.info("No Results for: " + JSON.stringify(allTermQuery));
 					data.results = [];
 				}
 
-				//console.log("RAW DATA: ", data);
+				logger.debug("RAW DATA: ", data);
 
 				var stateCounts = {};
 				data.results.forEach(function(entry){
@@ -70,18 +70,13 @@ module.exports.mapRps = function(params, callback){
 					}
 				});
 
-
-
 				for(var state in stateCounts){
 					var th = findKeyFill(dataset, stateCounts[state] );
-					//console.log(state, " : " , stateCounts[state]);
 					results[state] = { fillKey: th.key, count: stateCounts[state], label: th.val};
 					resultsArray.push({state:state, count:stateCounts[state]});
 				}
 
-
 				resultsArray.sort(compareCount);
-
 
 				response.mapData[dataset.name] = results;
 				response.orderedData[dataset.name] = resultsArray;
@@ -90,10 +85,9 @@ module.exports.mapRps = function(params, callback){
 				response.mapDataLegends[dataset.name] = getLegends(dataset);
 
 				if (completeQueries == datasets.length){
-//					console.log('results: ' + JSON.stringify(response));
+					logger.debug('results: ' + JSON.stringify(response));
 					callback(null, response);
 				}
-
 
 			});
     });//end dataset iteration
@@ -139,12 +133,11 @@ module.exports.mapRps = function(params, callback){
 
 	    function compareCount(a,b) {
 	  	  if (a.count > b.count){
-	      return -1;
-	    }
+	      	return -1;
+	    	}
 	  	  if (a.count < b.count){
-	      return 1;
-	    }
-
+	      	return 1;
+	    	}
 	  	  return 0;
 	  }
 };

@@ -2,9 +2,10 @@
 
 var queryService = require("./queryOfda.server.service");
 var config = require('./../../config/config');
+var logger = require('./../utils/logger.js')(module);
 
 module.exports.tableRpm = function (params, callback){
-	var response = {};	
+	var response = {};
 	var cols = [];
 	var datasets = [{name:'drug', displayName:"Drugs"},{name:'device', displayName:"Devices"},{name:'food', displayName:"Food"}];
 	var completeQueries = 0;
@@ -14,12 +15,12 @@ module.exports.tableRpm = function (params, callback){
 	var endYear = month.startMonth === 12 ? startYear +1 : startYear;
 	if(!params.month)
 		endYear = params.year ? new Number(params.year) + 1 : new Number(new Date().getFullYear()) + 1;
-	var it =0;	
+	var it =0;
 	var tableData = [];
-	
-	
+
+
 	datasets.forEach(function(dataset){
-		
+
 		var query = {
 			    queryId: 1,
 			    noun:dataset.name,
@@ -31,13 +32,13 @@ module.exports.tableRpm = function (params, callback){
 			    }
 			  };
 
-//				console.log(query);
+		logger.debug(query);
 
 		queryService.getData(query,function(error,data, query){
 			completeQueries++;
 
 			if(error){
-				console.error("ERROR: ", JSON.stringify(error), JSON.stringify(query));
+				logger.error("ERROR: ", JSON.stringify(error), JSON.stringify(query));
 			}
 
 			if(data){
@@ -47,32 +48,26 @@ module.exports.tableRpm = function (params, callback){
 			}
 
 			if(!data.results){
-				console.log("No Results for: " + JSON.stringify(query));
+				logger.info("No Results for: " + JSON.stringify(query));
 				data.results = [];
 			}
-			
-			console.log("RAW DATA COUNT: ", data.results.length);
-			//console.log("RAW DATA: ", JSON.stringify(data));
-			
+
+			logger.info("RAW DATA COUNT: ", data.results.length);
+			logger.debug("RAW DATA: ", JSON.stringify(data));
+
 			if(data.results.length){
 				var column = {};
-				
+
 			}
-			
+
 			data.results.forEach(function(result){
-				
-				
-				
+
 				var d = {};
 					for(var header in result){
-						
 						if(header.startsWith("@") || result[header] === "openfda")
 							continue;
-						
+
 						if(it === 0){ // set headers
-							
-														
-							
 							var column = {};
 							column['title'] = header.replaceAll("_", " ").capitalize(true);
 							column['field'] = header;
@@ -80,38 +75,24 @@ module.exports.tableRpm = function (params, callback){
 							column.filter[column['field'] ] = 'text';
 							cols.push(column);
 						}
-						
 						d[header] = result[header];
-						
 					}
 					tableData.push(d);
 					it++;
-				
 			});
 
 
-			console.log(dataset, JSON.stringify(tableData));
-			console.log(JSON.stringify(cols));
+			logger.debug(dataset, JSON.stringify(tableData));
+			logger.debug(JSON.stringify(cols));
 			if (completeQueries == datasets.length){
 				response.tableTitle = "Recalls for " + startYear +" per Month for " + state.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
 				response.table = tableData;
-								/*[
-				                  	{recall_number:'Z-1409-2015', status:"Ongoing"},
-									{recall_number:'A-1410-2015', status:"Ongoing"}
-		                          ];*/
-									
-				
 				response.columns = cols;
-				
+
 				callback(null, response);
 			}
-
-
 		});
-
-
 	});
-
 
 	function getDisplayNames(){
 		var displayNames = [];
@@ -121,7 +102,7 @@ module.exports.tableRpm = function (params, callback){
 
 		return displayNames;
 	}
-	
+
 	function getMonthNumber(monString){
 		var monthObj = {};
 		monthObj["jan"] = 1;
@@ -136,15 +117,15 @@ module.exports.tableRpm = function (params, callback){
 		monthObj["oct"] = 10;
 		monthObj["nov"] = 11;
 		monthObj["dec"] = 12;
-		
+
 		var monthNumber = monthObj[monString.toLowerCase()];
 		var nextMonth = 0;
-		
+
 		if(monthNumber == 12)
 			nextMonth =1;
 		else
 			nextMonth = monthNumber + 1;
-		
+
 		return {startMonth:monthNumber, nextMonth:nextMonth };
 	}
 };

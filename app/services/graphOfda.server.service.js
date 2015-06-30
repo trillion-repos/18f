@@ -45,33 +45,33 @@ module.exports.graphRpy = function (params, callback){
 				console.log("No Results for: " + JSON.stringify(query));
 				data.results = [];
 			}
-			console.log("SIZE:" + data.results.length);
+			//console.log("SIZE:" + data.results.length);
 			//console.log("RAW DATA: ", data);
 
-			
+
 			var yearTotals = {};
 			data.results.forEach(function(entry){
 				var currentYear = entry.time.substring(0,monYearSwitch);
-			
+
 				if(yearTotals[currentYear])
 					yearTotals[currentYear] += entry.count;
 				else
 					yearTotals[currentYear] = entry.count;
-				
+
 			});
-			
-			console.log("YEAR TOTALS: ", dataset.name, " : " ,JSON.stringify(yearTotals));
-			
+
+			//console.log("YEAR TOTALS: ", dataset.name, " : " ,JSON.stringify(yearTotals));
+
 			for(var year in yearTotals){
-				
+
 				if(!graphEntries[year] )
 					graphEntries[year] = {};
-				
+
 				graphEntries[year][query.noun]= yearTotals[year];
 			}
 
 			if (completeQueries == datasets.length){
-				console.log(JSON.stringify(graphEntries));
+			//	console.log(JSON.stringify(graphEntries));
 				var graphData = [];
 				var month = null;
 				for(var year in graphEntries){
@@ -80,7 +80,7 @@ module.exports.graphRpy = function (params, callback){
 						month = monthArray[new Number(month) - 1];
 					}
 					var y = [];
-					
+
 					datasets.forEach(function(dataset){
 						if(graphEntries[year][dataset.name]){
 							y.push(graphEntries[year][dataset.name]);
@@ -92,10 +92,10 @@ module.exports.graphRpy = function (params, callback){
 
 					graphData.push({x:month || year, y: y});
 				}
-				
-				console.log(JSON.stringify(graphData));
+
+			//	console.log(JSON.stringify(graphData));
 				response.graph = {series: getDisplayNames(), data: graphData};
-				
+
 				if(params.year){
 					response.graphTitle = "Recalls for " + params.year + " per Month for " + state.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
 				}
@@ -103,7 +103,7 @@ module.exports.graphRpy = function (params, callback){
 					response.graphTitle = "Recalls per Year for " + state.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
 				}
 
-				console.log('GRAPH RESPONSE: ' + JSON.stringify(response));
+			//	console.log('GRAPH RESPONSE: ' + JSON.stringify(response));
 				callback(null, response);
 			}
 
@@ -122,7 +122,7 @@ module.exports.graphRpy = function (params, callback){
 
 		return displayNames;
 	}
-	
+
 	var monthArray = new Array();
 	monthArray[0] = "Jan";
 	monthArray[1] = "Feb";

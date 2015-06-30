@@ -26,5 +26,5 @@ describe("Test Suite for maphOfda.server.service", function() {
         }
         done();
       });
-  },1000); // timeout after 1000 ms
+  },10000); // timeout after 1000 ms
 });

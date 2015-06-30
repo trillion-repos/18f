@@ -1,4 +1,5 @@
-var queryService = require("./../services/queryOfda.server.service");
+var queryService = require("./../services/queryOfda.server.service"),
+    logger = require('./../utils/logger.js')(module);
 
 describe("Test Suite for queryOfda.server.service", function() {
   var query = {

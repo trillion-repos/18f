@@ -45,7 +45,7 @@ describe("Test Suite for graphOfda.server.service", function() {
         done();
       });
 
-  },500); // timeout after 500 ms
+  },10000); // timeout after 1000 ms
 
   it("Negative Spec for graphRpy function", function(done) {
     graphService.graphRpy(negParams,function(error,response){
@@ -56,5 +56,5 @@ describe("Test Suite for graphOfda.server.service", function() {
         expect(response.graph).toEqual(expectedNegGraph);
         done();
       });
-  },500); // timeout after 500 ms
+  },10000); // timeout after 1000 ms
 });

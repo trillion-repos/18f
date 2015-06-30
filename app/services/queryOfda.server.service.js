@@ -2,12 +2,13 @@
 
 var request = require('request');
 var config = require("./../../config/config");
+var logger = require('./../utils/logger.js')(module);
 
 
 var getData = module.exports.getData = function(query, callback){
   var queryUrl = new openFDAUrl(query);
   queryUrl.generateCompleteUrl;
-  console.log("Query URL: " + queryUrl.completeUrl);
+  logger.info("Query URL: " + queryUrl.completeUrl);
 
   request(queryUrl.completeUrl, function (error, response, data){
       if (error) {
@@ -28,7 +29,7 @@ function openFDAUrl(query){
 	  self.openFDABaseUrl = 'https://api.fda.gov/' + query.noun + '/' + query.endpoint + '.json?api_key=' + config.openFDAKey;
 
 	  var addUrlParam = function(url,key,value){
-	      return url += '&' + key + '=' + (value);	    
+	      return url += '&' + key + '=' + (value);
 	  };
 
 	  var index = 0;

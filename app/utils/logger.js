@@ -14,7 +14,7 @@ var logger = function(callingModule) {
       transports: [
           new winston.transports.File({
               label: getLabel(callingModule),
-              level: 'debug',
+              level: 'error',
               filename: './all-logs.log',
               handleExceptions: true,
               json: true,
