@@ -137,9 +137,7 @@ width: 175px;
 
 
 body {
-  //padding-top: 40px;
-  //padding-bottom: 40px;
-  //background-color: #eee;
+	min-width: 600px;
 }
 
 .form-signin {
@@ -311,14 +309,20 @@ input.disabled {
 	z-index:1; 
 }
 
+@media (max-width:1410px) {
+    .mobile {
+        display:none !important;
+    }
+}
+
 .statesTop{
-	width: 25%;
+	/* width: 20%; */
 	float: right;
 	margin-top: 5%;
 }
 
 .statesTopTitle{
-	width: 200px;
+	width: 45%;
 	margin: auto;
 	padding-left: 10px;
 	
@@ -344,7 +348,9 @@ input.disabled {
 }
 
 .fdaDataMap{
-	width: 75%;
+	width: 70%;
+	float:left;
+	padding-left: 8vmin;
 }
 
 .datamaps-legend {
@@ -454,4 +460,22 @@ td {
 	text-align: center;
 	font-weight:bold;
 	
+}
+
+.datasets{
+	/* margin-bottom: -10%; */
+	font-size: 1.2em;
+	background-color: #FCEDB6;
+	border-radius: 8px;
+	width: 30vmin;
+	padding-left: 15;
+	padding-top: 6;
+	padding-bottom: 6;
+	color: rgb(92, 88, 88);
+	float:left;
+}
+
+.mainInclude{
+	clear:both; 
+	margin-top: 5vmin;
 }

@@ -1,6 +1,31 @@
 
-<div data-ng-controller="DataMapCtrl" class="">
-	<div class="statesTop">
+<div data-ng-controller="DataMapCtrl" class="" style="overflow:hidden">
+	
+
+	<h2 class="dataMapTitle">{{title}}</h2>
+	<p class="instructions">(Select State for Details)</p>
+	<div class="datasets">
+		<div class="radio radio-info radio-circle" style="" data-ng-click="changeMap('drug')">
+			<input type="radio" data-ng-checked="selectedDatasetDrugs" id="radio1"> 
+			<label for="radio1">	<strong>Drugs</strong> </label> 
+		</div>
+		<div class="radio radio-info radio-circle" style="" data-ng-click="changeMap('device')">
+			<input type="radio" data-ng-checked="selectedDatasetDevices" id="radio2"> 
+			<label for="radio2"> <strong>Devices</strong> </label> 
+		</div>
+		<div class="radio radio-info radio-circle" style=""data-ng-click="changeMap('food')">
+			<input type="radio" data-ng-checked="selectedDatasetFood" id="radio3"> 
+			<label for="radio3"> <strong>Foods</strong> </label>
+		</div>
+	</div>
+	<div class="fdaDataMap">
+
+
+		<datamap map="theMap" plugins="mapPlugins" plugin-data="mapPluginData"
+			on-click="drillDownToYear"> </datamap>
+	</div>
+	
+	<div class="statesTop mobile">
 		<div>
 			<a href="javascript:void(0);" class="btn btn-default btn-sm statesTopTitleSort" data-ng-click="changeTopStates()"> <span
 				class="glyphicon glyphicon-arrow-{{glyPos}}"></span>
@@ -23,28 +48,6 @@
 				</tbody>
 			</table>
 		</div>
-	</div>
-
-
-	<div class="fdaDataMap">
-		<h2 class="dataMapTitle">{{title}}</h2>
-		<p class="instructions">(Select State for Details)</p>
-		<div style = "position:absolute">
-			<div class="radio radio-info radio-circle" style="" data-ng-click="changeMap('drug')">
-				<input type="radio" data-ng-checked="selectedDatasetDrugs" id="radio1"> 
-				<label for="radio1">	<strong>Drugs</strong> </label> 
-			</div>
-			<div class="radio radio-info radio-circle" style="" data-ng-click="changeMap('device')">
-				<input type="radio" data-ng-checked="selectedDatasetDevices" id="radio2"> 
-				<label for="radio2"> <strong>Devices</strong> </label> 
-			</div>
-			<div class="radio radio-info radio-circle" style=""data-ng-click="changeMap('food')">
-				<input type="radio" data-ng-checked="selectedDatasetFood" id="radio3"> 
-				<label for="radio3"> <strong>Food</strong> </label>
-			</div>
-		</div>
-		<datamap map="theMap" plugins="mapPlugins" plugin-data="mapPluginData"
-			on-click="drillDownToYear"> </datamap>
 	</div>
 
 </div>

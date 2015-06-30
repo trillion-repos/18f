@@ -15,6 +15,8 @@ openFDA.controller('TableCtrl', [
 			$scope.filteredData = [];
 			$scope.columns = [];
 			$scope.pageSize = 25;
+			
+			
 			$scope.tableParams = new ngTableParams({
 				page : 1, // show first page
 				count : 5, // count per page
@@ -25,9 +27,13 @@ openFDA.controller('TableCtrl', [
 				counts: [],
 				total : 1,
 				getData : function($defer, params) {
+					
 					$scope.filteredData = params.filter() ? $filter('filter')($scope.organizedData, params.filter()) :  $scope.organizedData;
 					$scope.filteredData = params.sorting() ? $filter('orderBy')($scope.filteredData, params.orderBy()) : $scope.filteredData;
-					$defer.resolve($scope.filteredData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+					if($scope.filteredData){	
+						var val = $scope.filteredData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+						$defer.resolve(val);
+					}
 				}
 			});
 			
@@ -53,25 +59,30 @@ openFDA.controller('TableCtrl', [
 	
 			$scope.$watch(function () { return SharedDataSrvc.getTableData(); },
 			   function (value) {
-				   if(value && value.data){
+				   if(value){
 					   //console.log("TableData: ", JSON.stringify(value));
 					   
-					   $scope.organizedData = value.data;
-					   $scope.filteredData = $scope.organizedData;
+					   $scope.organizedData = value.data;					   
 					   $scope.title = value.title;
 					   $scope.allColumns = value.columns;
 					   $scope.columns = [];
-					   $scope.allColumns.forEach(function(col){
-						   if (activeCols.indexOf(col.field) > -1){
-							   $scope.columns.push(col);
-							   col.active = 'active';
-						   }
-					   });
+					   $scope.filteredData = [];
 					   
-					   $scope.tableParams.reload();
-					   
-					 	$location.hash('tableAnchor');
-					    $anchorScroll();
+					   if(value.columns && value.data){
+						   
+						   $scope.filteredData = $scope.organizedData;
+						   $scope.allColumns.forEach(function(col){
+							   if (activeCols.indexOf(col.field) > -1){
+								   $scope.columns.push(col);
+								   col.active = 'active';
+							   }
+						   });
+						   
+						   $scope.tableParams.reload();
+						   
+						 	$location.hash('tableAnchor');
+						    $anchorScroll();
+					   }
 					   
 				   }
 			   }
