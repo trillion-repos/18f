@@ -7,16 +7,8 @@ var logger = require('./../utils/logger.js')(module);
 var lastQueryTimeStamp = new Date().getTime();
 
 var getData = module.exports.getData = function(query, callback){
-  var timeOut = 0;
+  var timeOut = 300; //setting time out to 300 ms due to limitaions in API that prevent too many calls per second
   var queryUrl = new openFDAUrl(query);
-
-  var currentQueryTime = new Date().getTime();
-
-  if((currentQueryTime - 500) >= lastQueryTimeStamp){
-    timeOut = 500;
-  } else {
-    timeOut = 0;
-  }
 
   queryUrl.generateCompleteUrl;
   logger.info("Query URL: " + queryUrl.completeUrl);
