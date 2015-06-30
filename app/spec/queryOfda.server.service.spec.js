@@ -48,7 +48,7 @@ describe("Test Suite for queryOfda.server.service", function() {
         done();
       });
 
-  },1000); // timeout after 1000 ms
+  },1500);
 
   it("Neg Spec for getData function", function(done) {
       //negative test
@@ -62,5 +62,5 @@ describe("Test Suite for queryOfda.server.service", function() {
           expect(error.error.code).toBe("NOT_FOUND");
           done();
         });
-  },1000); // timeout after 1000 ms
+  },1500);
 });
