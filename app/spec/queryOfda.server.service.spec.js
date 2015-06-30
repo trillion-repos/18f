@@ -48,7 +48,7 @@ describe("Test Suite for queryOfda.server.service", function() {
         done();
       });
 
-  },1500);
+  },2000);
 
   it("Neg Spec for getData function", function(done) {
       //negative test
