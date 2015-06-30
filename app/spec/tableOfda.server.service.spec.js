@@ -69,5 +69,5 @@ describe("Test Suite for tableOfda.server.service", function() {
       expect(response.columns).toEqual(expectedColumns);
       done();
     });
-  },1000); // timeout after 1000 ms
+  },1500); // timeout after 1000 ms
 });

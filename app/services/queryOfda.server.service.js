@@ -4,25 +4,36 @@ var request = require('request');
 var config = require("./../../config/config");
 var logger = require('./../utils/logger.js')(module);
 
+var lastQueryTimeStamp = new Date().getTime();
 
 var getData = module.exports.getData = function(query, callback){
+  var timeOut = 0;
   var queryUrl = new openFDAUrl(query);
+
+  var currentQueryTime = new Date().getTime();
+
+  if((currentQueryTime - 500) >= lastQueryTimeStamp){
+    timeOut = 500;
+  } else {
+    timeOut = 0;
+  }
+
   queryUrl.generateCompleteUrl;
   logger.info("Query URL: " + queryUrl.completeUrl);
+  setTimeout(function(){
+    request(queryUrl.completeUrl, function (error, response, data){
+        if (error) {
+          callback(error);
+        } else if (response.statusCode !== 200) {
+          callback(response);
+        } else{
+          callback(error,data, query);
+        }
+    });
+  },timeOut);
 
-  request(queryUrl.completeUrl, function (error, response, data){
-      if (error) {
-        callback(error);
-      } else if (response.statusCode !== 200) {
-        callback(response);
-      } else{
-        callback(error,data, query);
-      }
-  });
-
+  lastQueryTimeStamp = new Date().getTime();
 };
-
-
 
 function openFDAUrl(query){
 	  var self = this;
