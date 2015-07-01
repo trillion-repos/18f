@@ -280,6 +280,13 @@ input.disabled {
 	width: 125px;
 }
 
+.navbar-brand.navbar-border{
+	border-left-style: solid;
+	border-width: 1;
+	border-color: rgb(233, 230, 225);
+	color: rgb(233, 230, 225);
+}
+
 .cafs-top-menu{
 	margin-top: 8px;
 }
@@ -355,7 +362,7 @@ input.disabled {
 
 .datamaps-legend {
 	left: 40px;
-	top:100%;
+	top: 35vw !important;
 }
 
 
@@ -464,10 +471,11 @@ td {
 
 .datasets{
 	/* margin-bottom: -10%; */
-	font-size: 1.2em;
+	font-size: 1vw;
 	background-color: #FCEDB6;
 	border-radius: 8px;
-	width: 30vmin;
+	width: 10vw;
+	min-width: 75px;
 	padding-left: 15;
 	padding-top: 6;
 	padding-bottom: 6;
