@@ -320,6 +320,10 @@ input.disabled {
     .mobile {
         display:none !important;
     }
+    
+    .mobile-legend{
+    	bottom: -5vw !important;
+    }
 }
 
 .statesTop{
@@ -362,7 +366,8 @@ input.disabled {
 
 .datamaps-legend {
 	left: 40px;
-	top: 35vw !important;
+	bottom: 0;
+	padding-bottom: 0 !important;
 }
 
 

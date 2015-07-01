@@ -162,7 +162,7 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 			    }
 			    html.push('</ul>');
 			    d3.select(this.options.element).append('div')
-			      .attr('class', 'datamaps-legend')
+			      .attr('class', 'datamaps-legend mobile-legend')
 			      .html(html.join(''));
 			  }
 			};
