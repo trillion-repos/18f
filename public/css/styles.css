@@ -386,6 +386,9 @@ table {
 
 th {
 	background: url(http://jackrugile.com/images/misc/noise-diagonal.png), linear-gradient(#777, #444);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000'); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#000)); /* for webkit browsers */
+background: -moz-linear-gradient(top,  #ccc,  #000); /* for firefox 3.6+ */
 	border-left: 1px solid #555;
 	border-right: 1px solid #777;
 	border-top: 1px solid #555;
@@ -481,9 +484,9 @@ td {
 	border-radius: 8px;
 	width: 10vw;
 	min-width: 75px;
-	padding-left: 15;
-	padding-top: 6;
-	padding-bottom: 6;
+	padding-left: 1vh;
+	padding-top: 1vh;
+	padding-bottom: 1vh;
 	color: rgb(92, 88, 88);
 	float:left;
 }
@@ -492,3 +495,10 @@ td {
 	clear:both; 
 	margin-top: 5vmin;
 }
+
+.chart {
+	 width: 95vw;
+	height: 90vh;
+}
+
+

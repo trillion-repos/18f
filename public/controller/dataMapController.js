@@ -178,13 +178,13 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 		
 		//un-highlight selected state
 		if(SharedDataSrvc.getFillKey()){
-			$scope.theMap.data[SharedDataSrvc.getState().stateCode.toLowerCase()].fillKey = SharedDataSrvc.getFillKey();			
+			$scope.theMap.data[SharedDataSrvc.getState().stateCode].fillKey = SharedDataSrvc.getFillKey();			
 		}				
 		
-		SharedDataSrvc.fetchData("graphRpy", state, $routeParams, null, null, $scope.theMap.data[geography.id.toLowerCase()].fillKey);
+		SharedDataSrvc.fetchData("graphRpy", state, $routeParams, null, null, $scope.theMap.data[geography.id].fillKey);
 		
 		//highlight selected state
-		$scope.theMap.data[geography.id.toLowerCase()].fillKey = 'selectedFill'; 
+		$scope.theMap.data[geography.id].fillKey = 'selectedFill'; 
 	};
 	
 	
