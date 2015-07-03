@@ -95,7 +95,7 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 		
 			//un-highlight selected state
 			if(SharedDataSrvc.getFillKey()){
-				$scope.theMap.data[SharedDataSrvc.getState().stateCode.toLowerCase()].fillKey = SharedDataSrvc.getFillKey();			
+				$scope.theMap.data[SharedDataSrvc.getState().stateCode].fillKey = SharedDataSrvc.getFillKey();			
 			}
 		}
 		

@@ -282,7 +282,7 @@ input.disabled {
 
 .navbar-brand.navbar-border{
 	border-left-style: solid;
-	border-width: 1;
+	border-width: 1px;
 	border-color: rgb(233, 230, 225);
 	color: rgb(233, 230, 225);
 }
