@@ -1,5 +1,5 @@
 var tableService = require("./../services/tableOfda.server.service");
-require("./../utils/utils.js");
+var utils = require("./../utils/utils.js");
 
 describe("Test Suite for tableOfda.server.service", function() {
   var params = {
@@ -63,11 +63,13 @@ describe("Test Suite for tableOfda.server.service", function() {
      ];
 
   it("Spec for tableRpm function", function(done) {
+	  setTimeout(function(){
     tableService.tableRpm(params,function(error,response){
       expect(response.tableTitle).toBe('Recalls for 2014 per Month for Virginia');
       expect(response.table).toBeDefined();
       expect(response.columns).toEqual(expectedColumns);
       done();
     });
-  },1500); // timeout after 1000 ms
+	  },utils.getTimeout());
+  },15000); // timeout after 1000 ms
 });

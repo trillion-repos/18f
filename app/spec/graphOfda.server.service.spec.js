@@ -1,4 +1,5 @@
 var graphService = require("./../services/graphOfda.server.service");
+var utils = require("./../utils/utils.js");
 
 describe("Test Suite for graphOfda.server.service", function() {
  var params = {
@@ -36,6 +37,7 @@ describe("Test Suite for graphOfda.server.service", function() {
 
 
   it("Spec for graphRpy function", function(done) {
+	  setTimeout(function(){
     graphService.graphRpy(params,function(error,response){
         if(error){
           console.error("ERROR: ", JSON.stringify(error));
@@ -44,10 +46,12 @@ describe("Test Suite for graphOfda.server.service", function() {
         expect(expectedGraph).toEqual(response.graph);
         done();
       });
+	  },utils.getTimeout());
 
   },10000); // timeout after 1000 ms
 
   it("Negative Spec for graphRpy function", function(done) {
+	  setTimeout(function(){
     graphService.graphRpy(negParams,function(error,response){
         if(error){
           console.error("ERROR: ", JSON.stringify(error));
@@ -56,5 +60,6 @@ describe("Test Suite for graphOfda.server.service", function() {
         expect(response.graph).toEqual(expectedNegGraph);
         done();
       });
+	  },utils.getTimeout());
   },10000); // timeout after 1000 ms
 });

@@ -3,6 +3,7 @@
 var queryService = require("./queryOfda.server.service");
 var config = require('./../../config/config');
 var logger = require('./../utils/logger.js')(module);
+require('./../utils/utils');
 
 module.exports.tableRpm = function (params, callback){
 	var response = {};
