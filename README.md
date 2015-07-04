@@ -12,7 +12,8 @@ Sprint 0 comprised of understanding and detailing the requirements presented in 
 ##Approach (Design and Development)
 The ODV Platform leans on a human centered design to provide an intuitive web based graphical user interface for citizens to view data provided by the government for consumption by the general public.  The prototype was implemented using a technology stack that is pluggable and requires minimal changes to substitute technology libraries.  Several years of experience with DevOps in the government and commercial sectors and associated lessons learned was useful in quickly putting together the DevOps platform for the ODV Platform.  Trillion used several tools for DevOps including GitHub for code repository, AWS for Linux instances, Jenkins for Continuous Integration, Mocha for testing, Docker for deployment, WAVE for 508 testing, Istanbul for code coverage and Datadog for continuous monitoring, among others.
 SSL certificates are used for providing secure access to the ODV Platform.
-The technical stack used in shown in the logical architecture diagram.(/doc/Architecture.png)
+The technical stack used in shown in the ["logical architecture diagram"] (https://github.com/trillion1-repos/18f/blob/master/doc/Architecture.png)
+
 
 Our deployment architecture shows how the technology stack is laid out across the environments.
 ODV Platform allows users an interactive user interface that provides a top down drill down method to accessing recall information provided by the government.  Hierarchical information access works as follows:
@@ -21,8 +22,6 @@ ODV Platform allows users an interactive user interface that provides a top down
 3)	Clicking on each annual bar in the graph, per category, provides monthly recalls for each category
 4)	Clicking on each category per month lists detailed recall records for that month, US state and chosen category
 5)	The detailed list has smart search per each column shown.  Typing in part or full phrases filters down the records list to match the search pattern.
-Production URL
-http://18f.ttsiglobal.com
 Installation Guide
 Please see our installation guide for additional details
 
