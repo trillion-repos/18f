@@ -11,12 +11,14 @@ The ODV Platform leans on a human centered design to provide an intuitive web ba
 SSL certificates are used for providing secure access to the ODV Platform.
 The technical stack used in shown in the [logical architecture diagram]
 Our [deployment architecture] shows how the technology stack is laid out across the environments.
+
+##ODV Features and Usage 
 ODV Platform allows users an interactive user interface that provides a top down drill down method to accessing recall information provided by the government.  Hierarchical information access works as follows:
-•	It starts at the top level from the home page which takes them to an interactive graphic of the map of United States.  Recall information is available for each category – Drugs, Devices and Food
-•	The users can click on each state of the map to obtain a bar graph of annual historical color coded recall information, for each of the categories per US state.
-•	Clicking on each annual bar in the graph, per category, provides monthly recalls for each category
-•	Clicking on each category per month lists detailed recall records for that month, US state and chosen category
-•	The detailed list has smart search per each column shown.  Typing in part or full phrases filters down the records list to match the search pattern.
+* It starts at the top level from the home page which takes them to an interactive graphic of the map of United States.  Recall information is available for each category – Drugs, Devices and Food
+* The users can click on each state of the map to obtain a bar graph of annual historical color coded recall information, for each of the categories per US state.
+* Clicking on each annual bar in the graph, per category, provides monthly recalls for each category
+*	Clicking on each category per month lists detailed recall records for that month, US state and chosen category
+*	The detailed list has smart search per each column shown.  Typing in part or full phrases filters down the records list to match the search pattern.
 ## Production URL
 http://18f.ttsiglobal.com
 ## Continuous Integration Environment 
