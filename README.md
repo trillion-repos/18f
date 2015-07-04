@@ -24,7 +24,7 @@ ODV Platform allows users an interactive user interface that provides a top down
 http://18f.ttsiglobal.com
 
 ## Continuous Integration Environment 
-http://18fci.ttsiglobal.com
+http://18fci.ttsiglobal.com:8080/view/All/builds
 
 ## OVM Continuous Monitoring Environament
 
