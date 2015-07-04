@@ -9,15 +9,11 @@ var fs = require('fs'),
 	express = require('express'),
 	morgan = require('morgan'),
 	bodyParser = require('body-parser'),
-	session = require('express-session'),
 	compress = require('compression'),
 	methodOverride = require('method-override'),
-	cookieParser = require('cookie-parser'),
 	helmet = require('helmet'),
-	passport = require('passport'),
 	flash = require('connect-flash'),
 	config = require('./config'),
-	consolidate = require('consolidate'),
 	path = require('path');
 	
 //var TingoStore = require('connect-tingo')(session);
@@ -35,9 +31,7 @@ module.exports = function() {
 	app.locals.title = config.app.title;
 	app.locals.description = config.app.description;
 	app.locals.keywords = config.app.keywords;
-	app.locals.facebookAppId = config.facebook.clientID;
-	app.locals.jsFiles = config.getJavaScriptAssets();
-	app.locals.cssFiles = config.getCSSAssets();
+
 
 	// Passing the request url to environment locals
 	app.use(function(req, res, next) {
@@ -56,12 +50,6 @@ module.exports = function() {
 	// Showing stack errors
 	app.set('showStackError', true);
 
-	// Set swig as the template engine
-	app.engine('server.view.html', consolidate[config.templateEngine]);
-
-	// Set views path and view engine
-	app.set('view engine', 'server.view.html');
-	app.set('views', './app/views');
 
 	// Environment dependent middleware
 	if (process.env.NODE_ENV === 'development') {
@@ -84,22 +72,6 @@ module.exports = function() {
 		// Setting the app router and static folder
 	app.use(express.static(path.resolve('./public')));
 
-	// CookieParser should be above session
-	app.use(cookieParser());
-
-/*	app.use(session({
-    secret: config.sessionSecret,
-    cookie: { maxAge: config.sessionMaxAgeInMin * 60000 },
-    store: new TingoStore({
-      db: config.db
-    })
-	}));*/
-
-//app.use(session({ secret: 'keyboard cat' }));
-
-	// use passport session
-	app.use(passport.initialize());
-	app.use(passport.session());
 
 	// connect flash for flash messages
 	app.use(flash());
@@ -127,17 +99,7 @@ module.exports = function() {
 		console.error(err.stack);
 
 		// Error page
-		res.status(500).render('500', {
-			error: err.stack
-		});
-	});
-
-	// Assume 404 since no middleware responded
-	app.use(function(req, res) {
-		res.status(404).render('404', {
-			url: req.originalUrl,
-			error: 'Not Found'
-		});
+		res.status(500).send("Server Error");
 	});
 
 	if (process.env.NODE_ENV === 'secure') {

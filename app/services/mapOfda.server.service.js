@@ -72,7 +72,7 @@ module.exports.mapRps = function(params, callback){
 
 				for(var state in stateCounts){
 					var th = findKeyFill(dataset, stateCounts[state] );
-					results[state] = { fillKey: th.key, count: stateCounts[state], label: th.val};
+					results[state.toUpperCase()] = { fillKey: th.key, count: stateCounts[state], label: th.val};
 					resultsArray.push({state:state, count:stateCounts[state]});
 				}
 

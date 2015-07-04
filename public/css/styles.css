@@ -137,9 +137,7 @@ width: 175px;
 
 
 body {
-  //padding-top: 40px;
-  //padding-bottom: 40px;
-  //background-color: #eee;
+	min-width: 600px;
 }
 
 .form-signin {
@@ -282,6 +280,13 @@ input.disabled {
 	width: 125px;
 }
 
+.navbar-brand.navbar-border{
+	border-left-style: solid;
+	border-width: 1px;
+	border-color: rgb(233, 230, 225);
+	color: rgb(233, 230, 225);
+}
+
 .cafs-top-menu{
 	margin-top: 8px;
 }
@@ -311,14 +316,24 @@ input.disabled {
 	z-index:1; 
 }
 
+@media (max-width:1410px) {
+    .mobile {
+        display:none !important;
+    }
+    
+    .mobile-legend{
+    	bottom: -5vw !important;
+    }
+}
+
 .statesTop{
-	width: 25%;
+	/* width: 20%; */
 	float: right;
 	margin-top: 5%;
 }
 
 .statesTopTitle{
-	width: 200px;
+	width: 45%;
 	margin: auto;
 	padding-left: 10px;
 	
@@ -344,12 +359,15 @@ input.disabled {
 }
 
 .fdaDataMap{
-	width: 75%;
+	width: 70%;
+	float:left;
+	padding-left: 8vmin;
 }
 
 .datamaps-legend {
 	left: 40px;
-	top:100%;
+	bottom: 0;
+	padding-bottom: 0 !important;
 }
 
 
@@ -368,6 +386,9 @@ table {
 
 th {
 	background: url(http://jackrugile.com/images/misc/noise-diagonal.png), linear-gradient(#777, #444);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000'); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#000)); /* for webkit browsers */
+background: -moz-linear-gradient(top,  #ccc,  #000); /* for firefox 3.6+ */
 	border-left: 1px solid #555;
 	border-right: 1px solid #777;
 	border-top: 1px solid #555;
@@ -455,3 +476,29 @@ td {
 	font-weight:bold;
 	
 }
+
+.datasets{
+	/* margin-bottom: -10%; */
+	font-size: 1vw;
+	background-color: #FCEDB6;
+	border-radius: 8px;
+	width: 10vw;
+	min-width: 75px;
+	padding-left: 1vh;
+	padding-top: 1vh;
+	padding-bottom: 1vh;
+	color: rgb(92, 88, 88);
+	float:left;
+}
+
+.mainInclude{
+	clear:both; 
+	margin-top: 5vmin;
+}
+
+.chart {
+	 width: 95vw;
+	height: 90vh;
+}
+
+

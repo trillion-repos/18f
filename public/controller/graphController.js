@@ -46,14 +46,6 @@ openFDA.controller('GraphCtrl', [
 			  waitForHeightAndWidth: true // if true, it will not throw an error when the height or width are not defined (e.g. while creating a modal form), and it will be keep watching for valid height and width values
 			};
 			
-
-/*			$scope.$watch(function () { return SharedDataSrvc.getView(); },
-			   function (value) {
-					console.log("It changed! ", value);
-					if(value === false)
-						showingMonth = value;				   
-			   }
-			);*/
 			
 			$scope.$watch(function () { return SharedDataSrvc.getFoundData(); },
 			   function (value) {
@@ -74,6 +66,12 @@ openFDA.controller('GraphCtrl', [
 				 	 $location.hash('graphAnchor');
 				     $anchorScroll();
 					   
+				   }
+				   
+				   if(value && SharedDataSrvc.getView() === 'mapRps'){
+					   $scope.graphData = value.data;
+					   $scope.graphTitle = value.title;
+					   $scope.state = value.state;
 				   }
 			   }
 			);

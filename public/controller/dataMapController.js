@@ -9,7 +9,6 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 	var isTableTop = false;
 	var top = {};
 	var bottom = {};
-	var selectedDataset = 'drug';
 	
 	
 	
@@ -52,6 +51,7 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 			};
 	
 	$scope.changeTopStates = function(){
+		var selectedDataset = SharedDataSrvc.getSelectedDataset();
 		isTableTop = !isTableTop;
 		
 		if(isTableTop){
@@ -76,9 +76,9 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 	
 	$scope.selectedDatasetDrugs = true;
 	
-	$scope.changeMap = function(dataset){
+	$scope.changeMap = function(dataset, isReload){
+		SharedDataSrvc.setSelectedDataset(dataset);
 		isTableTop = false;
-		selectedDataset = dataset;
 		$scope.theMap.data = mapDataAll[dataset];
 		$scope.theMap.fills = mapFillsAll[dataset];
 		$scope.orderedData = orderedDataAll[dataset];
@@ -86,6 +86,18 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 		$scope.title = titleAll[dataset];
 		$scope.theMap.options.mapLegends = mapLegends[dataset];
 		$scope.mapPluginData = {customLegend:mapLegends[dataset]};
+		
+		if (!isReload){
+			SharedDataSrvc.removeTableData();
+			SharedDataSrvc.setView("mapRps");
+			SharedDataSrvc.clearGraph();
+		
+		
+			//un-highlight selected state
+			if(SharedDataSrvc.getFillKey()){
+				$scope.theMap.data[SharedDataSrvc.getState().stateCode].fillKey = SharedDataSrvc.getFillKey();			
+			}
+		}
 		
 		//$scope.map.updateChoropleth();
 		
@@ -110,8 +122,8 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 		}
 	};
 	
-	var response = SharedDataSrvc.getMapData($routeParams, "mapRps", function(err, response){
-		
+	var response = SharedDataSrvc.getMapData($routeParams, "mapRps", function(err, response, isReload){
+		var selectedDataset = SharedDataSrvc.getSelectedDataset();
 		if(err){
 			console.error(JASON.stringify(err));
 			return;
@@ -124,7 +136,7 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 		mapLegends = response.mapDataLegends;
 		$scope.mapPluginData = {customLegend:mapLegends[selectedDataset]};
 		
-		$scope.changeMap(selectedDataset);
+		$scope.changeMap(selectedDataset, isReload);
 	});
 	
 	
@@ -150,7 +162,7 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 			    }
 			    html.push('</ul>');
 			    d3.select(this.options.element).append('div')
-			      .attr('class', 'datamaps-legend')
+			      .attr('class', 'datamaps-legend mobile-legend')
 			      .html(html.join(''));
 			  }
 			};
@@ -166,13 +178,13 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 		
 		//un-highlight selected state
 		if(SharedDataSrvc.getFillKey()){
-			$scope.theMap.data[SharedDataSrvc.getState().stateCode.toLowerCase()].fillKey = SharedDataSrvc.getFillKey();			
+			$scope.theMap.data[SharedDataSrvc.getState().stateCode].fillKey = SharedDataSrvc.getFillKey();			
 		}				
 		
-		SharedDataSrvc.fetchData("graphRpy", state, $routeParams, null, null, $scope.theMap.data[geography.id.toLowerCase()].fillKey);
+		SharedDataSrvc.fetchData("graphRpy", state, $routeParams, null, null, $scope.theMap.data[geography.id].fillKey);
 		
 		//highlight selected state
-		$scope.theMap.data[geography.id.toLowerCase()].fillKey = 'selectedFill'; 
+		$scope.theMap.data[geography.id].fillKey = 'selectedFill'; 
 	};
 	
 	

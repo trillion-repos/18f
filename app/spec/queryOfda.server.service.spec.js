@@ -1,5 +1,6 @@
 var queryService = require("./../services/queryOfda.server.service"),
     logger = require('./../utils/logger.js')(module);
+var utils = require("./../utils/utils.js");
 
 describe("Test Suite for queryOfda.server.service", function() {
   var query = {
@@ -27,6 +28,7 @@ describe("Test Suite for queryOfda.server.service", function() {
         };
 
   it("Spec for getData function", function(done) {
+	  setTimeout(function(){
     //positive test
     queryService.getData(query,function(error,data, query){
         if(error){
@@ -47,11 +49,12 @@ describe("Test Suite for queryOfda.server.service", function() {
         expect(data.results[0].term).toBe("va");
         done();
       });
-
-  },500); // timeout after 500 ms
+	  },utils.getTimeout());
+  },20000);
 
   it("Neg Spec for getData function", function(done) {
       //negative test
+	  setTimeout(function(){
       queryService.getData(negativeQuery,function(error,data, query){
           if(error.body){
             error = JSON.parse(error.body);
@@ -62,5 +65,6 @@ describe("Test Suite for queryOfda.server.service", function() {
           expect(error.error.code).toBe("NOT_FOUND");
           done();
         });
-  },500); // timeout after 500 ms
+	  },utils.getTimeout());
+  },15000);
 });

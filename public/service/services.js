@@ -12,6 +12,7 @@ function(FetchOpenFDASrvc, $location, $anchorScroll) {
 	 var mapData;
 	 var fillKey;
 	 var currentState;
+	 var dataset = 'drug';
 
 	 
      function getGraphData() {
@@ -51,9 +52,22 @@ function(FetchOpenFDASrvc, $location, $anchorScroll) {
     	 return currentState;
      }
      
+     function clearGraph(){
+    	 foundData = false;
+    	 graphData = {};
+     }
+     
+     function getSelectedDataset(){
+    	 return dataset;
+     }
+     
+     function setSelectedDataset(d){
+    	 dataset = d; 
+     }
+     
      function getMapData(routeParams, qId, callback){    	 
     	 if (mapData){
-    		 callback(null, mapData);
+    		 callback(null, mapData, true);
     	 }
     	 else{
 	    	 FetchOpenFDASrvc.get({appId:routeParams.appId, modId: routeParams.modId, fnId:routeParams.fnId, qId:qId},
@@ -145,7 +159,10 @@ function(FetchOpenFDASrvc, $location, $anchorScroll) {
     	getMapData : getMapData,
     	removeTableData : removeTableData,
     	getFillKey : getFillKey,
-    	getState : getState
+    	getState : getState,
+    	clearGraph : clearGraph,
+    	getSelectedDataset : getSelectedDataset,
+    	setSelectedDataset : setSelectedDataset
     }
 
 }]);

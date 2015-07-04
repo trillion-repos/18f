@@ -3,6 +3,11 @@ module.exports.getLocaltime = function(){
 	return new Date(new Date().getTime() + offset).toJSON();	
 };
 
+var timeout = 0;
+module.exports.getTimeout = function(){
+	return timeout += 500;
+}
+
 if (typeof String.prototype.capitalize != 'function') {
 	String.prototype.capitalize = function(lower) {
 	    return (lower ? this.toLowerCase() : this).replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
