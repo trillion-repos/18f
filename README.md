@@ -19,8 +19,11 @@ ODV Platform allows users an interactive user interface that provides a top down
 * Clicking on each annual bar in the graph, per category, provides monthly recalls for each category
 *	Clicking on each category per month lists detailed recall records for that month, US state and chosen category
 *	The detailed list has smart search per each column shown.  Typing in part or full phrases filters down the records list to match the search pattern.
+
 ## Production URL
 http://18f.ttsiglobal.com
+
 ## Continuous Integration Environment 
 http://18fci.ttsiglobal.com
+
 ## OVM Continuous Monitoring Environament
