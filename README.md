@@ -13,9 +13,9 @@ Sprint 0 comprised of understanding and detailing the requirements presented in 
 The ODV Platform leans on a human centered design to provide an intuitive web based graphical user interface for citizens to view data provided by the government for consumption by the general public.  The prototype was implemented using a technology stack that is pluggable and requires minimal changes to substitute technology libraries.  Several years of experience with DevOps in the government and commercial sectors and associated lessons learned was useful in quickly putting together the DevOps platform for the ODV Platform.  Trillion used several tools for DevOps including GitHub for code repository, AWS for Linux instances, Jenkins for Continuous Integration, Mocha for testing, Docker for deployment, WAVE for 508 testing, Istanbul for code coverage and Datadog for continuous monitoring, among others.
 SSL certificates are used for providing secure access to the ODV Platform.
 The technical stack used in shown in the [logical architecture diagram] (https://github.com/trillion1-repos/18f/blob/master/doc/Architecture.png)
+Our [deployment architecture] (https://github.com/trillion1-repos/18f/blob/master/doc/Deployment.png) shows how the technology stack is laid out across the environments.
 
-
-Our deployment architecture shows how the technology stack is laid out across the environments.
+##ODV Platform features and Usage 
 ODV Platform allows users an interactive user interface that provides a top down drill down method to accessing recall information provided by the government.  Hierarchical information access works as follows:
 *	It starts at the top level from the home page which takes them to an interactive graphic of the map of United States.  Recall information is available for each category – Drugs, Devices and Food
 *	The users can click on each state of the map to obtain a bar graph of annual historical color coded recall information, for each of the categories per US state.
@@ -23,16 +23,9 @@ ODV Platform allows users an interactive user interface that provides a top down
 *	Clicking on each category per month lists detailed recall records for that month, US state and chosen category
 *	The detailed list has smart search per each column shown.  Typing in part or full phrases filters down the records list to match the search pattern.
 
-
-
 ### Production
 http://18f.ttsiglobal.com
 
 ### Install
 See our [installation](INSTALL.md)
 
-### Application Architecture & Design
-![Application Archicture](/doc/Architecture.png)
-
-### Deployment Architecture
-![Deployment Archicture](/doc/Deployment.png)
