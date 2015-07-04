@@ -32,5 +32,5 @@ http://18fci.ttsiglobal.com:8080/view/All/builds
 ### ODV Application Monitoring 
 
 ### Install
-See our [installation](INSTALL.md)
+See our [Installation Guide](INSTALL.md)
 
