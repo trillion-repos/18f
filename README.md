@@ -23,8 +23,11 @@ ODV Platform allows users an interactive user interface that provides a top down
 ## Production URL
 https://18f.ttsiglobal.com
 
-## Continuous Integration Environment 
+## Continuous Integration Environment  
 https://18fci.ttsiglobal.com/view/All/builds
+
+## Testing Site
+https://18fci.ttsiglobal.com/node 
 
 ## ODV Continuous Monitoring Environment
 https://p.datadoghq.com/sb/wHi387-defd17b564
