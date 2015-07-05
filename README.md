@@ -1,6 +1,6 @@
 ## Trillion OpenFDA Data Visualization Platform
 
-[![Build Status](http://18fci.ttsiglobal.com:8080/buildStatus/icon?job=18f-openfda)](http://18fci.ttsiglobal.com:8080/me/my-views/view/All/job/18f-openfda/)
+[![Build Status](https://18fci.ttsiglobal.com/buildStatus/icon?job=18f-openfda)](https://18fci.ttsiglobal.com/me/my-views/view/All/job/18f-openfda/)
 
 Trillion Technology Solutions, Inc. [(Trillion)] (http://www.ttsiglobal.com) has implemented a prototype – “Trillion OpenFDA Data Visualization Platform” [(ODV Platform)] (http://18f.ttsiglobal.com) - in response to GSA 18F Agile BPA that leverages industry leading open source technology stacks and developed using Agile development methodology.
 ## Methodology Approach
@@ -21,10 +21,10 @@ ODV Platform allows users an interactive user interface that provides a top down
 *	The detailed list has [smart search](https://github.com/trillion1-repos/18f/blob/master/doc/18fListRecall.png) per each column shown.  Typing in part or full phrases filters down the records list to match the search pattern.
 
 ## Production URL
-http://18f.ttsiglobal.com
+https://18f.ttsiglobal.com
 
 ## Continuous Integration Environament 
-http://18fci.ttsiglobal.com:8080/view/All/builds
+https://18fci.ttsiglobal.com/view/All/builds
 
 ## OVM Continuous Monitoring Environament
 http://18fci.ttsiglobal.com:8080/
