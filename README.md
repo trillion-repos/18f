@@ -26,7 +26,7 @@ https://18f.ttsiglobal.com
 ## Continuous Integration Environament 
 https://18fci.ttsiglobal.com/view/All/builds
 
-## OVM Continuous Monitoring Environament
+## ODV Continuous Monitoring Environament
 https://p.datadoghq.com/sb/wHi387-defd17b564
 
 ### Installation
