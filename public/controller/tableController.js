@@ -8,8 +8,8 @@ openFDA.controller('TableCtrl', [
 		'$filter',
 		'$routeParams',
 		'ngTableParams',
-		'$location','$anchorScroll', 'SharedDataSrvc',
-		function($scope, $filter, $routeParams, ngTableParams, $location, $anchorScroll, SharedDataSrvc) {
+		'smoothScroll', 'SharedDataSrvc',
+		function($scope, $filter, $routeParams, ngTableParams, smoothScroll, SharedDataSrvc) {
 			var activeCols = ["recall_number", "reason_for_recall", "status", "distribution_pattern", "product_quantity", "recall_initiation_date", "product_type"];
 			$scope.organizedData = [];
 			$scope.filteredData = [];
@@ -80,8 +80,7 @@ openFDA.controller('TableCtrl', [
 						   
 						   $scope.tableParams.reload();
 						   
-						 	$location.hash('tableAnchor');
-						    $anchorScroll();
+						   smoothScroll(document.getElementById('tableAnchor'));
 					   }
 					   
 				   }

@@ -1,8 +1,8 @@
 openFDA.controller('GraphCtrl', [
 		'$scope',
 		'SharedDataSrvc',
-		'$routeParams', '$location', '$anchorScroll' ,
-		function($scope, SharedDataSrvc, $routeParams, $location, $anchorScroll ) {
+		'$routeParams', 'smoothScroll' ,
+		function($scope, SharedDataSrvc, $routeParams, smoothScroll ) {
 			
     //var showingMonth = true;
 	$scope.graphConfig = {
@@ -63,8 +63,8 @@ openFDA.controller('GraphCtrl', [
 					   $scope.graphTitle = value.title;
 					   $scope.state = value.state;
 					   
-				 	 $location.hash('graphAnchor');
-				     $anchorScroll();
+					smoothScroll(document.getElementById('graphAnchor'));
+
 					   
 				   }
 				   

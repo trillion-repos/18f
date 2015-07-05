@@ -2,8 +2,8 @@
 
 /* Services */
 
-openFDA.factory('SharedDataSrvc', ['FetchOpenFDASrvc','$location','$anchorScroll',
-function(FetchOpenFDASrvc, $location, $anchorScroll) {
+openFDA.factory('SharedDataSrvc', ['FetchOpenFDASrvc',
+function(FetchOpenFDASrvc) {
 	 var graphData;
 	 var view;
 	 var foundData = false;

@@ -1,5 +1,5 @@
-openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', '$routeParams', '$location', '$anchorScroll','SharedDataSrvc',
-		function($rootScope, $scope , FetchOpenFDASrvc, $routeParams, $location, $anchorScroll ,SharedDataSrvc) {
+openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', '$routeParams','SharedDataSrvc',
+		function($rootScope, $scope , FetchOpenFDASrvc, $routeParams ,SharedDataSrvc) {
 
 	var mapDataAll = null;
 	var orderedDataAll = null
