@@ -29,5 +29,5 @@ http://18fci.ttsiglobal.com:8080/view/All/builds
 ## OVM Continuous Monitoring Environament
 http://18fci.ttsiglobal.com:8080/
 
-### Install
+### Installation
 See our [Installation Guide](INSTALL.md)
