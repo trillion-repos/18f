@@ -1,7 +1,7 @@
 'use strict';
 
 var openFDA = angular.module('OpenFDA', [ 'ngRoute','ngTable', 'datamaps', 'angularUtils.directives.dirPagination','ngResource','OpenFda.restServices', 
-                                          'ui.bootstrap', 'ngAnimate', 'ngSanitize', 'angularCharts', 'smoothScroll', 'ngActivityIndicator']);
+                                           'ngAnimate', 'ngSanitize', 'angularCharts', 'smoothScroll', 'ngActivityIndicator']);
 
 openFDA.config([ '$routeProvider', '$locationProvider',
 		function($routeProvider, $locationProvider) {
@@ -14,7 +14,7 @@ openFDA.config([ '$routeProvider', '$locationProvider',
 				templateUrl : 'view/core/main.html'
 			});
 			
-			$routeProvider.otherwise('/openfda'); //TODO should be ISAAC
+			$routeProvider.otherwise('/openfda'); 
 			$locationProvider.html5Mode(false).hashPrefix('!');
 		} ]);
 
