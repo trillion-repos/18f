@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "./node_modules/.bin/jasmine-node ./app/spec/"
+    "test": "istanbul cover jasmine-node app/test && istanbul report clover"
   },
   "dependencies": {
     "async": "^0.9.2",
@@ -21,6 +21,7 @@
     "forever": "~0.11.0",
     "glob": "~4.0.5",
     "helmet": "~0.5.0",
+    "istanbul": "^0.3.17",
     "jasmine": "^2.3.1",
     "jasmine-node": "^1.14.5",
     "lodash": "~2.4.1",
