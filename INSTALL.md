@@ -44,4 +44,4 @@ Once running the application can be accessed at -
 
 [docker]:https://www.docker.com
 [boot2docker]:http://boot2docker.io
-[node.js]:https://nodejs.org
+[node.js v0.10.36]:https://nodejs.org
