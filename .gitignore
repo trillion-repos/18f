@@ -3,4 +3,5 @@ node_modules/*
 .metadata
 .project
 /node_modules/
-coverage/
+/coverage/
+coverage/*
