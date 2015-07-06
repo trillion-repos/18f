@@ -19,12 +19,12 @@ describe("Test Suite for maphOfda.server.service", function() {
          and label */
         for(var state in states){
           //no data for SD or ND for some reson, exlcuding them from the test
-          if(state != "nd" && state != "sd" ){
-        	  
-           /* expect(response.mapData.drug[state]).toBeDefined();
+          if(state != 'nd' && state != 'sd' ){
+            state = state.toUpperCase();
+            expect(response.mapData.drug[state]).toBeDefined();
             expect(response.mapData.drug[state].fillKey).toBeDefined();
             expect(response.mapData.drug[state].count).toBeDefined();
-            expect(response.mapData.drug[state].label).toBeDefined();*/
+            expect(response.mapData.drug[state].label).toBeDefined();
           }
         }
         done();
