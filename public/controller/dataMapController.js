@@ -183,7 +183,8 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 			$scope.theMap.data[SharedDataSrvc.getState().stateCode].fillKey = SharedDataSrvc.getFillKey();			
 		}				
 		
-		SharedDataSrvc.fetchData("graphRpy", state, $routeParams, null, null, $scope.theMap.data[geography.id].fillKey, function(){
+		var fKeyObj = $scope.theMap.data[geography.id] || {fillKey:'defaultFill'};
+		SharedDataSrvc.fetchData("graphRpy", state, $routeParams, null, null, fKeyObj.fillKey, function(){
 			
 			$scope.isLoading = false;
 			$activityIndicator.stopAnimating();

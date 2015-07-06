@@ -63,7 +63,7 @@
 
 <script id="sample_ng_header" type="text/ng-template">
     <tr>
-        <th style="text-align:left"  ng-repeat="column in columns" 
+        <th style="text-align:left; height: 6em;"  ng-repeat="column in columns" 
             class="text-center sortable" ng-class="{
               'sort-asc fa fa-caret-up': tableParams.isSortBy(column.field, 'asc'),
               'sort-desc fa fa-caret-down': tableParams.isSortBy(column.field, 'desc')
