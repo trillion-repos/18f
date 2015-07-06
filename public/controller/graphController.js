@@ -1,8 +1,8 @@
 openFDA.controller('GraphCtrl', [
 		'$scope',
 		'SharedDataSrvc',
-		'$routeParams', 'smoothScroll' ,
-		function($scope, SharedDataSrvc, $routeParams, smoothScroll ) {
+		'$routeParams', 'smoothScroll', '$activityIndicator' ,
+		function($scope, SharedDataSrvc, $routeParams, smoothScroll, $activityIndicator ) {
 			
     //var showingMonth = true;
 	$scope.graphConfig = {
@@ -18,11 +18,23 @@ openFDA.controller('GraphCtrl', [
   									},			  
 			  mouseout: function(d) {},
 			  click: function(d){ 
-				  					if(SharedDataSrvc.getView() === 'graphRpy')
-				  						SharedDataSrvc.fetchData("graphRpy", $scope.state, $routeParams, SharedDataSrvc.getCurrentYear);
+									$activityIndicator.startAnimating();
+									$scope.isLoading = true;
+					
+				  					if(SharedDataSrvc.getView() === 'graphRpy'){
+				  						SharedDataSrvc.fetchData("graphRpy", $scope.state, $routeParams, SharedDataSrvc.getCurrentYear, null, null, function(){
+				  							
+				  							$scope.isLoading = false;
+				  							$activityIndicator.stopAnimating();
+				  						});
+				  					}
 
-				  					else if(SharedDataSrvc.getView() === 'graphRpm') 
-			  							SharedDataSrvc.fetchData("tableRpm", $scope.state, $routeParams, SharedDataSrvc.getCurrentYear, $scope.currentMonth);
+				  					else if(SharedDataSrvc.getView() === 'graphRpm') {
+			  							SharedDataSrvc.fetchData("tableRpm", $scope.state, $routeParams, SharedDataSrvc.getCurrentYear, $scope.currentMonth, null, function(){
+			  								$scope.isLoading = false;
+				  							$activityIndicator.stopAnimating();
+			  							});
+				  					}
 				  					
 				  					SharedDataSrvc.setView('graphRpm');
 		  							},

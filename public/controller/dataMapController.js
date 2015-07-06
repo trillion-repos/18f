@@ -1,5 +1,5 @@
-openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', '$routeParams','SharedDataSrvc',
-		function($rootScope, $scope , FetchOpenFDASrvc, $routeParams ,SharedDataSrvc) {
+openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', '$routeParams','SharedDataSrvc', '$activityIndicator',
+		function($rootScope, $scope , FetchOpenFDASrvc, $routeParams ,SharedDataSrvc, $activityIndicator) {
 
 	var mapDataAll = null;
 	var orderedDataAll = null
@@ -169,6 +169,8 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 	
 	
 	$scope.drillDownToYear = function(geography){
+		$activityIndicator.startAnimating();
+		$scope.isLoading = true;
 		var state = {};
 		state.stateName = geography.properties.name;
 		state.stateCode = geography.id;
@@ -181,7 +183,12 @@ openFDA.controller('DataMapCtrl', [ '$rootScope', '$scope', 'FetchOpenFDASrvc', 
 			$scope.theMap.data[SharedDataSrvc.getState().stateCode].fillKey = SharedDataSrvc.getFillKey();			
 		}				
 		
-		SharedDataSrvc.fetchData("graphRpy", state, $routeParams, null, null, $scope.theMap.data[geography.id].fillKey);
+		SharedDataSrvc.fetchData("graphRpy", state, $routeParams, null, null, $scope.theMap.data[geography.id].fillKey, function(){
+			
+			$scope.isLoading = false;
+			$activityIndicator.stopAnimating();
+			
+		});
 		
 		//highlight selected state
 		$scope.theMap.data[geography.id].fillKey = 'selectedFill'; 

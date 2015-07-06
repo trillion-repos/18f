@@ -18,9 +18,11 @@
 			<label for="radio3"> <strong>Foods</strong> </label>
 		</div>
 	</div>
-	<div class="fdaDataMap">
-
-
+	<div class="fdaDataMap preloader-parent">
+		
+		<div class="absolute-center overlay" data-ng-show="isLoading">
+			<div ng-activity-indicator="DottedDark" class="absolute-center" data-ng-show="isLoading"></div>
+		</div>
 		<datamap map="theMap" plugins="mapPlugins" plugin-data="mapPluginData"
 			on-click="drillDownToYear"> </datamap>
 	</div>

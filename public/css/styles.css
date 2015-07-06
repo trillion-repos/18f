@@ -368,6 +368,7 @@ input.disabled {
 	left: 40px;
 	bottom: 0;
 	padding-bottom: 0 !important;
+	z-index: 0 !important;
 }
 
 
@@ -499,6 +500,27 @@ td {
 .chart {
 	 width: 95vw;
 	height: 90vh;
+}
+
+.preloader-parent{
+	position:relative;
+}
+
+.absolute-center {
+  width: 10%;
+  height: 10%;
+  overflow: auto;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  z-index:2;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255,255,255,0.7);
+  z-index:1;
 }
 
 

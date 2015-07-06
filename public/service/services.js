@@ -93,7 +93,7 @@ function(FetchOpenFDASrvc) {
     	 }
      }
      
-     function fetchData (qId, state, routeParams, year, month, fk){
+     function fetchData (qId, state, routeParams, year, month, fk, callback){
     	 if(fk)
     		 fillKey = fk;
     	 currentState = state;
@@ -116,6 +116,7 @@ function(FetchOpenFDASrvc) {
  		
  		FetchOpenFDASrvc.get(graphParams, function success(response) {
  					
+ 					callback();
  					
  					if(!response){
  						console.warn("No data found for graph="+$routeParams);
@@ -142,6 +143,7 @@ function(FetchOpenFDASrvc) {
  					
  					},
  				function error(errorResponse) {
+ 					callback();
  					console.log("Error:" + JSON.stringify(errorResponse));				
  					//$scope.error.push(errorResponse.data);
  					});
