@@ -26,8 +26,10 @@ https://18f.ttsiglobal.com
 ## Continuous Integration Environment  
 https://18fci.ttsiglobal.com/view/All/builds
 
-## Testing  and Code Coverage
+##Code Coverage
 https://18fci.ttsiglobal.com/job/18f-openfda/clover/
+
+## Test Site
 https://18fci.ttsiglobal.com/node
 
 
