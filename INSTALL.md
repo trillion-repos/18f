@@ -23,7 +23,7 @@ $ boot2docker ip
 ```
 
 ### Manual installation with Node.js
-It is assumed that [node.js] is installed and configured on your system for these instructions.
+It is assumed that [node.js v0.10.36] is installed and configured on your system for these instructions.
 
 #### Build
 ```sh
@@ -36,7 +36,7 @@ $ npm test
 
 #### Run
 ```sh
-$ forserver start server.js
+$ forever start server.js
 ```
 Once running the application can be accessed at -
 * http://localhost:3000
@@ -44,4 +44,4 @@ Once running the application can be accessed at -
 
 [docker]:https://www.docker.com
 [boot2docker]:http://boot2docker.io
-[node.js]:https://nodejs.org
+[node.js v0.10.36]:https://nodejs.org
