@@ -36,7 +36,7 @@ $ npm test
 
 #### Run
 ```sh
-$ forserver start server.js
+$ forever start server.js
 ```
 Once running the application can be accessed at -
 * http://localhost:3000
