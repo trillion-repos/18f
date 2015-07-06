@@ -23,7 +23,7 @@ $ boot2docker ip
 ```
 
 ### Manual installation with Node.js
-It is assumed that [node.js] is installed and configured on your system for these instructions.
+It is assumed that [node.js v0.10.36] is installed and configured on your system for these instructions.
 
 #### Build
 ```sh
